@@ -1,25 +1,25 @@
 plugins {
+    id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'org.openjfx.javafxplugin' version '0.0.14'
 }
-
-group = 'maads'
-version = '1.0.0'
 
 repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
+}
+
+application {
+    mainClass = 'cs.edu.bsu.MainApp'
+}
+
 javafx {
-    version '21.0.3'
-    modules = ['javafx.controls']
-}
 
-application{
-    mainClass = 'maads.MainApp'
-}
-
-java{
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    version = '23'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
