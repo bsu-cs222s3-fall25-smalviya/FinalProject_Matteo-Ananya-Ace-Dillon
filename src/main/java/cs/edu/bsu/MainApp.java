@@ -9,7 +9,7 @@ public class MainApp extends Application{
     public void start(Stage stage) {
         MenuView menuView = new MenuView();
         Scene scene = new Scene(menuView, 500,300);
-        stage.setTitle("MAADs Casino");
+        stage.setTitle("MAAD Casino");
         stage.setScene(scene);
         stage.show();
     }
