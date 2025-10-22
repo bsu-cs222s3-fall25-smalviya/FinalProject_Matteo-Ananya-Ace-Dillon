@@ -19,16 +19,20 @@ different symbols, with symbol being worth different amount of money, if the pla
 import java.util.Random;
 
 public class SlotsLogic {
-    Random rand = new Random();
+    public static void main(String[] args) {
+        Random rand = new Random();
 
-    // list of symbols for slots
-    String[] symbols = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
-    String randomSymbol = symbols[rand.nextInt(symbols.length)];
+        // list of symbols for slots
+        String[] symbols = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
+        String randomSymbol = symbols[rand.nextInt(symbols.length)];
 
-    // action
-    System.out.println("\n");
-    System.out.println(randomSymbol);
+        // action
+        System.out.println("\n");
+        System.out.println(randomSymbol);
+        System.out.println(randomSymbol);
+        System.out.println(randomSymbol);
 
 
-
+    }
 }
+
