@@ -1,59 +1,81 @@
 .root {
-    -fx-background-color: #006B38;
+    -fx-background-color:
+        radial-gradient(center 50% 50%, radius 95%, rgba(0,0,0,0.4), transparent),
+        #006B38;
 }
+
 .title {
     -fx-font-size: 65px;
     -fx-text-fill: #FFD700;
     -fx-font-family: "Bitcount Grid Single";
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 8, 0.3, 0, 2);
 }
+
+.stat {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Bitcount Grid Single";
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 6, 0.3, 0, 1);
+}
+.stat-dot {
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 20px;
+}
+
 .black {
     -fx-font-size: 18px;
-
-    -fx-background-insets: 0;
-    -fx-border-insets: 0;
-
     -fx-background-color: black;
     -fx-text-fill: white;
     -fx-background-radius: 13;
-
     -fx-border-radius: 13;
     -fx-border-color: white;
     -fx-border-width: 2;
-
     -fx-pref-width: 150;
     -fx-pref-height: 60;
 }
+.black:hover {
+    -fx-text-fill: yellow;
+    -fx-border-color: black;
+    -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.7), 15, 0, 0, 0);
+}
+
 .red {
     -fx-font-size: 18px;
-
-    -fx-background-insets: 0;
-    -fx-border-insets: 0;
-
     -fx-background-color: #EA0008;
     -fx-text-fill: white;
     -fx-background-radius: 13;
-
     -fx-border-radius: 13;
     -fx-border-color: white;
     -fx-border-width: 2;
-
     -fx-pref-width: 150;
     -fx-pref-height: 60;
 }
-
-.black:hover {
-    -fx-text-fill: yellow;
-    -fx-border-width: 3;
-    -fx-border-radius: 13;
-    -fx-border-color: black;
-
-    -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.7), 15, 0, 0, 0);
-}
 .red:hover {
     -fx-text-fill: yellow;
-    -fx-border-width: 3;
-    -fx-border-radius: 13;
     -fx-border-color: #EA0008;
-
     -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.7), 15, 0, 0, 0);
+}
+
+.green {
+    -fx-font-size: 18px;
+    -fx-background-color: #00A86B;
+    -fx-text-fill: white;
+    -fx-background-radius: 13;
+    -fx-border-radius: 13;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-pref-width: 150;
+    -fx-pref-height: 60;
+}
+.green:hover {
+    -fx-text-fill: yellow;
+    -fx-border-color: #00A86B;
+    -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.8), 15, 0, 0, 0);
+}
+
+.button:focused {
+    -fx-effect: dropshadow(gaussian, #FFD700, 18, 0.3, 0, 0);
+    -fx-border-color: #FFD700;
 }
