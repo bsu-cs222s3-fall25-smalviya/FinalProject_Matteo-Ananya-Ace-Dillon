@@ -69,8 +69,8 @@ public final class WarLogic {
             String player = cardToString(playerCard);
             String dealer = cardToString(dealerCard);
             String verdict = switch (outcome) {
-                case PLAYER_WIN -> "You win!" + bet + "MMAD coins";
-                case DEALER_WIN -> "Dealer wins, your wife is disappointed." + bet + "coins lost to the ether";
+                case PLAYER_WIN -> "You win!" + bet + " MAAD coins";
+                case DEALER_WIN -> "Dealer wins, your wife is disappointed.\n" + bet + " coins lost to the ether";
                 case PUSH -> "Push. That means you need to bet more!";
             };
             return "You: " + player + " vs Dealer: " + dealer + "-" + verdict;
