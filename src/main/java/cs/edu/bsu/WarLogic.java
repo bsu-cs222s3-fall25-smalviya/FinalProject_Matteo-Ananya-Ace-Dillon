@@ -4,7 +4,7 @@ import java.util.Random;
 
 public final class WarLogic {
     private static final int MIN_RANK = 2;
-    private static final int MAX_RANK = 2;
+    private static final int MAX_RANK = 14;
     private final Random random;
 
     public WarLogic() {
