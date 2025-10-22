@@ -33,12 +33,11 @@ public class SlotsLogic {
         int[] moneyAmount = {1, 5, 10, 25, 50};
 
         // list of symbols for slots
-        String[] symbols1 = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
-        String[] symbols2 = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
-        String[] symbols3 = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
-        String randomSymbol1 = symbols1[rand.nextInt(symbols1.length)];
-        String randomSymbol2 = symbols2[rand.nextInt(symbols2.length)];
-        String randomSymbol3 = symbols3[rand.nextInt(symbols3.length)];
+        String[] symbols = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
+
+        String randomSymbol1 = symbols[rand.nextInt(symbols.length)];
+        String randomSymbol2 = symbols[rand.nextInt(symbols.length)];
+        String randomSymbol3 = symbols[rand.nextInt(symbols.length)];
 
 
         // action
