@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class WarTest {
     Random random = new Random();
-    //random cards
+    //random card values
     int lowest = 2;
     int highest = 14;
 
