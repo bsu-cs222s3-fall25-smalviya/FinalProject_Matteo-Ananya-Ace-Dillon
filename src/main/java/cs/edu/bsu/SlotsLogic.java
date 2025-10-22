@@ -47,9 +47,15 @@ public class SlotsLogic {
         System.out.println(randomSymbol3);
 
         // logic
-        //if (randomSymbol1 = "Cherry") {
-        //    int moneyAmount *= 1;
-        //}
+        if (randomSymbol1.equals(randomSymbol2) && randomSymbol2.equals(randomSymbol3) && randomSymbol1.equals(randomSymbol3)) {
+            // all three match
+            System.out.println("\nAll three match");
+        } else if (randomSymbol1.equals(randomSymbol2) || randomSymbol2.equals(randomSymbol3) || randomSymbol1.equals(randomSymbol3)) {
+            // two match
+            System.out.println("\nTwo match");
+        } else {
+            // none match
+        }
 
 
     }
