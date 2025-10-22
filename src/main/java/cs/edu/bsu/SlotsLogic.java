@@ -14,6 +14,13 @@ different symbols, with symbol being worth different amount of money, if the pla
 🔔 Bell – High-payout.
 💎 Diamond – Very high payout.
 7️⃣ Lucky Seven – Biggest payout.
+
+
+50 coins max
+25
+10
+5
+1 coin min
 */
 
 import java.util.Random;
@@ -21,6 +28,9 @@ import java.util.Random;
 public class SlotsLogic {
     public static void main(String[] args) {
         Random rand = new Random();
+
+        // player bet amounts
+        int[] moneyAmount = {1, 5, 10, 25, 50};
 
         // list of symbols for slots
         String[] symbols1 = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
@@ -36,6 +46,11 @@ public class SlotsLogic {
         System.out.println(randomSymbol1);
         System.out.println(randomSymbol2);
         System.out.println(randomSymbol3);
+
+        // logic
+        //if (randomSymbol1 = "Cherry") {
+        //    int moneyAmount *= 1;
+        //}
 
 
     }
