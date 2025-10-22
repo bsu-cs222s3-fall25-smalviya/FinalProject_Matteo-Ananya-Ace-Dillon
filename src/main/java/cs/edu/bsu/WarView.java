@@ -27,7 +27,7 @@ public class WarView extends BorderPane {
     public WarView() {
         setPadding(new Insets(16));
 
-        Label title = new Label("WAR — Continuous Shuffler (1:1 Payout)");
+        Label title = new Label("WAR (1:1 Payout)");
         title.setStyle("-fx-font-size: 22px; -fx-font-weight: bold;");
         setTop(title);
         BorderPane.setAlignment(title, Pos.CENTER);
@@ -78,11 +78,11 @@ public class WarView extends BorderPane {
             }
             bet = Integer.parseInt(raw.trim());
         } catch (NumberFormatException nfe) {
-            outcomeLabel.setText("Invalid bet. Enter a whole number.");
+            outcomeLabel.setText("Bruh try a number this time");
             return;
         }
         if (bet <= 0) {
-            outcomeLabel.setText("Bet must be greater than 0.");
+            outcomeLabel.setText("Bruh try a number this time");
             return;
         }
 
