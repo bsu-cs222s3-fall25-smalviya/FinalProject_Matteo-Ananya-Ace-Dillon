@@ -9,7 +9,6 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class MenuView extends BorderPane {
-
     public MenuView() {
         Label title = new Label("MAAD Casino");
         title.getStyleClass().add("title");
@@ -45,31 +44,42 @@ public class MenuView extends BorderPane {
         grid.getColumnConstraints().addAll(c, c, c);
         grid.getRowConstraints().addAll(r, r, r);
 
+        // BLACKJACK
         Button blackjack = makeButton("Blackjack", "black");
         blackjack.setOnAction(e -> getScene().setRoot(new BlackjackView()));
 
-        Button warButton = makeButton("War", "red");
-        warButton.setOnAction(e -> {
+        // WAR
+        Button war = makeButton("War", "red");
+        war.setOnAction(e -> {
             getScene().setRoot(new WarView());
         });
 
-
-        warButton.setOnAction(e -> {
+        war.setOnAction(e -> {
             javafx.stage.Stage stage = (javafx.stage.Stage) getScene().getWindow();
             stage.setScene(new javafx.scene.Scene(new WarView(), 800, 500));
         });
 
+        // SLOTS
         Button slots = makeButton("Slots", "green");
-        slots.setOnAction(e -> showInfo("Slots coming soon!"));
+        slots.setOnAction(e -> {
+            getScene().setRoot(new SlotsView());
+        });
 
+        slots.setOnAction(e -> {
+            javafx.stage.Stage stage = (javafx.stage.Stage) getScene().getWindow();
+            stage.setScene(new javafx.scene.Scene(new SlotsView(), 800, 500));
+        });
+
+        // HORSE RACING
         Button horse = makeButton("Horse Racing", "red");
         horse.setOnAction(e -> showInfo("Horse Racing coming soon!"));
 
+        // ROULETTE
         Button roulette = makeButton("Roulette", "black");
         roulette.setOnAction(e -> showInfo("Roulette coming soon!"));
 
         grid.add(blackjack, 0, 0);
-        grid.add(warButton, 2, 0);
+        grid.add(war, 2, 0);
         grid.add(slots, 1, 1);
         grid.add(horse, 0, 2);
         grid.add(roulette, 2, 2);
