@@ -1,0 +1,59 @@
+.root {
+    -fx-background-color: #006B38;
+}
+.title {
+    -fx-font-size: 65px;
+    -fx-text-fill: #FFD700;
+    -fx-font-family: "Bitcount Grid Single";
+}
+.black {
+    -fx-font-size: 18px;
+
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-background-radius: 13;
+
+    -fx-border-radius: 13;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+
+    -fx-pref-width: 150;
+    -fx-pref-height: 60;
+}
+.red {
+    -fx-font-size: 18px;
+
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+
+    -fx-background-color: #EA0008;
+    -fx-text-fill: white;
+    -fx-background-radius: 13;
+
+    -fx-border-radius: 13;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+
+    -fx-pref-width: 150;
+    -fx-pref-height: 60;
+}
+
+.black:hover {
+    -fx-text-fill: yellow;
+    -fx-border-width: 3;
+    -fx-border-radius: 13;
+    -fx-border-color: black;
+
+    -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.7), 15, 0, 0, 0);
+}
+.red:hover {
+    -fx-text-fill: yellow;
+    -fx-border-width: 3;
+    -fx-border-radius: 13;
+    -fx-border-color: #EA0008;
+
+    -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.7), 15, 0, 0, 0);
+}
