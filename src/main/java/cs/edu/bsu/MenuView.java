@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 public class MenuView extends BorderPane {
 
@@ -47,8 +48,16 @@ public class MenuView extends BorderPane {
         Button blackjack = makeButton("Blackjack", "black");
         blackjack.setOnAction(e -> getScene().setRoot(new BlackjackView()));
 
-        Button war = makeButton("War", "red");
-        war.setOnAction(e -> getScene().setRoot(new WarView()));
+        Button warButton = makeButton("War", "red");
+        warButton.setOnAction(e -> {
+            getScene().setRoot(new WarView());
+        });
+
+
+        warButton.setOnAction(e -> {
+            javafx.stage.Stage stage = (javafx.stage.Stage) getScene().getWindow();
+            stage.setScene(new javafx.scene.Scene(new WarView(), 800, 500));
+        });
 
         Button slots = makeButton("Slots", "green");
         slots.setOnAction(e -> showInfo("Slots coming soon!"));
@@ -60,7 +69,7 @@ public class MenuView extends BorderPane {
         roulette.setOnAction(e -> showInfo("Roulette coming soon!"));
 
         grid.add(blackjack, 0, 0);
-        grid.add(war, 2, 0);
+        grid.add(warButton, 2, 0);
         grid.add(slots, 1, 1);
         grid.add(horse, 0, 2);
         grid.add(roulette, 2, 2);
