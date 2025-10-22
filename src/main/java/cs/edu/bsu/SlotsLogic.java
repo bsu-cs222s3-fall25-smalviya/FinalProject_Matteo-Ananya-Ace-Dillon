@@ -23,14 +23,19 @@ public class SlotsLogic {
         Random rand = new Random();
 
         // list of symbols for slots
-        String[] symbols = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
-        String randomSymbol = symbols[rand.nextInt(symbols.length)];
+        String[] symbols1 = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
+        String[] symbols2 = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
+        String[] symbols3 = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
+        String randomSymbol1 = symbols1[rand.nextInt(symbols1.length)];
+        String randomSymbol2 = symbols2[rand.nextInt(symbols2.length)];
+        String randomSymbol3 = symbols3[rand.nextInt(symbols3.length)];
+
 
         // action
         System.out.println("\n");
-        System.out.println(randomSymbol);
-        System.out.println(randomSymbol);
-        System.out.println(randomSymbol);
+        System.out.println(randomSymbol1);
+        System.out.println(randomSymbol2);
+        System.out.println(randomSymbol3);
 
 
     }
