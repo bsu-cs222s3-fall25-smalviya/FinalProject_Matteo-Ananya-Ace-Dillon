@@ -38,7 +38,8 @@
 .black:hover {
     -fx-text-fill: yellow;
     -fx-border-color: black;
-    -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.7), 15, 0, 0, 0);
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
 }
 
 .red {
@@ -55,7 +56,8 @@
 .red:hover {
     -fx-text-fill: yellow;
     -fx-border-color: #EA0008;
-    -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.7), 15, 0, 0, 0);
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
 }
 
 .green {
@@ -72,10 +74,12 @@
 .green:hover {
     -fx-text-fill: yellow;
     -fx-border-color: #00A86B;
-    -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.8), 15, 0, 0, 0);
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
 }
-
-.button:focused {
-    -fx-effect: dropshadow(gaussian, #FFD700, 18, 0.3, 0, 0);
-    -fx-border-color: #FFD700;
+.outputBox {
+    -fx-background-color: #00A86B;
+    -fx-border-width: 2;
+    -fx-border-color: white;
+    -fx-font-size: 50px;
 }
