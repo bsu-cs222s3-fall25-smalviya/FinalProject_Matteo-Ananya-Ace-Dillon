@@ -26,15 +26,15 @@ different symbols, with symbol being worth different amount of money, if the pla
 import java.util.Random;
 
 public class SlotsLogic {
-    public static void main(String[] args) {
+    static {
         Random rand = new Random();
 
         // player bet amounts
-        int[] moneyAmount = {1, 5, 10, 25, 50};
+        int[] moneyAmounts = {1, 5, 10, 25, 50};
+        int playerAccount = 500;
 
         // list of symbols for slots
         String[] symbols = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
-
         String randomSymbol1 = symbols[rand.nextInt(symbols.length)];
         String randomSymbol2 = symbols[rand.nextInt(symbols.length)];
         String randomSymbol3 = symbols[rand.nextInt(symbols.length)];
@@ -47,7 +47,7 @@ public class SlotsLogic {
         System.out.println(randomSymbol3);
 
         // logic
-        if (randomSymbol1.equals(randomSymbol2) && randomSymbol2.equals(randomSymbol3) && randomSymbol1.equals(randomSymbol3)) {
+        if (randomSymbol1.equals(randomSymbol2) && randomSymbol2.equals(randomSymbol3)) {
             // all three match
             System.out.println("\nAll three match");
         } else if (randomSymbol1.equals(randomSymbol2) || randomSymbol2.equals(randomSymbol3) || randomSymbol1.equals(randomSymbol3)) {
@@ -56,7 +56,6 @@ public class SlotsLogic {
         } else {
             // none match
         }
-
 
     }
 }
