@@ -6,11 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 public class SlotsView extends BorderPane {
     private final SlotsLogic logic = new SlotsLogic();
-    private final TextArea outputBox = new TextArea();
+    private final TextField outputBox = new TextField();
 
     public SlotsView() {
         // title
@@ -33,10 +33,7 @@ public class SlotsView extends BorderPane {
 
         // output area
         outputBox.setEditable(false);
-        outputBox.setWrapText(true);
-        outputBox.setPrefHeight(40);
-        outputBox.setPrefWidth(10);
-        outputBox.getStyleClass().add("output-box");
+        outputBox.getStyleClass().add("outputBox");
 
         // layout areas
 
