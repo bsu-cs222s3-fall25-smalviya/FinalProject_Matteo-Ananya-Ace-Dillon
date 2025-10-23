@@ -6,20 +6,22 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 
 public class MenuView extends BorderPane {
     public MenuView() {
+        // title
         Label title = new Label("MAAD Casino");
         title.getStyleClass().add("title");
         BorderPane.setAlignment(title, Pos.CENTER);
 
+        // player label
         Label player = new Label("Player: Guest");
         player.getStyleClass().add("stat");
 
         Label dot = new Label("•");
         dot.getStyleClass().add("stat-dot");
 
+        // maad coin counter
         Label coins = new Label("MAAD Coins: 1,000");
         coins.getStyleClass().add("stat");
 
@@ -46,29 +48,16 @@ public class MenuView extends BorderPane {
 
         // BLACKJACK
         Button blackjack = makeButton("Blackjack", "black");
-        blackjack.setOnAction(e -> getScene().setRoot(new BlackjackView()));
+        blackjack.setOnAction(e -> showInfo("Blackjack coming soon!"));
+        //blackjack.setOnAction(e -> getScene().setRoot(new BlackjackView()));
 
         // WAR
         Button war = makeButton("War", "red");
-        war.setOnAction(e -> {
-            getScene().setRoot(new WarView());
-        });
-
-        war.setOnAction(e -> {
-            javafx.stage.Stage stage = (javafx.stage.Stage) getScene().getWindow();
-            stage.setScene(new javafx.scene.Scene(new WarView(), 800, 500));
-        });
+        war.setOnAction(e -> getScene().setRoot(new WarView()));
 
         // SLOTS
         Button slots = makeButton("Slots", "green");
-        slots.setOnAction(e -> {
-            getScene().setRoot(new SlotsView());
-        });
-
-        slots.setOnAction(e -> {
-            javafx.stage.Stage stage = (javafx.stage.Stage) getScene().getWindow();
-            stage.setScene(new javafx.scene.Scene(new SlotsView(), 800, 500));
-        });
+        slots.setOnAction(e -> getScene().setRoot(new SlotsView()));
 
         // HORSE RACING
         Button horse = makeButton("Horse Racing", "red");
