@@ -48,7 +48,7 @@ public class SlotsLogic {
         // logic
         if (randomSymbol1.equals(randomSymbol2) && randomSymbol2.equals(randomSymbol3)) {
             // all three match
-            return randomSymbol1 + " | " + randomSymbol2 + "|" + randomSymbol3 + " | All three match";
+            return randomSymbol1 + " | " + randomSymbol2 + " | " + randomSymbol3 + " | All three match";
         } else if (randomSymbol1.equals(randomSymbol2) || randomSymbol2.equals(randomSymbol3) || randomSymbol1.equals(randomSymbol3)) {
             // two match
             return randomSymbol1 + " | " + randomSymbol2 + " | " + randomSymbol3 + " | Two match";
