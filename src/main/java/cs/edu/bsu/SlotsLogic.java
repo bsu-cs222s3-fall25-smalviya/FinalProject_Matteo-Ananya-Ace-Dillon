@@ -26,38 +26,36 @@ different symbols, with symbol being worth different amount of money, if the pla
 import java.util.Random;
 
 public class SlotsLogic {
-    public static void main(String[] args) {
+    public String spin() {
         Random rand = new Random();
 
         // player bet amounts
-        int[] moneyAmount = {1, 5, 10, 25, 50};
+        int[] moneyAmounts = {1, 5, 10, 25, 50};
+        int playerAccount = 500;
 
         // list of symbols for slots
-        String[] symbols = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
-
+        String[] symbols = {"🍒", "🍋", "🍊", "🔔", "💎", "7"};
         String randomSymbol1 = symbols[rand.nextInt(symbols.length)];
         String randomSymbol2 = symbols[rand.nextInt(symbols.length)];
         String randomSymbol3 = symbols[rand.nextInt(symbols.length)];
 
-
         // action
-        System.out.println("\n");
-        System.out.println(randomSymbol1);
-        System.out.println(randomSymbol2);
-        System.out.println(randomSymbol3);
+        //System.out.println("\n");
+        //System.out.println(randomSymbol1);
+        //System.out.println(randomSymbol2);
+        //System.out.println(randomSymbol3);
 
         // logic
-        if (randomSymbol1.equals(randomSymbol2) && randomSymbol2.equals(randomSymbol3) && randomSymbol1.equals(randomSymbol3)) {
+        if (randomSymbol1.equals(randomSymbol2) && randomSymbol2.equals(randomSymbol3)) {
             // all three match
-            System.out.println("\nAll three match");
+            return randomSymbol1 + " | " + randomSymbol2 + " | " + randomSymbol3 + " | All three match";
         } else if (randomSymbol1.equals(randomSymbol2) || randomSymbol2.equals(randomSymbol3) || randomSymbol1.equals(randomSymbol3)) {
             // two match
-            System.out.println("\nTwo match");
+            return randomSymbol1 + " | " + randomSymbol2 + " | " + randomSymbol3 + " | Two match";
         } else {
-            // none match
+            // no match
+            return randomSymbol1 + " | " + randomSymbol2 + " | " + randomSymbol3 + " | None match";
         }
-
-
     }
 }
 
