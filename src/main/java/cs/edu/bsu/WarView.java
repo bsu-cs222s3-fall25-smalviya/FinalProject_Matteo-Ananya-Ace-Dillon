@@ -1,7 +1,3 @@
-// ==============================
-// File: WarView.java
-// Package: cs.edu.bsu
-// ==============================
 package cs.edu.bsu;
 
 import javafx.geometry.Insets;
@@ -33,17 +29,14 @@ public class WarView extends BorderPane {
         setTop(title);
         BorderPane.setAlignment(title, Pos.CENTER);
 
-        // Controls
         betField.setPromptText("Enter bet (chips)");
         betField.setPrefWidth(120);
 
-        // Wire actions to the SAME button instance that we add to the layout
         dealBtn.setOnAction(e -> onDeal());
         backBtn.setOnAction(e -> {
             Scene scene = getScene();
             scene.setRoot(new MenuView());
 
-            // Ensure stylesheet is attached
             if (scene.getStylesheets().isEmpty()) {
                 scene.getStylesheets().add(
                         getClass().getResource("/style.css").toExternalForm()
@@ -59,7 +52,6 @@ public class WarView extends BorderPane {
         left.setPadding(new Insets(10));
         setLeft(left);
 
-        // Card display
         playerCardLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
         dealerCardLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
         outcomeLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
