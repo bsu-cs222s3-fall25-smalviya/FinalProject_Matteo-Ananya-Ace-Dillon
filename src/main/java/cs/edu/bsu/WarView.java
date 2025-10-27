@@ -6,6 +6,7 @@ package cs.edu.bsu;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -39,7 +40,15 @@ public class WarView extends BorderPane {
         // Wire actions to the SAME button instance that we add to the layout
         dealBtn.setOnAction(e -> onDeal());
         backBtn.setOnAction(e -> {
-            getScene().setRoot(new MenuView());
+            Scene scene = getScene();
+            scene.setRoot(new MenuView());
+
+            // Ensure stylesheet is attached
+            if (scene.getStylesheets().isEmpty()) {
+                scene.getStylesheets().add(
+                        getClass().getResource("/style.css").toExternalForm()
+                );
+            }
         });
 
 

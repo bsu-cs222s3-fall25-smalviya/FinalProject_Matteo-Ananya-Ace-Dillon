@@ -12,9 +12,6 @@ public class MainApp extends Application{
         MenuView menuView = new MenuView();
         Scene scene = new Scene(menuView, 800,500);
         stage.setTitle("MAAD Casino.exe");
-        stage.setScene(scene);
-        stage.show();
-
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
