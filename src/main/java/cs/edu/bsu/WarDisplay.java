@@ -9,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 /**
  * WarDisplay
  * This class wraps around WarView and serves as a simple "Game screen" container.
@@ -37,8 +39,17 @@ public class WarDisplay extends BorderPane {
         Button backBtn = new Button("Back to Menu");
         backBtn.setStyle("-fx-font-size: 14px;");
         backBtn.setOnAction(e -> {
-            stage.setScene(new Scene(new MenuView(), 800, 500));
+            Scene scene = getScene();
+            scene.setRoot(new MenuView());
+
+            // this ensures stylesheet is attached
+            if (scene.getStylesheets().isEmpty()) {
+                scene.getStylesheets().add(
+                        getClass().getResource("/style.css").toExternalForm()
+                );
+            }
         });
+
 
         VBox bottomBox = new VBox(backBtn);
         bottomBox.setAlignment(Pos.CENTER);
