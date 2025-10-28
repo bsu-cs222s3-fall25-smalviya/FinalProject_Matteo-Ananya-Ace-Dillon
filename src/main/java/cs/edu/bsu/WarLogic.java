@@ -50,7 +50,7 @@ public final class WarLogic {
 
         public String summary(int bet) {
             String verdict = switch (outcome) {
-                case PLAYER_WIN -> "You win " + bet + " MAAD coins!";
+                case PLAYER_WIN -> "You win " + bet + " MAAD Coins!";
                 case DEALER_WIN -> "Dealer wins. You lose " + bet + ".";
                 case PUSH -> "Push. No one wins.";
             };

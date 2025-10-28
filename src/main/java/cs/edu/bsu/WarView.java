@@ -18,31 +18,48 @@ public class WarView extends BorderPane {
     private final Label outcomeLabel = new Label("Place a bet and press PLAY");
 
     public WarView() {
+        Label title = new Label("🛡️️ War 🛡️");
+        title.getStyleClass().add("title");
+
+        // player info
+        Label player = new Label("Player: Guest");
+        player.getStyleClass().add("stat");
+
+        Label dot = new Label("•");
+        dot.getStyleClass().add("stat-dot");
+
+        Label coins = new Label("MAAD Coins: " + SlotsLogic.payout());
+        coins.getStyleClass().add("stat");
+
+        HBox statusBar = new HBox(10, player, dot, coins);
+        statusBar.setAlignment(Pos.CENTER);
+        statusBar.setPadding(new Insets(5, 0, 0, 0));
+
         Label betLbl = new Label("Bet:");
         betField.setPromptText("Enter whole number");
         betField.setPrefColumnCount(8);
 
         Button playBtn = new Button("PLAY WAR");
         playBtn.getStyleClass().add("green");
-        playBtn.setOnAction(e -> onPlay());
+        playBtn.setOnAction(_ -> onPlay());
 
-        HBox topBar = new HBox(10, betLbl, betField, playBtn);
-        topBar.setAlignment(Pos.CENTER);
-        topBar.setPadding(new Insets(12));
-        setTop(topBar);
+        HBox centerBar = new HBox(10, betLbl, betField, playBtn);
+        centerBar.setAlignment(Pos.CENTER);
+        centerBar.setPadding(new Insets(12));
+        setCenter(centerBar);
+
+        VBox titleBar = new VBox(12, title, statusBar, centerBar);
+        titleBar.setAlignment(Pos.CENTER);
+        titleBar.setPadding(new Insets(12));
+        setTop(titleBar);
 
         playerCardLabel.getStyleClass().add("card-text");
         dealerCardLabel.getStyleClass().add("card-text");
         outcomeLabel.getStyleClass().add("outcome-text");
 
-        VBox centerBox = new VBox(12, playerCardLabel, dealerCardLabel, outcomeLabel);
-        centerBox.setAlignment(Pos.CENTER);
-        centerBox.setPadding(new Insets(24));
-        setCenter(centerBox);
-
         Button backBtn = new Button("Return to Menu");
         backBtn.getStyleClass().add("red");
-        backBtn.setOnAction(e -> getScene().setRoot(new MenuView()));
+        backBtn.setOnAction(_ -> getScene().setRoot(new MenuView()));
 
         HBox bottomBar = new HBox(backBtn);
         bottomBar.setAlignment(Pos.CENTER);
@@ -50,6 +67,11 @@ public class WarView extends BorderPane {
         setBottom(bottomBar);
 
         setPadding(new Insets(10));
+
+        VBox centerBox = new VBox(12, playerCardLabel, dealerCardLabel, outcomeLabel);
+        centerBox.setAlignment(Pos.CENTER);
+        centerBox.setPadding(new Insets(24));
+        setCenter(centerBox);
     }
 
     private void onPlay() {

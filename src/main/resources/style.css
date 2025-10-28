@@ -19,6 +19,7 @@
     -fx-font-family: "Bitcount Grid Single";
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 6, 0.3, 0, 1);
 }
+
 .stat-dot {
     -fx-text-fill: #FFD700;
     -fx-font-size: 20px;
@@ -35,6 +36,7 @@
     -fx-pref-width: 150;
     -fx-pref-height: 60;
 }
+
 .black:hover {
     -fx-text-fill: yellow;
     -fx-border-color: black;
@@ -53,6 +55,7 @@
     -fx-pref-width: 150;
     -fx-pref-height: 60;
 }
+
 .red:hover {
     -fx-text-fill: yellow;
     -fx-border-color: #EA0008;
@@ -77,6 +80,7 @@
     -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
                 dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
 }
+
 .symbolOutput {
     -fx-background-color: black;
     -fx-border-width: 2;
@@ -91,10 +95,12 @@
     -fx-max-width: 300px;
     -fx-max-height: 90px;
 }
+
 .symbolEmoji {
     -fx-font-size: 20px;
     -fx-text-fill: yellow;
 }
+
 .symbolImage {
     -fx-fit-width: 20px;
     -fx-preserve-ratio: true;
@@ -114,6 +120,7 @@
     -fx-max-height: 95px;
     -fx-padding: 0 0 0 0;
 }
+
 .scoreOutputLose {
     -fx-control-inner-background: black;
     -fx-background-color: black;
@@ -140,20 +147,24 @@
     -fx-pref-width: 75;
     -fx-pref-height: 50;
 }
+
 .betButton:hover {
     -fx-text-fill: yellow;
     -fx-border-color: #00A86B;
 }
+
 .betButtonPressed {
     -fx-text-fill: blue;
     -fx-border-color: red;
     -fx-background-color: pink;
 }
+
 .betButtonPressed:hover {
     -fx-text-fill: blue;
     -fx-border-color: red;
     -fx-background-color: pink;
 }
+
 .userBet {
     -fx-text-fill: #2E2E2E;
     -fx-font-family: "Helvetica";

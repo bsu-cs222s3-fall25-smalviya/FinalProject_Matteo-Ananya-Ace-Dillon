@@ -9,6 +9,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Objects;
+
 public class SlotsView extends BorderPane {
     private final HBox symbolOutput = new HBox(10);
     private final TextArea scoreOutput = new TextArea();
@@ -34,6 +36,14 @@ public class SlotsView extends BorderPane {
         statusBar.setAlignment(Pos.CENTER);
         statusBar.setPadding(new Insets(0, 0, 0, 0));
 
+        // puts the yellow lines by default
+        Label placeholder = new Label("|       |       |       |");
+        placeholder.setStyle("-fx-font-size: 50px; -fx-text-fill: yellow;");
+        symbolOutput.setAlignment(Pos.CENTER);
+        symbolOutput.getChildren().add(placeholder);
+
+        symbolOutput.getStyleClass().add("symbolOutput");
+
         // label for bet amount
         userBet.getStyleClass().add("userBet");
 
@@ -48,25 +58,26 @@ public class SlotsView extends BorderPane {
         Button spin = new Button("Spin");
         spin.getStyleClass().add("black");
         spin.setDisable(true);
-        spin.setOnAction(e -> {
+        spin.setOnAction(_ -> {
             // SlotsLogic call
-            boolean insufficient = SlotsLogic.spin();
-            if (insufficient) {
+            boolean sufficient = SlotsLogic.spin();
+            if (!sufficient) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Message from the Devs:");
                 alert.setHeaderText(null);
-                alert.setContentText("You don’t have enough MAAD Coins to spin!");
+                alert.setContentText("You don’t have enough MAAD Coins to spin...");
                 alert.showAndWait();
                 return;
             }
 
             long newBalance = SlotsLogic.payout();
             CoinBalance.balance = newBalance;
-            // test system balance
-            //System.out.println(CoinBalance.balance);
 
-            String symbols = SlotsLogic.spinResults(); // returns the three symbols
-            String result = SlotsLogic.score(); // returns match indictor and coins won/lost
+            // returns the three symbols
+            String symbols = SlotsLogic.spinResults();
+
+            // returns match indictor and coins won/lost
+            String result = SlotsLogic.score();
 
             // style depending on match result
             if (SlotsLogic.score().equals("No match...\n")) {
@@ -85,7 +96,7 @@ public class SlotsView extends BorderPane {
             for (String s : parts) {
                 if (s.equals("⑦")) {
                     ImageView img = new ImageView(
-                            new Image(getClass().getResource("/images/LuckySeven.png").toExternalForm())
+                            new Image(Objects.requireNonNull(getClass().getResource("/images/LuckySeven.png")).toExternalForm())
                     );
                     img.setFitWidth(50);
                     img.setPreserveRatio(true);
@@ -117,7 +128,7 @@ public class SlotsView extends BorderPane {
         hundredCoin.getStyleClass().add("betButton");
 
 
-        oneCoin.setOnAction(e -> {
+        oneCoin.setOnAction(_ -> {
             SlotsLogic.setBet(1);
             userBet.setText("Bet amount: 1 MAAD Coin");
             spin.setDisable(false);
@@ -127,7 +138,7 @@ public class SlotsView extends BorderPane {
             oneCoin.getStyleClass().add("betButtonPressed");
             activeButton = oneCoin;
         });
-        tenCoin.setOnAction(e -> {
+        tenCoin.setOnAction(_ -> {
             SlotsLogic.setBet(10);
             userBet.setText("Bet amount: 10 MAAD Coins");
             spin.setDisable(false);
@@ -137,7 +148,7 @@ public class SlotsView extends BorderPane {
             tenCoin.getStyleClass().add("betButtonPressed");
             activeButton = tenCoin;
         });
-        fiftyCoin.setOnAction(e -> {
+        fiftyCoin.setOnAction(_ -> {
             SlotsLogic.setBet(50);
             userBet.setText("Bet amount: 50 MAAD Coins");
             spin.setDisable(false);
@@ -147,7 +158,7 @@ public class SlotsView extends BorderPane {
             fiftyCoin.getStyleClass().add("betButtonPressed");
             activeButton = fiftyCoin;
         });
-        hundredCoin.setOnAction(e -> {
+        hundredCoin.setOnAction(_ -> {
             SlotsLogic.setBet(100);
             userBet.setText("Bet amount: 100 MAAD Coins");
             spin.setDisable(false);
@@ -158,13 +169,10 @@ public class SlotsView extends BorderPane {
             activeButton = hundredCoin;
         });
 
-
-        //Label betAmountLabel = new Label("Bet amount: " + betAmount + " coins");
-
         // back button
         Button back = new Button("Return to Menu");
         back.getStyleClass().add("red");
-        back.setOnAction(e -> getScene().setRoot(new MenuView()));
+        back.setOnAction(_ -> getScene().setRoot(new MenuView()));
 
         // layout areas
         HBox buttonRow = new HBox(10, oneCoin, tenCoin, fiftyCoin, hundredCoin, spin);

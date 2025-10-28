@@ -1,30 +1,5 @@
 package cs.edu.bsu;
 
-/*
----------------
-RULES OF SLOTS
---------------
-The player bets an amount of money per spin. When the player spins, they have to match symbols to win.
-Two matches gives the players money back. All three symbols gives out more money. There will be multiple
-different symbols, with symbol being worth different amount of money, if the play gets all three to match.
-
-🍒 Cherry – Lowest payout
-🍋 Lemon – Second-lowest payout.
-🍊 Orange - Medium-payout.
-🔔 Bell – High-payout.
-💎 Diamond – Very high payout.
-⑦ Lucky Seven – Biggest payout.
-
-
-50 coins max
-25
-10
-5
-1 coin min
-*/
-
-import javafx.scene.control.Alert;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -58,7 +33,7 @@ public class SlotsLogic {
     static int coinsWon = 0;
     static String matchedSymbol = null;
 
-    static boolean insufficientBalance = false;
+    static boolean sufficientBalance = true;
 
     // logic for spins
     public static boolean spin() {
@@ -94,9 +69,9 @@ public class SlotsLogic {
                     matchedCount = entry.getValue();
                 }
             }
-            return insufficientBalance = false;
+            return sufficientBalance = true;
         } else {
-            return insufficientBalance = true;
+            return sufficientBalance = false;
         }
     }
 
