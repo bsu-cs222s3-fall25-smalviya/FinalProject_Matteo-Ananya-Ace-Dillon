@@ -8,7 +8,7 @@ Authors:
 # MAAD CASINO
 
 UPDATE LOG:
-* 10/15: 
+10/15: 
 * We brainstormed the beginning of the project and started working on the MainView class and MainApp class. We also discussed the upcoming classes to add with regards to the CRC cards we have.
 
 10/21: 
