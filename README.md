@@ -18,9 +18,9 @@ than the dealer wins you that round. Having a smaller hand loses you that round.
 lose nor win Coins.
 
 # Programmers & Designers:
-Matteo B., Ananya S., Ace S., Dillon J.
+**M**atteo B., **A**nanya S., **A**ce S., **D**illon J.
 
-=== M.A.A.D. ===
+=== **M.A.A.D.** ===
 
 === CASINO ===
 
