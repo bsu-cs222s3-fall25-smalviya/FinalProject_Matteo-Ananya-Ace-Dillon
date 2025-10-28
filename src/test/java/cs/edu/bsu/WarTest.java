@@ -23,7 +23,7 @@ public class WarTest {
     void testSummaryForPlayerWin() {
         WarLogic.RoundResult result =
                 new WarLogic.RoundResult(10, 5, WarLogic.Outcome.PLAYER_WIN);
-        assertEquals("You win 50 MAAD coins!", result.summary(50));
+        assertEquals("You win 50 MAAD Coins!", result.summary(50));
     }
 
     @Test
