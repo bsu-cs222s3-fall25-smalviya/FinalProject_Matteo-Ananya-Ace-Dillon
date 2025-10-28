@@ -2,7 +2,6 @@
 # MAAD CASINO
 
 Hi, this is the Final Project for team C3, the best team!
-
 Welcome to MAAD Casino! An arcade style app with a selection
 of five arcade-style games to try out your luck!
 -
