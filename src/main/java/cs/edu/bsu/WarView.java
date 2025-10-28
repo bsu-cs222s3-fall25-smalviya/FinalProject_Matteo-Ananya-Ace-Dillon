@@ -2,7 +2,6 @@ package cs.edu.bsu;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,86 +10,66 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class WarView extends BorderPane {
-
     private final WarLogic war = new WarLogic();
     private final TextField betField = new TextField();
-    private final Button dealBtn = new Button("Deal");
-    private final Button backBtn = new Button("Back to Menu");
 
-    private final Label playerCardLabel = new Label("-");
-    private final Label dealerCardLabel = new Label("-");
-    private final Label outcomeLabel   = new Label("");
+    private final Label playerCardLabel = new Label("You: —");
+    private final Label dealerCardLabel = new Label("Dealer: —");
+    private final Label outcomeLabel = new Label("Place a bet and press PLAY");
 
     public WarView() {
-        setPadding(new Insets(16));
+        Label betLbl = new Label("Bet:");
+        betField.setPromptText("Enter whole number");
+        betField.setPrefColumnCount(8);
 
-        Label title = new Label("WAR (1:1 Payout)");
-        title.setStyle("-fx-font-size: 22px; -fx-font-weight: bold;");
-        setTop(title);
-        BorderPane.setAlignment(title, Pos.CENTER);
+        Button playBtn = new Button("PLAY WAR");
+        playBtn.getStyleClass().add("green");
+        playBtn.setOnAction(e -> onPlay());
 
-        betField.setPromptText("Enter bet (chips)");
-        betField.setPrefWidth(120);
+        HBox topBar = new HBox(10, betLbl, betField, playBtn);
+        topBar.setAlignment(Pos.CENTER);
+        topBar.setPadding(new Insets(12));
+        setTop(topBar);
 
-        dealBtn.setOnAction(e -> onDeal());
-        backBtn.setOnAction(e -> {
-            Scene scene = getScene();
-            scene.setRoot(new MenuView());
+        playerCardLabel.getStyleClass().add("card-text");
+        dealerCardLabel.getStyleClass().add("card-text");
+        outcomeLabel.getStyleClass().add("outcome-text");
 
-            if (scene.getStylesheets().isEmpty()) {
-                scene.getStylesheets().add(
-                        getClass().getResource("/style.css").toExternalForm()
-                );
-            }
-        });
+        VBox centerBox = new VBox(12, playerCardLabel, dealerCardLabel, outcomeLabel);
+        centerBox.setAlignment(Pos.CENTER);
+        centerBox.setPadding(new Insets(24));
+        setCenter(centerBox);
 
+        Button backBtn = new Button("Return to Menu");
+        backBtn.getStyleClass().add("red");
+        backBtn.setOnAction(e -> getScene().setRoot(new MenuView()));
 
-        HBox controls = new HBox(10, new Label("Bet:"), betField, dealBtn, backBtn);
-        controls.setAlignment(Pos.CENTER_LEFT);
+        HBox bottomBar = new HBox(backBtn);
+        bottomBar.setAlignment(Pos.CENTER);
+        bottomBar.setPadding(new Insets(12));
+        setBottom(bottomBar);
 
-        VBox left = new VBox(10, controls);
-        left.setPadding(new Insets(10));
-        setLeft(left);
-
-        playerCardLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
-        dealerCardLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
-        outcomeLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-
-        VBox playerBox = new VBox(6, new Label("You"), playerCardLabel);
-        playerBox.setAlignment(Pos.CENTER);
-        VBox dealerBox = new VBox(6, new Label("Dealer"), dealerCardLabel);
-        dealerBox.setAlignment(Pos.CENTER);
-
-        HBox table = new HBox(40, playerBox, dealerBox);
-        table.setAlignment(Pos.CENTER);
-
-        VBox center = new VBox(16, table, outcomeLabel);
-        center.setAlignment(Pos.CENTER);
-        setCenter(center);
+        setPadding(new Insets(10));
     }
 
-    private void onDeal() {
+    private void onPlay() {
+        String raw = betField.getText();
         int bet;
         try {
-            String raw = betField.getText();
-            if (raw == null || raw.isBlank()) {
-                outcomeLabel.setText("Enter a bet amount first.");
-                return;
-            }
             bet = Integer.parseInt(raw.trim());
-        } catch (NumberFormatException nfe) {
-            outcomeLabel.setText("Bruh try a number this time");
+        } catch (Exception ex) {
+            outcomeLabel.setText("Enter a whole number bet.");
             return;
         }
         if (bet <= 0) {
-            outcomeLabel.setText("Bruh try a number this time");
+            outcomeLabel.setText("Bet must be greater than 0.");
             return;
         }
 
         WarLogic.RoundResult result = war.playRound(bet);
 
-        playerCardLabel.setText(WarLogic.cardToString(result.playerCard));
-        dealerCardLabel.setText(WarLogic.cardToString(result.dealerCard));
+        playerCardLabel.setText("You: " + WarLogic.cardToString(result.playerCard));
+        dealerCardLabel.setText("Dealer: " + WarLogic.cardToString(result.dealerCard));
         outcomeLabel.setText(result.summary(bet));
     }
 }

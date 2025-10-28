@@ -58,7 +58,7 @@ public class MenuView extends BorderPane {
 
         // WAR
         Button war = makeButton("War", "red");
-        war.setOnAction(e -> getScene().setRoot(new WarView()));
+        getScene().setRoot(new WarView());
 
         // SLOTS
         Button slots = makeButton("Slots", "green");

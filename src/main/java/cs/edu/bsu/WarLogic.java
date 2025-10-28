@@ -3,77 +3,58 @@ package cs.edu.bsu;
 import java.util.Random;
 
 public final class WarLogic {
-    private static final int MIN_RANK = 2;
+    private static final int MIN_RANK = 2;   // 2..14 (Aces high)
     private static final int MAX_RANK = 14;
     private final Random random;
 
-    public WarLogic() {
-        this(new Random());
-    }
-    public WarLogic(Random random) {
-        this.random = random;
+    public WarLogic() { this(new Random()); }
+    public WarLogic(Random random) { this.random = random; }
+
+    public enum Outcome { PLAYER_WIN, DEALER_WIN, PUSH }
+
+    public static String cardToString(int rank) {
+        return switch (rank) {
+            case 11 -> "Jack";
+            case 12 -> "Queen";
+            case 13 -> "King";
+            case 14 -> "Ace";
+            default -> String.valueOf(rank);
+        };
     }
 
     public RoundResult playRound(int bet) {
-        if (bet <= 0) throw new IllegalArgumentException("Bet must be a number :( ");
+        int player = draw();
+        int dealer = draw();
 
-        int playerCard = drawCard();
-        int dealerCard = drawCard();
+        Outcome o = (player > dealer) ? Outcome.PLAYER_WIN
+                : (player < dealer) ? Outcome.DEALER_WIN
+                : Outcome.PUSH;
 
-        Outcome outcome;
-        int payout;
-
-        if(playerCard > dealerCard) {
-            outcome = Outcome.PLAYER_WIN;
-            payout = bet;
-        } else if (playerCard < dealerCard) {
-            outcome = Outcome.DEALER_WIN;
-            payout = -bet;
-        } else {
-            outcome = Outcome.PUSH;
-            payout = 0;
-        }
-
-        return new RoundResult(playerCard, dealerCard, outcome,payout);
+        return new RoundResult(player, dealer, o);
     }
 
-    private int drawCard() {
-        return random.nextInt((MAX_RANK - MIN_RANK) + 1) + MIN_RANK;
+    private int draw() {
+        return random.nextInt(MAX_RANK - MIN_RANK + 1) + MIN_RANK;
     }
-
-    public static String cardToString(int card) {
-        return switch (card) {
-            case 11 -> "J";
-            case 12 -> "Q";
-            case 13 -> "K";
-            case 14 -> "A";
-            default -> String.valueOf(card);
-        };
-    }
-    public enum Outcome {PLAYER_WIN, DEALER_WIN, PUSH}
 
     public static final class RoundResult {
         public final int playerCard;
         public final int dealerCard;
         public final Outcome outcome;
-        public final int payout;
 
-        public RoundResult(int playerCard, int dealerCard, Outcome outcome, int payout) {
-            this.playerCard = playerCard;
-            this.dealerCard = dealerCard;
-            this.outcome = outcome;
-            this.payout = payout;
+        public RoundResult(int p, int d, Outcome o) {
+            this.playerCard = p;
+            this.dealerCard = d;
+            this.outcome = o;
         }
 
-        public String summary(int bet ) {
-            String player = cardToString(playerCard);
-            String dealer = cardToString(dealerCard);
+        public String summary(int bet) {
             String verdict = switch (outcome) {
-                case PLAYER_WIN -> "You win!" + bet + "MMAD coins";
-                case DEALER_WIN -> "Dealer wins, your wife is disappointed.\n" + bet + " coins lost to the ether";
-                case PUSH -> "Push. That means you need to bet more!";
+                case PLAYER_WIN -> "You win " + bet + " MAAD coins!";
+                case DEALER_WIN -> "Dealer wins. You lose " + bet + ".";
+                case PUSH -> "Push. No one wins.";
             };
-            return "You: " + player + " vs Dealer: " + dealer + "-" + verdict;
+            return verdict;
         }
     }
 }
