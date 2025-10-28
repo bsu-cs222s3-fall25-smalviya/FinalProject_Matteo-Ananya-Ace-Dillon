@@ -12,7 +12,7 @@ public class MenuView extends BorderPane {
     static long balance = CoinBalance.balance = 1000;
 
     public MenuView() {
-        // update balance
+        // updates balance
         balance = CoinBalance.balance;
 
         // title
