@@ -22,10 +22,12 @@ public class MainApp extends Application{
         stage.setScene(scene);
         stage.show();
 
+        /* prints out both IntelliJs and our fonts. Uncomment the code below to see all font-family names:
         System.out.println("=== AVAILABLE FONT FAMILIES ===");
         for (String name : Font.getFamilies()) {
             System.out.println(name);
         }
+        */
     }
 
     public static void main(String[] args){

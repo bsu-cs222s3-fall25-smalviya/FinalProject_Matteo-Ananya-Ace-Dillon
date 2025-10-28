@@ -38,7 +38,7 @@ public class SlotsView extends BorderPane {
 
         // puts the yellow lines by default
         Label placeholder = new Label("|       |       |       |");
-        placeholder.setStyle("-fx-font-size: 50px; -fx-text-fill: yellow;");
+        placeholder.getStyleClass().add("slotLines");
         symbolOutput.setAlignment(Pos.CENTER);
         symbolOutput.getChildren().add(placeholder);
 
@@ -103,7 +103,7 @@ public class SlotsView extends BorderPane {
                     symbolOutput.getChildren().add(img);
                 } else {
                     Label lbl = new Label(s);
-                    lbl.setStyle("-fx-font-size: 50px; -fx-text-fill: yellow;");
+                    lbl.getStyleClass().add("slotLines");
                     symbolOutput.getChildren().add(lbl);
                 }
             }

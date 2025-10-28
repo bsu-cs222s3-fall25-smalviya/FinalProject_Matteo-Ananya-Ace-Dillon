@@ -174,3 +174,8 @@
     -fx-background-color: transparent;
     -fx-alignment: center;
 }
+
+.slotLines {
+    -fx-font-size: 50px;
+    -fx-text-fill: yellow;
+}

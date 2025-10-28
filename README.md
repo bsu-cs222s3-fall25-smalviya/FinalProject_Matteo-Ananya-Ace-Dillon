@@ -34,4 +34,5 @@ Matteo B., Ananya S., Ace S., Dillon J.
 * Finished test classes for Slots and War.
 * Updated War GUI.
 * Removed unnecessary classes for the time being.
-* Fixed Menu button layout
+* Fixed Menu button layout.
+* Added a MenuTest.java Test class.
