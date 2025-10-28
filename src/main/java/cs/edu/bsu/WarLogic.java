@@ -69,7 +69,7 @@ public final class WarLogic {
             String player = cardToString(playerCard);
             String dealer = cardToString(dealerCard);
             String verdict = switch (outcome) {
-                case PLAYER_WIN -> "You win!" + bet + " MAAD coins";
+                case PLAYER_WIN -> "You win!" + bet + "MMAD coins";
                 case DEALER_WIN -> "Dealer wins, your wife is disappointed.\n" + bet + " coins lost to the ether";
                 case PUSH -> "Push. That means you need to bet more!";
             };
@@ -77,49 +77,3 @@ public final class WarLogic {
         }
     }
 }
-//----------------
-//RULES OF WAR
-//------------
-//There are 52 cards in total, which are split between the player and the dealer (computer).
-//Both the player and the dealer will have 26 cards. Each round, both the player and dealer
-//flip a card over, whichever cards value is highest will win that round.
-//----------------
-//CARD VALUES
-//-----------
-//2, 3, 4, 5, 6, 7, 8, 9, 10
-//Jack - 11
-//Queen - 12
-//King - 13
-//Ace - 14
-//----------------
-//
-//
-
-
-
-
-//    String[] suit = {
-//            "♠", // Spade
-//            "♥", // Heart
-//            "♦", // Diamond
-//            "♣"  // Club
-//    };
-//    // list of court cards
-//    String[] court = {
-//            "Jack", // 11 value
-//            "Queen", // 12 value
-//            "King", // 13 value
-//            "Ace" // 14 value
-//    };
-//
-//    Random random = new Random();
-//
-//    //random cards
-//    int lowest = 2;
-//    int highest = 14;
-//
-//    int playerShuffle = random.nextInt(highest - lowest + 1) + lowest;
-//    int dealerShuffle = random.nextInt(highest - lowest + 1) + lowest;
-//*/
-//}
-//

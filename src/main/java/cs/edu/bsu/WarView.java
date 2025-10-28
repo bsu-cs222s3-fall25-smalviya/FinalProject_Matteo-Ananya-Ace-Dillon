@@ -1,11 +1,8 @@
-// ==============================
-// File: WarView.java
-// Package: cs.edu.bsu
-// ==============================
 package cs.edu.bsu;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -27,19 +24,24 @@ public class WarView extends BorderPane {
     public WarView() {
         setPadding(new Insets(16));
 
-        Label title = new Label("WAR — Continuous Shuffler (1:1 Payout)");
+        Label title = new Label("WAR (1:1 Payout)");
         title.setStyle("-fx-font-size: 22px; -fx-font-weight: bold;");
         setTop(title);
         BorderPane.setAlignment(title, Pos.CENTER);
 
-        // Controls
         betField.setPromptText("Enter bet (chips)");
         betField.setPrefWidth(120);
 
-        // Wire actions to the SAME button instance that we add to the layout
         dealBtn.setOnAction(e -> onDeal());
         backBtn.setOnAction(e -> {
-            getScene().setRoot(new MenuView());
+            Scene scene = getScene();
+            scene.setRoot(new MenuView());
+
+            if (scene.getStylesheets().isEmpty()) {
+                scene.getStylesheets().add(
+                        getClass().getResource("/style.css").toExternalForm()
+                );
+            }
         });
 
 
@@ -50,7 +52,6 @@ public class WarView extends BorderPane {
         left.setPadding(new Insets(10));
         setLeft(left);
 
-        // Card display
         playerCardLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
         dealerCardLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
         outcomeLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
@@ -78,11 +79,11 @@ public class WarView extends BorderPane {
             }
             bet = Integer.parseInt(raw.trim());
         } catch (NumberFormatException nfe) {
-            outcomeLabel.setText("Invalid bet. Enter a whole number.");
+            outcomeLabel.setText("Bruh try a number this time");
             return;
         }
         if (bet <= 0) {
-            outcomeLabel.setText("Bet must be greater than 0.");
+            outcomeLabel.setText("Bruh try a number this time");
             return;
         }
 
