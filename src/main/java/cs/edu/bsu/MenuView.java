@@ -8,7 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
 public class MenuView extends BorderPane {
+    // starting balance
+    static long balance = CoinBalance.balance = 1000;
+
     public MenuView() {
+        // update balance
+        balance = CoinBalance.balance;
+
         // title
         Label title = new Label("MAAD Casino");
         title.getStyleClass().add("title");
@@ -22,7 +28,7 @@ public class MenuView extends BorderPane {
         dot.getStyleClass().add("stat-dot");
 
         // maad coin counter
-        Label coins = new Label("MAAD Coins: 1,000");
+        Label coins = new Label("MAAD Coins: " + balance);
         coins.getStyleClass().add("stat");
 
         HBox statusBar = new HBox(10, player, dot, coins);
@@ -49,7 +55,6 @@ public class MenuView extends BorderPane {
         // BLACKJACK
         Button blackjack = makeButton("Blackjack", "black");
         blackjack.setOnAction(e -> showInfo("Blackjack coming soon!"));
-        //blackjack.setOnAction(e -> getScene().setRoot(new BlackjackView()));
 
         // WAR
         Button war = makeButton("War", "red");
@@ -84,6 +89,7 @@ public class MenuView extends BorderPane {
 
     private void showInfo(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Message from the Devs:");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
