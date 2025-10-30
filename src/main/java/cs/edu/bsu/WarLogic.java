@@ -26,11 +26,11 @@ public final class WarLogic {
         int player = draw();
         int dealer = draw();
 
-        Outcome o = (player > dealer) ? Outcome.PLAYER_WIN
+        Outcome outcome = (player > dealer) ? Outcome.PLAYER_WIN
                 : (player < dealer) ? Outcome.DEALER_WIN
                 : Outcome.PUSH;
 
-        return new RoundResult(player, dealer, o);
+        return new RoundResult(player, dealer, outcome);
     }
 
     private int draw() {
@@ -42,10 +42,10 @@ public final class WarLogic {
         public final int dealerCard;
         public final Outcome outcome;
 
-        public RoundResult(int p, int d, Outcome o) {
-            this.playerCard = p;
-            this.dealerCard = d;
-            this.outcome = o;
+        public RoundResult(int player, int dealer, Outcome outcome) {
+            this.playerCard = player;
+            this.dealerCard = dealer;
+            this.outcome = outcome;
         }
 
         public String summary(int bet) {
