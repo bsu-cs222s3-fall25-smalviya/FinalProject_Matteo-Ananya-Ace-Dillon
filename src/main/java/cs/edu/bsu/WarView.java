@@ -21,7 +21,6 @@ public class WarView extends BorderPane {
         Label title = new Label("🛡️️ War 🛡️");
         title.getStyleClass().add("title");
 
-        // player info
         Label player = new Label("Player: Guest");
         player.getStyleClass().add("stat");
 

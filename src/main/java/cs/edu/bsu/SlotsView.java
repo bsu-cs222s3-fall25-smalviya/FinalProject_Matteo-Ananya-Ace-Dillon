@@ -18,11 +18,9 @@ public class SlotsView extends BorderPane {
     private Button activeButton = null;
 
     public SlotsView() {
-        // title
         Label title = new Label("🎰 Slots 🎰");
         title.getStyleClass().add("title");
 
-        // player info
         Label player = new Label("Player: Guest");
         player.getStyleClass().add("stat");
 
@@ -36,7 +34,6 @@ public class SlotsView extends BorderPane {
         statusBar.setAlignment(Pos.CENTER);
         statusBar.setPadding(new Insets(0, 0, 0, 0));
 
-        // puts the yellow lines by default
         Label placeholder = new Label("|       |       |       |");
         placeholder.getStyleClass().add("slotLines");
         symbolOutput.setAlignment(Pos.CENTER);
@@ -44,22 +41,17 @@ public class SlotsView extends BorderPane {
 
         symbolOutput.getStyleClass().add("symbolOutput");
 
-        // label for bet amount
         userBet.getStyleClass().add("userBet");
 
-        // output area for symbols
         symbolOutput.getStyleClass().add("symbolOutput");
 
-        // output for coins won/lost, and match indicator
         scoreOutput.setEditable(false);
         scoreOutput.getStyleClass().add("scoreOutput");
 
-        // spin button
         Button spin = new Button("Spin");
         spin.getStyleClass().add("black");
         spin.setDisable(true);
         spin.setOnAction(_ -> {
-            // SlotsLogic call
             boolean sufficient = SlotsLogic.spin();
             if (!sufficient) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -73,13 +65,10 @@ public class SlotsView extends BorderPane {
             long newBalance = SlotsLogic.payout();
             CoinBalance.balance = newBalance;
 
-            // returns the three symbols
             String symbols = SlotsLogic.spinResults();
 
-            // returns match indictor and coins won/lost
             String result = SlotsLogic.score();
 
-            // style depending on match result
             if (SlotsLogic.score().equals("No match...\n")) {
                 scoreOutput.getStyleClass().removeAll("scoreOutput");
                 scoreOutput.getStyleClass().add("scoreOutputLose");
@@ -88,7 +77,6 @@ public class SlotsView extends BorderPane {
                 scoreOutput.getStyleClass().add("scoreOutput");
             }
 
-            // display logic
             symbolOutput.getChildren().clear();
 
             String[] parts = symbols.split(" ");
@@ -116,7 +104,6 @@ public class SlotsView extends BorderPane {
             SlotsLogic.symbol3 = null;
         });
 
-        // bet buttons
         Button oneCoin = new Button("1");
         Button tenCoin = new Button("10");
         Button fiftyCoin = new Button("50");
@@ -169,12 +156,10 @@ public class SlotsView extends BorderPane {
             activeButton = hundredCoin;
         });
 
-        // back button
         Button back = new Button("Return to Menu");
         back.getStyleClass().add("red");
         back.setOnAction(_ -> getScene().setRoot(new MenuView()));
 
-        // layout areas
         HBox buttonRow = new HBox(10, oneCoin, tenCoin, fiftyCoin, hundredCoin, spin);
         buttonRow.setAlignment(Pos.CENTER);
         setTop(buttonRow);

@@ -8,69 +8,55 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
 public class MenuView extends BorderPane {
-    // starting balance
     static long balance = CoinBalance.balance = 1000;
 
     public MenuView() {
-        // updates balance
         balance = CoinBalance.balance;
 
-        // title
         Label title = new Label("MAAD Casino");
         VBox.setMargin(title, new Insets(23, 0, 10, 0));
         title.getStyleClass().add("title");
         BorderPane.setAlignment(title, Pos.CENTER);
 
-        // player label
         Label player = new Label("Player: Guest");
         player.getStyleClass().add("stat");
 
         Label dot = new Label("•");
         dot.getStyleClass().add("stat-dot");
 
-        // maad coin counter
         Label coins = new Label("MAAD Coins: " + balance);
         coins.getStyleClass().add("stat");
 
-        // creates box for player name and coin balance
         HBox statusBar = new HBox(10, player, dot, coins);
         statusBar.setAlignment(Pos.CENTER);
         statusBar.setPadding(new Insets(5, 0, 20, 0));
 
-        // combines title and status bar
         VBox topBox = new VBox(title, statusBar);
         topBox.setAlignment(Pos.CENTER);
         setTop(topBox);
 
-        // creates the grid for buttons
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(24);
         grid.setVgap(24);
         grid.setPadding(new Insets(20));
 
-        // adjusts the height of the buttons
         RowConstraints r = new RowConstraints();
         r.setPercentHeight(33.333);
         grid.getRowConstraints().addAll(r, r, r);
 
-        // BLACKJACK
         Button blackjack = makeButton("Blackjack", "black");
         blackjack.setOnAction(_ -> showInfo("Blackjack coming soon!"));
 
-        // WAR
         Button war = makeButton("War", "red");
         war.setOnAction(_ -> getScene().setRoot(new WarView()));
 
-        // SLOTS
         Button slots = makeButton("Slots", "green");
         slots.setOnAction(_ -> getScene().setRoot(new SlotsView()));
 
-        // HORSE RACING
         Button horse = makeButton("Horse Racing", "red");
         horse.setOnAction(_ -> showInfo("Horse Racing coming soon!"));
 
-        // ROULETTE
         Button roulette = makeButton("Roulette", "black");
         roulette.setOnAction(_ -> showInfo("Roulette coming soon!"));
 
