@@ -46,7 +46,7 @@ public class MenuView extends BorderPane {
         grid.getRowConstraints().addAll(r, r, r);
 
         Button blackjack = makeButton("Blackjack", "black");
-        blackjack.setOnAction(_ -> showInfo("Blackjack coming soon!"));
+        blackjack.setOnAction(_ -> getScene().setRoot(new BlackjackView()));
 
         Button war = makeButton("War", "red");
         war.setOnAction(_ -> getScene().setRoot(new WarView()));

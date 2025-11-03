@@ -49,3 +49,6 @@ lose nor win Coins.
 * Removed unnecessary classes for the time being.
 * Fixed Menu button layout.
 * Added a MenuTest.java Test class.
+
+10/31:
+* Added BlackjackLogic.java
