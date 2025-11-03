@@ -19,7 +19,7 @@ public class BlackjackTest {
             BlackjackLogic.playerHit();
         }
         System.out.println("PLAYER TOTAL HAND: " + BlackjackLogic.playerHand);
-        System.out.println("Total value for player hand: " + BlackjackLogic.totalValueCalculator());
+        System.out.println("Total value for player hand: " + BlackjackLogic.totalValueCalculatorPlayer());
         System.out.println(BlackjackLogic.bust);
     }
 

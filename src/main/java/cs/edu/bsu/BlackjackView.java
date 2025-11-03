@@ -34,15 +34,23 @@ public class BlackjackView extends BorderPane {
         statusBar.setPadding(new Insets(0, 0, 0, 0));
 
         Label matchOutcome = new Label("");
+        Button hit = new Button("Hit");
+        Button stand = new Button("Stand");
+        hit.setDisable(true);
+        stand.setDisable(true);
 
         // ----------------------------------------------
 
         Button play = new Button("Refresh round");
         play.setOnAction(_ -> {
             BlackjackLogic.play();
+            play.setDisable(true);
+            hit.setDisable(false);
+            stand.setDisable(false);
             dealerOutput.setText(String.valueOf(BlackjackLogic.dealerHand));
             playerOutput.setText(String.valueOf(BlackjackLogic.playerHand));
-            matchOutcome.setText(" " + BlackjackLogic.totalValueCalculator());
+            matchOutcome.setText("Dealer Hand: " + BlackjackLogic.totalValueCalculatorDealer() +
+            "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
         });
 
         Label dealerLabel = new Label("Dealer:");
@@ -51,15 +59,33 @@ public class BlackjackView extends BorderPane {
         Label playerLabel = new Label("Player:");
         playerOutput.setEditable(false);
 
-        Button hit = new Button("Hit");
+
         hit.setOnAction(_ -> {
             BlackjackLogic.playerHit();
-            BlackjackLogic.totalValueCalculator();
             playerOutput.setText(" | " + BlackjackLogic.playerHand);
-            matchOutcome.setText(" " + BlackjackLogic.totalValueCalculator());
+            matchOutcome.setText("Dealer Hand: " + BlackjackLogic.totalValueCalculatorDealer() +
+                    "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
+            if (BlackjackLogic.bust) {
+                play.setDisable(false);
+                hit.setDisable(true);
+                stand.setDisable(true);
+            }
         });
-        Button stand = new Button("Stand");
-        stand.setOnAction(_ -> getScene().setRoot(new MenuView()));
+
+        stand.setOnAction(_ -> {
+            play.setDisable(true);
+            hit.setDisable(true);
+            stand.setDisable(true);
+            BlackjackLogic.dealersPlay();
+            dealerOutput.setText("" + BlackjackLogic.dealerHand);
+            matchOutcome.setText("Dealer Hand: " + BlackjackLogic.totalValueCalculatorDealer() +
+                    "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
+            if (BlackjackLogic.bust) {
+                play.setDisable(false);
+                hit.setDisable(true);
+                stand.setDisable(true);
+            }
+        });
 
         HBox buttonRow = new HBox(10, hit, stand);
 

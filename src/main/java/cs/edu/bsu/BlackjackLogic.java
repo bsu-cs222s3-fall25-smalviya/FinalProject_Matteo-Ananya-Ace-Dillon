@@ -23,6 +23,7 @@ public class BlackjackLogic {
 
 
     public static void play() {
+        bust = false;
         setDealerCards();
         setPlayerCards();
     }
@@ -44,12 +45,23 @@ public class BlackjackLogic {
         int randomIndex = random.nextInt(values.size());
         int randomCard = values.get(randomIndex);
         playerHand.add(randomCard);
+        totalValueCalculatorPlayer();
+    }
+
+    public static void dealerHit() {
+        int randomIndex = random.nextInt(values.size());
+        int randomCard = values.get(randomIndex);
+        dealerHand.add(randomCard);
+        totalValueCalculatorDealer();
     }
 
     public static void dealersPlay() {
+        while (totalValueCalculatorDealer() < 17) {
+            dealerHit();
+        }
     }
 
-    public static int totalValueCalculator() {
+    public static int totalValueCalculatorPlayer() {
         int totalValue = 0;
 
         for (int i : playerHand) {
@@ -58,6 +70,19 @@ public class BlackjackLogic {
         if (totalValue > 21) {
             bust = true;
         }
+        return totalValue;
+    }
+
+    public static int totalValueCalculatorDealer() {
+        int totalValue = 0;
+
+        for (int i : dealerHand) {
+            totalValue += i;
+        }
+        if (totalValue > 21) {
+            bust = true;
+        }
+
         return totalValue;
     }
 }
