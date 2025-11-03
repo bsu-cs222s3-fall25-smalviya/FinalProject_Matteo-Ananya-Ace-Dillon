@@ -80,7 +80,7 @@ public class WarView extends BorderPane {
         int bet;
         try {
             bet = Integer.parseInt(raw.trim());
-        } catch (Exception ex) {
+        } catch (Exception exception) {
             outcomeLabel.setText("Enter a whole number bet.");
             return;
         }
