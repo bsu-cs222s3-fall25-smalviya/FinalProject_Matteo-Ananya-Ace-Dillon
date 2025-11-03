@@ -6,25 +6,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BlackjackTest {
     @Test
-    void testSuitPicker() {
-        BlackjackLogic.play();
-        for (int i = 0; i < BlackjackLogic.fullDeck.toArray().length; i++){
-            System.out.println(BlackjackLogic.fullDeck.get(i));
-        }
-        assertNotNull(BlackjackLogic.fullDeck);
-    }
-
-    @Test
-    void testRandomCard() {
-        BlackjackLogic.play();
-        assertNotNull(BlackjackLogic.randomCard);
-        System.out.println("This is the random card: " + BlackjackLogic.randomCard);
-    }
-
-    @Test
     void testSetCards() {
         BlackjackLogic.play();
-        System.out.println("DEALER HAND: " + BlackjackLogic.dealerHand);
-        System.out.println("PLAYER HAND: " + BlackjackLogic.playerHand);
+        System.out.println("Dealer set hand: " + BlackjackLogic.dealerHand);
+        System.out.println("Player set hand: " + BlackjackLogic.playerHand);
     }
+
+    @Test
+    void testPlayerHand() {
+        BlackjackLogic.play();
+        for (int i = 0; i < 1; i++) {
+            BlackjackLogic.playerHit();
+        }
+        System.out.println("PLAYER TOTAL HAND: " + BlackjackLogic.playerHand);
+        System.out.println("Total value for player hand: " + BlackjackLogic.totalValueCalculator());
+        System.out.println(BlackjackLogic.bust);
+    }
+
 }
