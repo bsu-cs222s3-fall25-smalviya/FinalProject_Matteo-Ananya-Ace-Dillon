@@ -30,9 +30,7 @@ public class HorseRaceLogic {
         return FINISH_DISTANCE;
     }
 
-    public static void setBet(int bet) {
-        currentBet = bet;
-    }
+    public static void setBet(int bet) { currentBet = bet;}
 
     public static void setChosenHorse(int index) {
         chosenHorseIndex = index;

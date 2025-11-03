@@ -5,7 +5,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.*;
+
+import java.util.Optional;
 
 public class MenuView extends BorderPane {
     static long balance = CoinBalance.balance = 1000;
@@ -46,19 +49,28 @@ public class MenuView extends BorderPane {
         grid.getRowConstraints().addAll(r, r, r);
 
         Button blackjack = makeButton("Blackjack", "black");
-        blackjack.setOnAction(_ -> getScene().setRoot(new BlackjackView()));
+        blackjack.setOnAction(_ ->
+                promptCoinAmountAndStartGame("Blackjack", () -> getScene().setRoot(new BlackjackView()))
+        );
 
         Button war = makeButton("War", "red");
-        war.setOnAction(_ -> getScene().setRoot(new WarView()));
+        war.setOnAction(_ ->
+                promptCoinAmountAndStartGame("War", () -> getScene().setRoot(new WarView()))
+        );
 
         Button slots = makeButton("Slots", "green");
-        slots.setOnAction(_ -> getScene().setRoot(new SlotsView()));
+        slots.setOnAction(_ ->
+                promptCoinAmountAndStartGame("Slots", () -> getScene().setRoot(new SlotsView()))
+        );
 
         Button horse = makeButton("Horse Racing", "red");
-        horse.setOnAction(_ -> getScene().setRoot(new HorseRaceView()));
+        horse.setOnAction(_ ->
+                promptCoinAmountAndStartGame("Horse Racing", () -> getScene().setRoot(new HorseRaceView()))
+        );
+
 
         Button roulette = makeButton("Roulette", "black");
-        roulette.setOnAction(_ -> getScene().setRoot(new RouletteView()));
+        roulette.setOnAction(_ ->promptCoinAmountAndStartGame("Roulette",() -> getScene().setRoot(new RouletteView())));
 
         grid.add(blackjack, 0, 0);
         grid.add(war, 2, 0);
@@ -82,4 +94,48 @@ public class MenuView extends BorderPane {
         alert.setContentText(msg);
         alert.showAndWait();
     }
+
+    private void promptCoinAmountAndStartGame(String gameName, Runnable startGameAction) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Bring Coins");
+        dialog.setHeaderText("Enter the number of MAAD Coins you want to bring into " + gameName);
+        dialog.setContentText("Coins:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isEmpty()) {
+            return; // user canceled
+        }
+
+        try {
+            int amount = Integer.parseInt(result.get().trim());
+            if (amount <= 0) {
+                showError("Please enter a positive number of coins.");
+                return;
+            }
+            if (amount > CoinBalance.balance) {
+                showError("You don't have enough MAAD Coins!");
+                return;
+            }
+
+            // Deduct coins from global balance
+            CoinBalance.balance -= amount;
+
+            // (Optional) You can store the amount in the game logic class if needed
+            // Example: WarLogic.setStartingCoins(amount);
+
+            startGameAction.run();
+
+        } catch (NumberFormatException e) {
+            showError("Please enter a valid number.");
+        }
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Input");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }
