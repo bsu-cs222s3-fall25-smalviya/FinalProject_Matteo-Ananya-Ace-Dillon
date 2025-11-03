@@ -55,7 +55,7 @@ public class MenuView extends BorderPane {
         slots.setOnAction(_ -> getScene().setRoot(new SlotsView()));
 
         Button horse = makeButton("Horse Racing", "red");
-        horse.setOnAction(_ -> showInfo("Horse Racing coming soon!"));
+        horse.setOnAction(_ -> getScene().setRoot(new HorseRaceView()));
 
         Button roulette = makeButton("Roulette", "black");
         roulette.setOnAction(_ -> showInfo("Roulette coming soon!"));

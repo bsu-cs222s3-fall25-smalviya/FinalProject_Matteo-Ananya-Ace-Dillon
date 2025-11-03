@@ -52,3 +52,6 @@ lose nor win Coins.
 
 10/31:
 * Added BlackjackLogic.java
+
+11/2:
+* Added HorseRaceLogic and HorseRaceView
