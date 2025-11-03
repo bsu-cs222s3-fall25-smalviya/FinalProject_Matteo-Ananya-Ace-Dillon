@@ -19,6 +19,11 @@ Put in the amount of **MAAD** Coins you want to bet into the text box, then pres
 than the dealer wins you that round. Having a smaller hand loses you that round. A tie means you neither
 lose nor win Coins.
 
+**Roulette**
+Choose what you would like to bet on (Red, Black, Even, Odd, or a number) and place you bet. Press the Play button and
+wait for the result. Depending on whether you win or lose your payout will concur with the result. A correct guess of
+the 50/50 bets (Even-Odd and Red-Black) will pay 1:1 and a correct number guess will pay 35:1.
+
 # Programmers & Designers:
 **M**atteo B., **A**nanya S., **A**ce S., **D**illon J.
 
@@ -53,5 +58,6 @@ lose nor win Coins.
 10/31:
 * Added BlackjackLogic.java
 
-11/2:
+11/3:
 * Added HorseRaceLogic and HorseRaceView
+* Created Roulette Logic and View
