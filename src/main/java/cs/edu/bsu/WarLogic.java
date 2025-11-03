@@ -3,6 +3,7 @@ package cs.edu.bsu;
 import java.util.Random;
 
 public final class WarLogic {
+    //static long balance = CoinBalance.getBalance();
     private static final int MIN_RANK = 2;   // 2..14 (Aces high)
     private static final int MAX_RANK = 14;
     private final Random random;
@@ -10,7 +11,7 @@ public final class WarLogic {
     public WarLogic() { this(new Random()); }
     public WarLogic(Random random) { this.random = random; }
 
-    public enum Outcome { PLAYER_WIN, DEALER_WIN, PUSH }
+    public enum Outcome { PLAYER_WIN, DEALER_WIN, PUSH, INVALID }
 
     public static String cardToString(int rank) {
         return switch (rank) {
@@ -23,12 +24,26 @@ public final class WarLogic {
     }
 
     public RoundResult playRound(int bet) {
+        if (bet > CoinBalance.getBalance()) {
+            return new RoundResult(0, 0, Outcome.INVALID);
+        }
+
+        CoinBalance.balance -= bet;
+
         int player = draw();
         int dealer = draw();
 
         Outcome outcome = (player > dealer) ? Outcome.PLAYER_WIN
                 : (player < dealer) ? Outcome.DEALER_WIN
                 : Outcome.PUSH;
+
+        if (outcome == Outcome.PLAYER_WIN){
+            CoinBalance.balance += bet * 2;  // win doubles bet
+        } else if (outcome == Outcome.PUSH) {
+            CoinBalance.balance += bet;      // return bet
+        }
+
+
 
         return new RoundResult(player, dealer, outcome);
     }
@@ -53,6 +68,7 @@ public final class WarLogic {
                 case PLAYER_WIN -> "You win " + bet + " MAAD Coins!";
                 case DEALER_WIN -> "Dealer wins. You lose " + bet + ".";
                 case PUSH -> "Push. No one wins.";
+                case INVALID -> "Not enough coins to bet!";
             };
             return verdict;
         }
