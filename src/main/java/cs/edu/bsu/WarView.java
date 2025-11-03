@@ -30,9 +30,7 @@ public class WarView extends BorderPane {
 
         coinsLabel.getStyleClass().add("stat");
         HBox statusBar = new HBox(10, player, dot, coinsLabel);
-        //coins.getStyleClass().add("stat");
 
-        //HBox statusBar = new HBox(10, player, dot, coins);
         statusBar.setAlignment(Pos.CENTER);
         statusBar.setPadding(new Insets(5, 0, 0, 0));
 
