@@ -16,6 +16,7 @@ public class WarView extends BorderPane {
     private final Label playerCardLabel = new Label("You: —");
     private final Label dealerCardLabel = new Label("Dealer: —");
     private final Label outcomeLabel = new Label("Place a bet and press PLAY");
+    private final Label coinsLabel = new Label("MAAD Coins: " + CoinBalance.getBalance());
 
     public WarView() {
         Label title = new Label("🛡️️ War 🛡️");
@@ -27,10 +28,11 @@ public class WarView extends BorderPane {
         Label dot = new Label("•");
         dot.getStyleClass().add("stat-dot");
 
-        Label coins = new Label("MAAD Coins: " + SlotsLogic.payout());
-        coins.getStyleClass().add("stat");
+        coinsLabel.getStyleClass().add("stat");
+        HBox statusBar = new HBox(10, player, dot, coinsLabel);
+        //coins.getStyleClass().add("stat");
 
-        HBox statusBar = new HBox(10, player, dot, coins);
+        //HBox statusBar = new HBox(10, player, dot, coins);
         statusBar.setAlignment(Pos.CENTER);
         statusBar.setPadding(new Insets(5, 0, 0, 0));
 
@@ -92,5 +94,8 @@ public class WarView extends BorderPane {
         playerCardLabel.setText("You: " + WarLogic.cardToString(result.playerCard));
         dealerCardLabel.setText("Dealer: " + WarLogic.cardToString(result.dealerCard));
         outcomeLabel.setText(result.summary(bet));
+        coinsLabel.setText("MAAD Coins: " + CoinBalance.getBalance());
+
+
     }
 }
