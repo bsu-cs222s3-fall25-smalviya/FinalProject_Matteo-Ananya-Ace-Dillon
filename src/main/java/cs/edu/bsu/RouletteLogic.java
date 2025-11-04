@@ -14,7 +14,7 @@ public class RouletteLogic {
     }
 
     public enum BetType {
-        NUMBER, RED, BLACK, EVEN, ODD, DOZEN1, DOZEN2, DOZEN3
+        NUMBER, RED, BLACK, EVEN, ODD //DOZEN1, DOZEN2, DOZEN3
     }
 
     public static final Set<Integer> RED_NUMBERS = Set.of(
@@ -94,9 +94,9 @@ public class RouletteLogic {
             case BLACK -> BLACK_NUMBERS.contains(rolledNumber);
             case EVEN -> rolledNumber != 0 && rolledNumber % 2 == 0;
             case ODD -> rolledNumber % 2 == 1;
-            case DOZEN1 -> rolledNumber >= 1 && rolledNumber <= 12;
-            case DOZEN2 -> rolledNumber >= 13 && rolledNumber <= 24;
-            case DOZEN3 -> rolledNumber >= 25 && rolledNumber <= 36;
+//            case DOZEN1 -> rolledNumber >= 1 && rolledNumber <= 12;
+//            case DOZEN2 -> rolledNumber >= 13 && rolledNumber <= 24;
+//            case DOZEN3 -> rolledNumber >= 25 && rolledNumber <= 36;
         };
     }
 
@@ -104,7 +104,7 @@ public class RouletteLogic {
         return switch (betType) {
             case NUMBER -> 35;
             case RED, BLACK, EVEN, ODD -> 1;
-            case DOZEN1, DOZEN2, DOZEN3 -> 2;
+//            case DOZEN1, DOZEN2, DOZEN3 -> 2;
         };
     }
 
