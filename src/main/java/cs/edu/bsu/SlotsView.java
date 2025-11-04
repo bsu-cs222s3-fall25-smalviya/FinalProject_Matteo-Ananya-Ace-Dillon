@@ -27,7 +27,7 @@ public class SlotsView extends BorderPane {
         Label dot = new Label("•");
         dot.getStyleClass().add("stat-dot");
 
-        Label coins = new Label("MAAD Coins: " + SlotsLogic.payout());
+        Label coins = new Label("MAAD Coins: " + CoinBalance.gameBalance);
         coins.getStyleClass().add("stat");
 
         HBox statusBar = new HBox(10, player, dot, coins);
@@ -62,8 +62,8 @@ public class SlotsView extends BorderPane {
                 return;
             }
 
-            long newBalance = SlotsLogic.payout();
-            CoinBalance.balance = newBalance;
+            SlotsLogic.payout();
+            long newBalance= CoinBalance.gameBalance;
 
             String symbols = SlotsLogic.spinResults();
 
@@ -158,7 +158,11 @@ public class SlotsView extends BorderPane {
 
         Button back = new Button("Return to Menu");
         back.getStyleClass().add("red");
-        back.setOnAction(_ -> getScene().setRoot(new MenuView()));
+        back.setOnAction(_ -> {
+            CoinBalance.balance += CoinBalance.gameBalance;
+            CoinBalance.gameBalance = 0;
+            getScene().setRoot(new MenuView());
+        });
 
         HBox buttonRow = new HBox(10, oneCoin, tenCoin, fiftyCoin, hundredCoin, spin);
         buttonRow.setAlignment(Pos.CENTER);

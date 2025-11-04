@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class SlotsLogic {
-    static long balance = CoinBalance.getBalance();
+
     static Random rand = new Random();
     static int currentBet = 0;
 
@@ -32,7 +32,9 @@ public class SlotsLogic {
     static boolean sufficientBalance = true;
 
     public static boolean spin() {
-        if (currentBet <= balance) {
+        if (currentBet <= CoinBalance.gameBalance) {
+            CoinBalance.gameBalance -= currentBet;
+
             item1 = rand.nextInt(symbols.length);
             item2 = rand.nextInt(symbols.length);
             item3 = rand.nextInt(symbols.length);
@@ -72,9 +74,9 @@ public class SlotsLogic {
 
     public static long payout() {
         if (symbol1 == null || symbol2 == null || symbol3 == null) {
-            return balance;
+            return CoinBalance.gameBalance;
         }
-        balance -= currentBet;
+
         if (item1 == item2 && item1 == item3) { // three match
             coinsWon = (int) (currentBet * getMultipler3[item1]);
         } else if (item1 == item2 || item1 == item3) { // two match
@@ -85,8 +87,8 @@ public class SlotsLogic {
             coinsWon = 0;
         }
 
-        balance += coinsWon;
-        return balance;
+        CoinBalance.gameBalance += coinsWon;
+        return CoinBalance.gameBalance;
     }
 
     public static String spinResults() {
