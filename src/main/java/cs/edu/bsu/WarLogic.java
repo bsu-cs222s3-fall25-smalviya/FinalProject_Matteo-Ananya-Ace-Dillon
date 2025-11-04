@@ -3,7 +3,7 @@ package cs.edu.bsu;
 import java.util.Random;
 
 public final class WarLogic {
-    //static long balance = CoinBalance.getBalance();
+
     private static final int MIN_RANK = 2;   // 2..14 (Aces high)
     private static final int MAX_RANK = 14;
     private final Random random;
@@ -28,7 +28,7 @@ public final class WarLogic {
             return new RoundResult(0, 0, Outcome.INVALID);
         }
 
-        CoinBalance.balance -= bet;
+        CoinBalance.gameBalance -= bet;
 
         int player = draw();
         int dealer = draw();
@@ -38,9 +38,9 @@ public final class WarLogic {
                 : Outcome.PUSH;
 
         if (outcome == Outcome.PLAYER_WIN){
-            CoinBalance.balance += bet * 2;  // win doubles bet
+            CoinBalance.gameBalance += bet * 2;  // win doubles bet
         } else if (outcome == Outcome.PUSH) {
-            CoinBalance.balance += bet;      // return bet
+            CoinBalance.gameBalance += bet;      // return bet
         }
 
 
