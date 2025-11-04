@@ -14,7 +14,7 @@ public class RouletteLogic {
     }
 
     public enum BetType {
-        NUMBER, RED, BLACK, EVEN, ODD, DOZEN1, DOZEN2, DOZEN3
+        NUMBER, RED, BLACK, EVEN, ODD //DOZEN1, DOZEN2, DOZEN3
     }
 
     public static final Set<Integer> RED_NUMBERS = Set.of(
@@ -104,7 +104,7 @@ public class RouletteLogic {
         return switch (betType) {
             case NUMBER -> 35;
             case RED, BLACK, EVEN, ODD -> 1;
-            case DOZEN1, DOZEN2, DOZEN3 -> 2;
+//            case DOZEN1, DOZEN2, DOZEN3 -> 2;
         };
     }
 
