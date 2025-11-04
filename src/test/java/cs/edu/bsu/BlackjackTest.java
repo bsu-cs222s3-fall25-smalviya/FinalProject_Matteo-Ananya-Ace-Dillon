@@ -7,20 +7,23 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BlackjackTest {
     @Test
     void testSetCards() {
-        BlackjackLogic.play();
+        BlackjackLogic.set();
         System.out.println("Dealer set hand: " + BlackjackLogic.dealerHand);
         System.out.println("Player set hand: " + BlackjackLogic.playerHand);
+        System.out.println("dealer blackjack: " + BlackjackLogic.dealerBlackjack);
+        System.out.println("player blackjack: " + BlackjackLogic.playerBlackjack);
     }
 
     @Test
     void testPlayerHand() {
-        BlackjackLogic.play();
+        BlackjackLogic.set();
         for (int i = 0; i < 1; i++) {
             BlackjackLogic.playerHit();
+            System.out.println("randomCard: " + BlackjackLogic.randomCard);
         }
         System.out.println("PLAYER TOTAL HAND: " + BlackjackLogic.playerHand);
         System.out.println("Total value for player hand: " + BlackjackLogic.totalValueCalculatorPlayer());
-        System.out.println(BlackjackLogic.bust);
+        System.out.println(BlackjackLogic.playerBust);
     }
 
 }

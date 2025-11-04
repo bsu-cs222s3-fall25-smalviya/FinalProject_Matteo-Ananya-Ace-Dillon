@@ -68,7 +68,6 @@ public class MenuView extends BorderPane {
                 promptCoinAmountAndStartGame("Horse Racing", () -> getScene().setRoot(new HorseRaceView()))
         );
 
-
         Button roulette = makeButton("Roulette", "black");
         roulette.setOnAction(_ ->promptCoinAmountAndStartGame("Roulette",() -> getScene().setRoot(new RouletteView())));
 
@@ -94,6 +93,7 @@ public class MenuView extends BorderPane {
         alert.setContentText(msg);
         alert.showAndWait();
     }
+
 
     private void promptCoinAmountAndStartGame(String gameName, Runnable startGameAction) {
         TextInputDialog dialog = new TextInputDialog();
