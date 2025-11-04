@@ -54,9 +54,6 @@ public class BlackjackView extends BorderPane {
 
         Button set = new Button("New Round");
         set.setOnAction(_ -> {
-            BlackjackLogic.setBet(Integer.parseInt(betField.getText()));
-            CoinBalance.balance = BlackjackLogic.payoutCalculator();
-
             wasClicked = false;
             winLoseOutcome.setText(" ");
             BlackjackLogic.set();
