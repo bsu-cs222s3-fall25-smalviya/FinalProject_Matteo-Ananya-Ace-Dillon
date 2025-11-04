@@ -47,10 +47,16 @@ public class BlackjackView extends BorderPane {
         TextArea winLoseOutcome = new TextArea("");
         winLoseOutcome.setEditable(false);
 
+        TextField betField = new TextField("");
+        betField.setPromptText("Place bet here...");
+
         // ----------------------------------------------
 
         Button set = new Button("New Round");
         set.setOnAction(_ -> {
+            BlackjackLogic.setBet(Integer.parseInt(betField.getText()));
+            CoinBalance.balance = BlackjackLogic.payoutCalculator();
+
             wasClicked = false;
             winLoseOutcome.setText(" ");
             BlackjackLogic.set();
@@ -87,6 +93,7 @@ public class BlackjackView extends BorderPane {
                 hit.setDisable(true);
                 stand.setDisable(true);
             }
+            BlackjackLogic.payoutCalculator();
         });
 
         Label dealerLabel = new Label("Dealer:");
@@ -126,7 +133,8 @@ public class BlackjackView extends BorderPane {
                 hit.setDisable(true);
                 stand.setDisable(true);
             }
-
+            BlackjackLogic.payoutCalculator();
+            System.out.println(BlackjackLogic.balance);
         });
 
         stand.setOnAction(_ -> {
@@ -172,6 +180,7 @@ public class BlackjackView extends BorderPane {
             } else {
                 set.setDisable(false);
             }
+            BlackjackLogic.payoutCalculator();
         });
 
         HBox buttonRow = new HBox(10, hit, stand);
@@ -180,7 +189,7 @@ public class BlackjackView extends BorderPane {
         titleBar.setAlignment(Pos.CENTER);
         titleBar.setPadding(new Insets(0));
 
-        VBox bettingArea = new VBox(15, set, dealerLabel, dealerOutput, playerLabel, playerOutput, buttonRow, matchOutcome, winLoseOutcome);
+        VBox bettingArea = new VBox(15, set, dealerLabel, dealerOutput, playerLabel, playerOutput, buttonRow, matchOutcome, winLoseOutcome, betField);
         bettingArea.setAlignment(Pos.CENTER);
         bettingArea.setPadding(new Insets(0));
         VBox.setMargin(bettingArea, Insets.EMPTY);

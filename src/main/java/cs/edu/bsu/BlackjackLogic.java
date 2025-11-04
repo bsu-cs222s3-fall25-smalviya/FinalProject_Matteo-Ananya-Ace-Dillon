@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class BlackjackLogic {
+    static long balance = CoinBalance.getBalance();
     static Random random = new Random();
     static int randomCard = 0;
     static int randomIndex = 0;
@@ -25,6 +26,9 @@ public class BlackjackLogic {
 
     static boolean push = false; // tie (get money back)
 
+    //static int payout = 0;
+    static int currentBet = 0;
+
     static List<Integer> values = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11);
 
     static ArrayList<Integer> dealerHand = new ArrayList<>();
@@ -32,6 +36,9 @@ public class BlackjackLogic {
 
     static boolean newMatch = true;
 
+    public static void setBet(int bet) {
+        currentBet = bet;
+    }
 
     public static void set() {
         resetFlags();
@@ -150,5 +157,18 @@ public class BlackjackLogic {
         dealerRegularWin = false;
 
         push = false;
+    }
+
+    public static long payoutCalculator() {
+        if (playerBlackjack) {
+            balance = currentBet * 3L;
+        } else if (playerRegularWin || dealerBust) {
+            balance = currentBet * 2L;
+        } else if (dealerRegularWin || playerBust || dealerBlackjack) {
+            balance -= currentBet;
+        } else {
+            balance += currentBet;
+        }
+        return balance;
     }
 }

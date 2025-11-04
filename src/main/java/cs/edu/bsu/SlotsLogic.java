@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class SlotsLogic {
-    static Random rand = new Random();
     static long balance = CoinBalance.getBalance();
+    static Random rand = new Random();
     static int currentBet = 0;
 
     static String[] symbols = {"🍒", "🍋", "🍊", "🔔", "💎", "⑦"};
