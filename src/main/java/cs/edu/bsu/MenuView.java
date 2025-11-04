@@ -117,15 +117,17 @@ public class MenuView extends BorderPane {
                 return;
             }
 
-            // Deduct coins from global balance
+
             CoinBalance.balance -= amount;
 
-            // (Optional) You can store the amount in the game logic class if needed
-            // Example: WarLogic.setStartingCoins(amount);
+
+            CoinBalance.setGameBalance(amount);
+
 
             startGameAction.run();
 
-        } catch (NumberFormatException e) {
+
+        } catch (NumberFormatException error) {
             showError("Please enter a valid number.");
         }
     }

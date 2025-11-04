@@ -16,7 +16,7 @@ public class WarView extends BorderPane {
     private final Label playerCardLabel = new Label("You: —");
     private final Label dealerCardLabel = new Label("Dealer: —");
     private final Label outcomeLabel = new Label("Place a bet and press PLAY");
-    private final Label coinsLabel = new Label("MAAD Coins: " + CoinBalance.getBalance());
+    private final Label coinsLabel = new Label("MAAD Coins: " + CoinBalance.gameBalance);
 
     public WarView() {
         Label title = new Label("🛡️️ War 🛡️");
@@ -58,7 +58,11 @@ public class WarView extends BorderPane {
 
         Button backBtn = new Button("Return to Menu");
         backBtn.getStyleClass().add("red");
-        backBtn.setOnAction(_ -> getScene().setRoot(new MenuView()));
+        backBtn.setOnAction(_ -> {
+            CoinBalance.balance += CoinBalance.gameBalance;
+            CoinBalance.gameBalance = 0;
+            getScene().setRoot(new MenuView());
+        });
 
         HBox bottomBar = new HBox(backBtn);
         bottomBar.setAlignment(Pos.CENTER);
@@ -86,13 +90,17 @@ public class WarView extends BorderPane {
             outcomeLabel.setText("Bet must be greater than 0.");
             return;
         }
+        if (bet > CoinBalance.gameBalance){
+            outcomeLabel.setText("Not enough MAAD coins!");
+            return;
+        }
 
         WarLogic.RoundResult result = war.playRound(bet);
 
         playerCardLabel.setText("You: " + WarLogic.cardToString(result.playerCard));
         dealerCardLabel.setText("Dealer: " + WarLogic.cardToString(result.dealerCard));
         outcomeLabel.setText(result.summary(bet));
-        coinsLabel.setText("MAAD Coins: " + CoinBalance.getBalance());
+        coinsLabel.setText("MAAD Coins: " + CoinBalance.gameBalance);
 
 
     }
