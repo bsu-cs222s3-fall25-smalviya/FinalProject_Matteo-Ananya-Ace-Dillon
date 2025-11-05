@@ -86,15 +86,14 @@ public class HorseRaceLogic {
                 default -> multiplier = 1.5;
             }
             coinsWon = (int) Math.round(currentBet * multiplier);
-            // bet already removed earlier, so we just add winnings
-            CoinBalance.balance += coinsWon;
+            CoinBalance.gameBalance += coinsWon;
         } else {
             coinsWon = 0;
         }
     }
 
     public static long getUpdatedBalance() {
-        return CoinBalance.getBalance();
+        return CoinBalance.getGameBalance();
     }
 
     public static double[] getPositions() {

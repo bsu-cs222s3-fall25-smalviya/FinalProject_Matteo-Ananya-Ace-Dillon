@@ -38,7 +38,7 @@ public class HorseRaceView extends BorderPane {
         title.setFont(Font.font("Bitcount Grid Single", 32));
         title.setTextFill(Color.web("#FFD700"));
 
-        balanceLabel = new Label("Balance: " + CoinBalance.getBalance());
+        balanceLabel = new Label("Balance: " + CoinBalance.gameBalance);
         balanceLabel.setTextFill(Color.WHITE);
         balanceLabel.setFont(Font.font("digital-7 (mono italic)", 24));
 
@@ -115,6 +115,9 @@ public class HorseRaceView extends BorderPane {
             if (timeline != null) {
                 timeline.stop();
             }
+
+            CoinBalance.balance+= CoinBalance.gameBalance;
+            CoinBalance.gameBalance = 0;
             MenuView menuView = new MenuView();
             this.getScene().setRoot(menuView);
         });
@@ -149,7 +152,7 @@ public class HorseRaceView extends BorderPane {
             return;
         }
 
-        long currentBalance = CoinBalance.getBalance();
+        long currentBalance = CoinBalance.gameBalance;
         if (betAmount > currentBalance) {
             statusLabel.setText("You don't have enough balance.");
             return;
@@ -163,8 +166,8 @@ public class HorseRaceView extends BorderPane {
 
         int chosenIndex = choice - 1;
 
-        CoinBalance.balance -= betAmount;
-        balanceLabel.setText("Balance: " + CoinBalance.getBalance());
+        CoinBalance.gameBalance -= betAmount;
+        balanceLabel.setText("Balance: " + CoinBalance.gameBalance);
 
         HorseRaceLogic.setBet(betAmount);
         HorseRaceLogic.setChosenHorse(chosenIndex);
