@@ -1,11 +1,10 @@
 # MAAD CASINO
-## CS222 Final Project
+### CS222 Final Project
 
 Hi, this is the Final Project for team C3, the **best team**!
 
 Welcome to **MAAD Casino**! An arcade style app with a selection
 of five arcade-style games to try out your luck!
-
 <br>
 
 ### Games
@@ -43,41 +42,41 @@ Horse betting game we're you bet coins on the horse you think will win the race.
 
 ## UPDATE LOG:
 
-### 10/15: 
+#### 10/15: 
 * We brainstormed the beginning of the project and started working on the MainView class and MainApp class. 
 * We also discussed the upcoming classes to add in regard to the CRC cards we have.
 
-### 10/21: 
+#### 10/21: 
 * Commited classes MainApp.java and MenuView.java. 
 * Added a text file for app standards. 
 * Added a test class for War.
 
-### 10/27: 
+#### 10/27: 
 * Commited updates to MainApp.Java, WarLogic.Java and WarView.java. 
 * Fixed the issue of the CSS styling not persisting when selecting "Back to Menu" while playing War.
 * Finished Slots logic and GUI design.
 * Added CoinBalance.java for system-wide player balance that saves throughout each game.
 
-### 10/28:
+#### 10/28:
 * Finished test classes for Slots and War.
 * Updated War GUI.
 * Removed unnecessary classes for the time being.
 * Fixed Menu button layout.
 * Added a MenuTest.java Test class.
 
-### 10/31:
+#### 10/31:
 * Added BlackjackLogic.java, BlackjackView.java, and BlackjackTest.java.
 
-### 11/3:
+#### 11/3:
 * Added HorseRaceLogic and HorseRaceView.
 * Created Roulette Logic and View.
 * Updates to Blackjack, Horse Racing, Roulette.
 
-### 11/4:
+#### 11/4:
 * Updates to Blackjack, Roulette.
 * CoinBalance update.
 * Local game balance now works. Take a set amount of MAAD Coins from your bank, and use it for betting.
 
-### 11/5:
+#### 11/5:
 * Finished Blackjack gameplay.
 * Removed game coming soon message.
