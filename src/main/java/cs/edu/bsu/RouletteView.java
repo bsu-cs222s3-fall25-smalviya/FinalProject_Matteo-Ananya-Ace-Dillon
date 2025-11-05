@@ -7,15 +7,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+
 public class RouletteView extends BorderPane {
 
     private RouletteLogic rouletteLogic = new RouletteLogic();
 
-    private Label balanceLabel = new Label("MAAD Coins: " + CoinBalance.getBalance());
+    private Label balanceLabel = new Label("MAAD Coins: " + CoinBalance.getGameBalance());
     private TextField betAmountField = new TextField();
     private ChoiceBox<RouletteLogic.BetType> betTypeChoiceBox = new ChoiceBox<>();
     private TextField chosenNumberField = new TextField();
-    private Label resultLabel = new Label("Choose were to lose your money.");
+    private Label resultLabel = new Label("Choose where to lose your money.");
 
     public RouletteView() {
         Label titleLabel = new Label("Roulette");
@@ -55,7 +56,11 @@ public class RouletteView extends BorderPane {
         spinButton.setOnAction(event -> spinWheelAction());
 
         Button backButton = new Button("Return to Menu");
-        backButton.setOnAction(event -> getScene().setRoot(new MenuView()));
+        backButton.setOnAction(event -> {
+                CoinBalance.balance += CoinBalance.gameBalance;
+                CoinBalance.gameBalance = 0;
+                getScene().setRoot(new MenuView());
+                });
 
         HBox inputRow = new HBox(10,
                 new Label("Bet Type:"), betTypeChoiceBox,
@@ -114,6 +119,6 @@ public class RouletteView extends BorderPane {
         );
 
         resultLabel.setText(roundResult.getSummary());
-        balanceLabel.setText("MAAD Coins: " + CoinBalance.getBalance());
+        balanceLabel.setText("MAAD Coins: " + CoinBalance.getGameBalance());
     }
 }

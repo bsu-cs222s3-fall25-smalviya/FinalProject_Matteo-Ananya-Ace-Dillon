@@ -60,11 +60,11 @@ public class RouletteLogic {
     }
 
     public RoundResult playRound(BetType betType, int chosenNumber, int betAmount) {
-        if (betAmount <= 0 || betAmount > CoinBalance.getBalance()) {
+        if (betAmount <= 0 || betAmount > CoinBalance.getGameBalance()) {
             return new RoundResult(-1, "INVALID", betType, chosenNumber, betAmount, 0);
         }
 
-        CoinBalance.balance -= betAmount;
+        CoinBalance.gameBalance -= betAmount;
 
         int rolledNumber = spinWheel();
         String rolledColor = getColor(rolledNumber);
@@ -76,7 +76,7 @@ public class RouletteLogic {
         int netGain = 0;
         if (playerWon) {
             int totalPayout = betAmount * (payoutMultiplier + 1);
-            CoinBalance.balance += totalPayout;
+            CoinBalance.gameBalance += totalPayout;
             netGain = totalPayout - betAmount;
         }
 
