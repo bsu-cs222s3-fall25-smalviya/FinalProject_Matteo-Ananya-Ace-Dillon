@@ -24,7 +24,7 @@ public final class WarLogic {
     }
 
     public RoundResult playRound(int bet) {
-        if (bet > CoinBalance.getBalance()) {
+        if (bet > CoinBalance.gameBalance) {
             return new RoundResult(0, 0, Outcome.INVALID);
         }
 
