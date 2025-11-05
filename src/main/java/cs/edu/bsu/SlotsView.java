@@ -63,7 +63,7 @@ public class SlotsView extends BorderPane {
             }
 
             SlotsLogic.payout();
-            long newBalance= CoinBalance.gameBalance;
+            long newBalance = CoinBalance.gameBalance;
 
             String symbols = SlotsLogic.spinResults();
 
@@ -156,7 +156,7 @@ public class SlotsView extends BorderPane {
             activeButton = hundredCoin;
         });
 
-        Button back = new Button("Return to Menu");
+        Button back = new Button("Back to Menu");
         back.getStyleClass().add("red");
         back.setOnAction(_ -> {
             CoinBalance.balance += CoinBalance.gameBalance;

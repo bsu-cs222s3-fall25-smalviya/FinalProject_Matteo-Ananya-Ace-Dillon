@@ -56,8 +56,18 @@ the 50/50 bets (Even-Odd and Red-Black) will pay 1:1 and a correct number guess 
 * Added a MenuTest.java Test class.
 
 10/31:
-* Added BlackjackLogic.java
+* Added BlackjackLogic.java, BlackjackView.java, and BlackjackTest.java.
 
 11/3:
-* Added HorseRaceLogic and HorseRaceView
-* Created Roulette Logic and View
+* Added HorseRaceLogic and HorseRaceView.
+* Created Roulette Logic and View.
+* Updates to Blackjack, Horse Racing, Roulette.
+
+11/4:
+* Updates to Blackjack, Roulette.
+* CoinBalance update.
+* Local game balance now works. Take a set amount of MAAD Coins from your bank, and use it for betting.
+
+11/5:
+* Finished Blackjack gameplay.
+* Removed game coming soon message.

@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Random;
 
 public class BlackjackLogic {
-    static long balance = CoinBalance.getBalance();
     static Random random = new Random();
+
+    static int currentBet = 0;
+    static long coinsWon = 0;
+
     static int randomCard = 0;
     static int randomIndex = 0;
-
-    static boolean hit = false; // draw another card
-    static boolean stand = false; // stop taking cards
-    static boolean doubleDown = false; // double bet by 2x and take a card
+    static int dealersSecondCard = 0;
 
     static boolean dealerRegularWin = false; // win from beating the player
     static boolean playerRegularWin = false; // win from beating the dealer (1:1 payout)
@@ -26,35 +26,38 @@ public class BlackjackLogic {
 
     static boolean push = false; // tie (get money back)
 
-    //static int payout = 0;
-    static int currentBet = 0;
-
     static List<Integer> values = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11);
-
     static ArrayList<Integer> dealerHand = new ArrayList<>();
     static ArrayList<Integer> playerHand = new ArrayList<>();
 
-    static boolean newMatch = true;
+    public static void set() {
+        if (currentBet <= CoinBalance.gameBalance) {
+            CoinBalance.gameBalance -= currentBet;
+            System.out.println("set " + currentBet);
+            System.out.println("game balance " + CoinBalance.gameBalance);
+            resetFlags();
+            dealerHand.clear();
+            playerHand.clear();
+            setDealerCards();
+            setPlayerCards();
+            blackjackOutcome();
+        }
+    }
 
     public static void setBet(int bet) {
         currentBet = bet;
-    }
-
-    public static void set() {
-        resetFlags();
-        dealerHand.clear();
-        playerHand.clear();
-        setDealerCards();
-        setPlayerCards();
-        blackjackOutcome();
+        System.out.println("setBet " + currentBet);
     }
 
     public static void setDealerCards() {
-        for (int i = 0; i < 2; i++) {
-            randomIndex = random.nextInt(values.size());
-            randomCard = values.get(randomIndex);
-            dealerHand.add(randomCard);
-        }
+        randomIndex = random.nextInt(values.size());
+        randomCard = values.get(randomIndex);
+        dealerHand.add(randomCard);
+
+        randomIndex = random.nextInt(values.size());
+        randomCard = values.get(randomIndex);
+        dealersSecondCard = randomCard;
+
         blackjackOutcome();
     }
 
@@ -67,25 +70,22 @@ public class BlackjackLogic {
         blackjackOutcome();
     }
 
-
     public static void playerHit() {
         randomIndex = random.nextInt(values.size());
         randomCard = values.get(randomIndex);
         playerHand.add(randomCard);
         totalValueCalculatorPlayer();
-        pushOutcome();
-        win();
     }
 
-    public static void dealerHit() {
+    public static void dealerHit(boolean wasClicked) {
         while (totalValueCalculatorDealer() < 17) {
             int randomIndex = random.nextInt(values.size());
             int randomCard = values.get(randomIndex);
             dealerHand.add(randomCard);
             totalValueCalculatorDealer();
-            pushOutcome();
-            win();
         }
+        pushOutcome(wasClicked);
+        win(wasClicked);
     }
 
     public static int totalValueCalculatorPlayer() {
@@ -124,8 +124,9 @@ public class BlackjackLogic {
         return totalValue;
     }
 
-    public static void pushOutcome() {
-        if ((totalValueCalculatorDealer() == totalValueCalculatorPlayer()) && BlackjackView.wasClicked) {
+    public static void pushOutcome(boolean wasClicked) {
+        if (dealerHand.size() >= 2 && playerHand.size() >= 2 &&
+                totalValueCalculatorDealer() == totalValueCalculatorPlayer()) {
             push = true;
         }
     }
@@ -138,11 +139,16 @@ public class BlackjackLogic {
         }
     }
 
-    public static void win() {
-        if ((totalValueCalculatorDealer() > totalValueCalculatorPlayer()) && BlackjackView.wasClicked) {
-            dealerRegularWin = true;
-        } else if ((totalValueCalculatorDealer() < totalValueCalculatorPlayer()) && BlackjackView.wasClicked) {
-            playerRegularWin = true;
+    public static void win(boolean wasClicked) {
+        if (dealerHand.size() >= 2 && playerHand.size() >= 2) {
+            int dealerTotal = totalValueCalculatorDealer();
+            int playerTotal = totalValueCalculatorPlayer();
+
+            if (dealerTotal > playerTotal && dealerTotal <= 21) {
+                dealerRegularWin = true;
+            } else if (playerTotal > dealerTotal && playerTotal <= 21) {
+                playerRegularWin = true;
+            }
         }
     }
 
@@ -159,16 +165,17 @@ public class BlackjackLogic {
         push = false;
     }
 
-    public static long payoutCalculator() {
+    public static void payoutCalculator() {
         if (playerBlackjack) {
-            balance = currentBet * 3L;
+            coinsWon = (long) (currentBet * 3.5);
         } else if (playerRegularWin || dealerBust) {
-            balance = currentBet * 2L;
-        } else if (dealerRegularWin || playerBust || dealerBlackjack) {
-            balance -= currentBet;
+            coinsWon = (long) (currentBet * 2.5);
+        } else if (push) {
+            coinsWon = currentBet;
         } else {
-            balance += currentBet;
+            coinsWon = 0;
         }
-        return balance;
+
+        CoinBalance.gameBalance += coinsWon;
     }
 }

@@ -2,10 +2,7 @@ package cs.edu.bsu;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import java.util.Optional;
@@ -86,50 +83,57 @@ public class MenuView extends BorderPane {
         return btn;
     }
 
-    private void showInfo(String msg) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Message from the Devs:");
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
-    }
-
-
     private void promptCoinAmountAndStartGame(String gameName, Runnable startGameAction) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Bring Coins");
         dialog.setHeaderText("Enter the number of MAAD Coins you want to bring into " + gameName);
         dialog.setContentText("Coins:");
 
+        ButtonType maxCoins = new ButtonType("Max");
+        ButtonType confirm = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().setAll(maxCoins, confirm, cancel);
+
+        dialog.setResultConverter(button -> {
+            if (button == maxCoins) return "max";
+            if (button == confirm) return dialog.getEditor().getText();
+            return null;
+        });
+
+
         Optional<String> result = dialog.showAndWait();
         if (result.isEmpty()) {
-            return; // user canceled
+            return;
         }
 
-        try {
-            int amount = Integer.parseInt(result.get().trim());
-            if (amount <= 0) {
-                showError("Please enter a positive number of coins.");
-                return;
-            }
-            if (amount > CoinBalance.balance) {
-                showError("You don't have enough MAAD Coins!");
-                return;
-            }
+        String input = result.get().trim();
+        long amount;
 
+        if (input.equalsIgnoreCase("max")) {
+            amount = CoinBalance.balance;
+        } else {
+            try {
+                amount = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                showError("Please enter a valid number.");
+                return;
+            }
+        }
+
+        if (amount <= 0) {
+            showError("Please enter a positive number of coins.");
+            return;
+        }
+        if (amount > CoinBalance.balance) {
+            showError("You don't have enough MAAD Coins...");
+            return;
+        }
 
             CoinBalance.balance -= amount;
 
-
             CoinBalance.setGameBalance(amount);
 
-
             startGameAction.run();
-
-
-        } catch (NumberFormatException error) {
-            showError("Please enter a valid number.");
-        }
     }
 
     private void showError(String message) {

@@ -56,7 +56,7 @@ public class WarView extends BorderPane {
         dealerCardLabel.getStyleClass().add("card-text");
         outcomeLabel.getStyleClass().add("outcome-text");
 
-        Button backBtn = new Button("Return to Menu");
+        Button backBtn = new Button("Back to Menu");
         backBtn.getStyleClass().add("red");
         backBtn.setOnAction(_ -> {
             CoinBalance.balance += CoinBalance.gameBalance;

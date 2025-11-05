@@ -5,16 +5,17 @@ import java.util.Map;
 import java.util.Random;
 
 public class SlotsLogic {
-
     static Random rand = new Random();
+
     static int currentBet = 0;
+    static int coinsWon = 0;
 
     static String[] symbols = {"🍒", "🍋", "🍊", "🔔", "💎", "⑦"};
     static String[] words = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
 
     private static final double[] getMultipler2 = {1.0, 1.5, 2.0, 2.5, 3.5, 5.0};
-
     private static final double[] getMultipler3 = {2.0, 2.5, 3.0, 4.5, 5.0, 100.0};
+    static String matchedSymbol = null;
 
     static String symbol1;
     static String symbol2;
@@ -25,9 +26,6 @@ public class SlotsLogic {
     static int item1;
     static int item2;
     static int item3;
-
-    static int coinsWon = 0;
-    static String matchedSymbol = null;
 
     static boolean sufficientBalance = true;
 
@@ -72,11 +70,7 @@ public class SlotsLogic {
         currentBet = bet;
     }
 
-    public static long payout() {
-        if (symbol1 == null || symbol2 == null || symbol3 == null) {
-            return CoinBalance.gameBalance;
-        }
-
+    public static void payout() {
         if (item1 == item2 && item1 == item3) { // three match
             coinsWon = (int) (currentBet * getMultipler3[item1]);
         } else if (item1 == item2 || item1 == item3) { // two match
@@ -88,7 +82,6 @@ public class SlotsLogic {
         }
 
         CoinBalance.gameBalance += coinsWon;
-        return CoinBalance.gameBalance;
     }
 
     public static String spinResults() {

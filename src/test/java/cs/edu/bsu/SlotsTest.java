@@ -8,9 +8,9 @@ public class SlotsTest {
     @Test
     void testSpinReturnsTrueWhenBalanceSufficient() {
         SlotsLogic.setBet(5);
-        SlotsLogic.balance = 500;
+        CoinBalance.gameBalance = 500;
         System.out.println("DEBUG currentBet: " + SlotsLogic.currentBet);
-        System.out.println("DEBUG balance: " + SlotsLogic.balance);
+        System.out.println("DEBUG balance: " + CoinBalance.gameBalance);
         boolean result = SlotsLogic.spin();
         System.out.println("DEBUG spin returned" + result);
         assertTrue(result);
@@ -19,7 +19,7 @@ public class SlotsTest {
     @Test
     void testSpinReturnsFalseWhenBalanceInsufficient() {
         SlotsLogic.setBet(99999);
-        SlotsLogic.balance = 500;
+        CoinBalance.gameBalance = 500;
         boolean result = SlotsLogic.spin();
         assertFalse(result);
     }
@@ -27,7 +27,7 @@ public class SlotsTest {
     @Test
     void testSpinSetsSymbols() {
         SlotsLogic.setBet(10);
-        SlotsLogic.balance = 500;
+        CoinBalance.gameBalance = 500;
         SlotsLogic.spin();
         assertNotNull(SlotsLogic.symbol1);
         assertNotNull(SlotsLogic.symbol2);
