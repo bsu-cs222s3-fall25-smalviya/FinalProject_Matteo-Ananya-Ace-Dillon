@@ -178,4 +178,10 @@ public class BlackjackLogic {
 
         CoinBalance.gameBalance += coinsWon;
     }
+
+    public static void doubleDownCalculator() {
+        currentBet *= 2;
+        CoinBalance.gameBalance -= currentBet;
+        playerHit();
+    }
 }

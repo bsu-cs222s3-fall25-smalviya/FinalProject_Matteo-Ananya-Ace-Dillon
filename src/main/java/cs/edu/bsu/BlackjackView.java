@@ -33,12 +33,15 @@ public class BlackjackView extends BorderPane {
         Label matchOutcome = new Label("");
         Button hit = new Button("Hit");
         Button stand = new Button("Stand");
+        Button doubleDown = new Button ("Double Down");
 
         hit.setDisable(true);
         stand.setDisable(true);
+        doubleDown.setDisable(true);
 
         TextArea winLoseOutcome = new TextArea("");
         winLoseOutcome.setEditable(false);
+        winLoseOutcome.setPrefSize(100, 100);
 
         TextField betField = new TextField("");
         betField.setPromptText("Place bet here...");
@@ -63,6 +66,7 @@ public class BlackjackView extends BorderPane {
             set.setDisable(true);
             hit.setDisable(false);
             stand.setDisable(false);
+            doubleDown.setDisable(false);
             dealerOutput.setText("[" + BlackjackLogic.dealerHand.getFirst() + ", ?]");
             playerOutput.setText(String.valueOf(BlackjackLogic.playerHand));
             matchOutcome.setText("Dealer Hand: ?" + "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
@@ -73,12 +77,14 @@ public class BlackjackView extends BorderPane {
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else if (BlackjackLogic.dealerBlackjack && BlackjackLogic.playerBlackjack) {
                 System.out.println("set: both get blackjack\n" + true);
                 winLoseOutcome.setText("Both of you got a Blackjack...\nits a tie");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
                 BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
                 dealerOutput.setText("" + BlackjackLogic.dealerHand);
             } else if (BlackjackLogic.dealerBlackjack) {
@@ -87,12 +93,14 @@ public class BlackjackView extends BorderPane {
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else if (BlackjackLogic.playerBlackjack) {
                 System.out.println("player blackjack\n" + true);
                 winLoseOutcome.setText("You got a Blackjack...\nyou win!");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
                 BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
                 dealerOutput.setText("" + BlackjackLogic.dealerHand);
             }
@@ -107,15 +115,17 @@ public class BlackjackView extends BorderPane {
         Label playerLabel = new Label("Player:");
         playerOutput.setEditable(false);
 
-        hit.setOnAction(_ -> {
-            BlackjackLogic.playerHit();
-            playerOutput.setText(" | " + BlackjackLogic.playerHand);
+        doubleDown.setOnAction(_ -> {
+            BlackjackLogic.doubleDownCalculator();
+            dealerOutput.setText("[" + BlackjackLogic.dealerHand.getFirst() + ", ?]");
+            playerOutput.setText(String.valueOf(BlackjackLogic.playerHand));
             matchOutcome.setText("Dealer Hand: ?" + "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
             if (BlackjackLogic.playerBust) {
                 System.out.println("hit: player bust\n" + true);
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
                 winLoseOutcome.setText("You got a bust...\nyou lose");
                 BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
                 dealerOutput.setText("" + BlackjackLogic.dealerHand);
@@ -127,20 +137,67 @@ public class BlackjackView extends BorderPane {
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else if (BlackjackLogic.playerRegularWin) {
                 System.out.println("hit: player win\n" + true);
                 winLoseOutcome.setText("You have more than the dealer...\nyou win!");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else if (BlackjackLogic.dealerRegularWin) {
                 System.out.println("hit: dealer win\n" + true);
                 winLoseOutcome.setText("The dealer has more...\nyou lose");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else if (BlackjackLogic.totalValueCalculatorPlayer() == 21) {
                 hit.setDisable(true);
+                doubleDown.setDisable(true);
+            }
+            BlackjackLogic.payoutCalculator();
+        });
+
+        hit.setOnAction(_ -> {
+            BlackjackLogic.playerHit();
+            playerOutput.setText(" | " + BlackjackLogic.playerHand);
+            matchOutcome.setText("Dealer Hand: ?" + "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
+            if (BlackjackLogic.playerBust) {
+                System.out.println("hit: player bust\n" + true);
+                set.setDisable(false);
+                hit.setDisable(true);
+                stand.setDisable(true);
+                doubleDown.setDisable(true);
+                winLoseOutcome.setText("You got a bust...\nyou lose");
+                BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
+                dealerOutput.setText("" + BlackjackLogic.dealerHand);
+                matchOutcome.setText("Dealer Hand: " + BlackjackLogic.totalValueCalculatorDealer() +
+                        "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
+            } else if (BlackjackLogic.push) {
+                System.out.println("hit: push\n" + true);
+                winLoseOutcome.setText("Round got pushed...\nit's a tie");
+                set.setDisable(false);
+                hit.setDisable(true);
+                stand.setDisable(true);
+                doubleDown.setDisable(true);
+            } else if (BlackjackLogic.playerRegularWin) {
+                System.out.println("hit: player win\n" + true);
+                winLoseOutcome.setText("You have more than the dealer...\nyou win!");
+                set.setDisable(false);
+                hit.setDisable(true);
+                stand.setDisable(true);
+                doubleDown.setDisable(true);
+            } else if (BlackjackLogic.dealerRegularWin) {
+                System.out.println("hit: dealer win\n" + true);
+                winLoseOutcome.setText("The dealer has more...\nyou lose");
+                set.setDisable(false);
+                hit.setDisable(true);
+                stand.setDisable(true);
+                doubleDown.setDisable(true);
+            } else if (BlackjackLogic.totalValueCalculatorPlayer() == 21) {
+                hit.setDisable(true);
+                doubleDown.setDisable(true);
             }
             BlackjackLogic.payoutCalculator();
             long newBalance = CoinBalance.getGameBalance();
@@ -151,6 +208,7 @@ public class BlackjackView extends BorderPane {
             set.setDisable(true);
             hit.setDisable(true);
             stand.setDisable(true);
+            doubleDown.setDisable(true);
             BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
             BlackjackLogic.dealerHit(true);
 
@@ -164,30 +222,35 @@ public class BlackjackView extends BorderPane {
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else if (BlackjackLogic.dealerBust) {
                 System.out.println("stand: dealer bust\n" + true);
                 winLoseOutcome.setText("The dealer got a bust...\nyou win!");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else if (BlackjackLogic.push) {
                 System.out.println("stand: push\n" + true);
                 winLoseOutcome.setText("Round got pushed...\nit's a tie");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else if (BlackjackLogic.playerRegularWin) {
                 System.out.println("stand: player win\n" + true);
                 winLoseOutcome.setText("You have more than the dealer...\nyou win!");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else if (BlackjackLogic.dealerRegularWin) {
                 System.out.println("stand: dealer win\n" + true);
                 winLoseOutcome.setText("The dealer has more...\nyou lose");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
+                doubleDown.setDisable(true);
             } else {
                 set.setDisable(false);
             }
@@ -196,7 +259,7 @@ public class BlackjackView extends BorderPane {
             coins.setText("MAAD Coins: " + newBalance);
         });
 
-        HBox buttonRow = new HBox(10, hit, stand);
+        HBox buttonRow = new HBox(10, hit, stand, doubleDown);
 
         VBox titleBar = new VBox(15, title, statusBar);
         titleBar.setAlignment(Pos.CENTER);

@@ -26,15 +26,21 @@ the 50/50 bets (Even-Odd and Red-Black) will pay 1:1 and a correct number guess 
 **Blackjack:**
 Based on skill and luck, you have to beat the Dealer without going over 21. Input your bet amount, and start a new round.
 Each round, the Player and the Dealer each get two cards. However, the Dealer's second card is hidden until after you stand.
-Press the **Hit** button to draw another card. You want to have a higher hand than the Dealer, but be careful on not 
-going over 21. Press the **Stand** button to finish your turn. After you stand, the Dealer will go next, revealing his 
-second card. The Dealer has to keep drawing cards if his deck is under 17. Once the Dealer goes 17 or beyond, the round ends.
+Press the **Hit** button to draw another card. Press the **Stand** button to finish your turn. Press the **Double Down**
+button to double your bet, which makes you take another card.
 
 **Horse Racing:**
 Horse betting game we're you bet coins on the horse you think will win the race.
 
 ## Programmers & Designers:
-**M**atteo B., **A**nanya S., **A**ce S., **D**illon J.
+### M
+atteo B., 
+### A
+nanya S.,
+### A
+ce S.,
+### D
+illon J.
 
 === **M.A.A.D.** ===
 
@@ -80,3 +86,5 @@ Horse betting game we're you bet coins on the horse you think will win the race.
 #### 11/5:
 * Finished Blackjack gameplay.
 * Removed game coming soon message.
+* Added the Double Down function to Blackjack.
+* Finished each game balance budget.
