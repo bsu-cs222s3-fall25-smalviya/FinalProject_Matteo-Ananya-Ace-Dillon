@@ -68,6 +68,7 @@ public class BlackjackView extends BorderPane {
             stand.setDisable(false);
             doubleDown.setDisable(false);
             dealerOutput.setText("[" + BlackjackLogic.dealerHand.getFirst() + ", ?]");
+            BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
             playerOutput.setText(String.valueOf(BlackjackLogic.playerHand));
             matchOutcome.setText("Dealer Hand: ?" + "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
 
@@ -78,17 +79,9 @@ public class BlackjackView extends BorderPane {
                 hit.setDisable(true);
                 stand.setDisable(true);
                 doubleDown.setDisable(true);
-            } else if (BlackjackLogic.dealerBlackjack && BlackjackLogic.playerBlackjack) {
-                System.out.println("set: both get blackjack\n" + true);
-                winLoseOutcome.setText("Both of you got a Blackjack...\nits a tie");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
-                BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
-                dealerOutput.setText("" + BlackjackLogic.dealerHand);
             } else if (BlackjackLogic.dealerBlackjack) {
                 System.out.println("dealer blackjack\n" + true);
+                dealerOutput.setText("" + BlackjackLogic.dealerHand);
                 winLoseOutcome.setText("Dealer got a Blackjack...\nyou lose");
                 set.setDisable(false);
                 hit.setDisable(true);
