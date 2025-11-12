@@ -33,7 +33,7 @@ button to double your bet, which makes you take another card.
 Horse betting game we're you bet coins on the horse you think will win the race.
 
 ## Programmers & Designers:
-### Matteo B., ### Ananya S.,### Ace S.,### Dillon J.
+### Matteo B. | Ananya S. | Ace S. | Dillon J.
 
 === **M.A.A.D.** ===
 
