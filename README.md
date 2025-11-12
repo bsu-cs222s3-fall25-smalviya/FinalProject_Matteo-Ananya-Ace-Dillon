@@ -33,14 +33,7 @@ button to double your bet, which makes you take another card.
 Horse betting game we're you bet coins on the horse you think will win the race.
 
 ## Programmers & Designers:
-### M
-atteo B., 
-### A
-nanya S.,
-### A
-ce S.,
-### D
-illon J.
+### Matteo B., ### Ananya S.,### Ace S.,### Dillon J.
 
 === **M.A.A.D.** ===
 
@@ -88,3 +81,6 @@ illon J.
 * Removed game coming soon message.
 * Added the Double Down function to Blackjack.
 * Finished each game balance budget.
+
+#### 11/12:
+* Finished Roulette test class.
