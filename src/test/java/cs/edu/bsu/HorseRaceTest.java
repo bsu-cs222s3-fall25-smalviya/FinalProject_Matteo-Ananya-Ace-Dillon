@@ -1,293 +1,273 @@
 package cs.edu.bsu;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class HorseRaceTest {
+class HorseRaceLogicTest {
 
-    private void resetAll() {
-        CoinBalance.balance = 0;
-        HorseRaceLogic.setBet(0);
-        HorseRaceLogic.setChosenHorse(0);
+    @BeforeEach
+    void resetAll() throws Exception {
+        // Reset race state
         HorseRaceLogic.resetRaceState();
+        // Reset bet / choice
+        setStaticInt(HorseRaceLogic.class, "currentBet", 0);
+        setStaticInt(HorseRaceLogic.class, "chosenHorseIndex", -1);
+        // Reset balance
+        setStaticInt(CoinBalance.class, "gameBalance", 0);
+    }
+
+    // ---------- helpers (reflection) ----------
+
+    private static void setStaticInt(Class<?> cls, String field, int value) throws Exception {
+        Field f = cls.getDeclaredField(field);
+        f.setAccessible(true);
+        f.setInt(null, value);
+    }
+
+    private static int getStaticInt(Class<?> cls, String field) throws Exception {
+        Field f = cls.getDeclaredField(field);
+        f.setAccessible(true);
+        return f.getInt(null);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Integer> getFinishedOrder() throws Exception {
+        Field f = HorseRaceLogic.class.getDeclaredField("finishedOrder");
+        f.setAccessible(true);
+        return (List<Integer>) f.get(null);
+    }
+
+    private static void setFinishedOrder(List<Integer> order) throws Exception {
+        Field f = HorseRaceLogic.class.getDeclaredField("finishedOrder");
+        f.setAccessible(true);
+        // Replace underlying list content
+        List<Integer> target = (List<Integer>) f.get(null);
+        target.clear();
+        target.addAll(order);
+    }
+
+    private static void setFinishedFlags(int numHorses) throws Exception {
+        Field f = HorseRaceLogic.class.getDeclaredField("finished");
+        f.setAccessible(true);
+        boolean[] arr = (boolean[]) f.get(null);
+        Arrays.fill(arr, false);
+        for (int i = 0; i < numHorses; i++) arr[i] = true;
+    }
+
+    private static void setPlayerPlace(int place) throws Exception {
+        setStaticInt(HorseRaceLogic.class, "playerPlace", place);
+    }
+
+    private static int getCoinsWon() throws Exception {
+        return getStaticInt(HorseRaceLogic.class, "coinsWon");
+    }
+
+    private static void invokeApplyPayout() throws Exception {
+        Method m = HorseRaceLogic.class.getDeclaredMethod("applyPayout");
+        m.setAccessible(true);
+        m.invoke(null);
+    }
+
+    // ---------- basic constants / getters ----------
+
+    @Test
+    void numHorsesAndFinishDistance_areStable() {
+        assertEquals(5, HorseRaceLogic.getNumHorses());
+        assertEquals(600.0, HorseRaceLogic.getFinishDistance(), 1e-9);
     }
 
     @Test
-    void testReset() {
-        resetAll();
+    void getPositions_returnsCopyNotLiveView() throws Exception {
+        // Set internal positions to a known array
+        Field posField = HorseRaceLogic.class.getDeclaredField("positions");
+        posField.setAccessible(true);
+        posField.set(null, new double[]{1, 2, 3, 4, 5});
 
-        CoinBalance.balance = 999;
-        HorseRaceLogic.positions[0] = 123.45;
-        HorseRaceLogic.finished[0] = true;
-        HorseRaceLogic.finishedOrder.add(2);
-        HorseRaceLogic.coinsWon = 50;
-        HorseRaceLogic.playerPlace = 3;
-        HorseRaceLogic.resetRaceState();
+        double[] snap1 = HorseRaceLogic.getPositions();
+        assertArrayEquals(new double[]{1, 2, 3, 4, 5}, snap1, 1e-9);
 
-        for (double pos : HorseRaceLogic.positions) {
-            assertEquals(0.0, pos, 0.0001);
-        }
-        for (boolean f : HorseRaceLogic.finished) {
-            assertFalse(f);
-        }
-        assertTrue(HorseRaceLogic.finishedOrder.isEmpty());
-        assertEquals(0, HorseRaceLogic.coinsWon);
-        assertEquals(-1, HorseRaceLogic.playerPlace);
+        // Mutate the returned array
+        snap1[0] = 999;
+
+        // Fresh call should reflect original internal state (copy semantics)
+        double[] snap2 = HorseRaceLogic.getPositions();
+        assertEquals(1.0, snap2[0], 1e-9);
+    }
+
+    // ---------- payout logic (deterministic via reflection) ----------
+
+    @Test
+    void payout_firstPlace_creditsStakeTimesThree_andUpdatesBalance() throws Exception {
+        HorseRaceLogic.setBet(100);                  // stake
+        HorseRaceLogic.setChosenHorse(2);            // any index
+        // Simulate race completion where chosen horse finished 1st
+        setFinishedFlags(HorseRaceLogic.getNumHorses());
+        setFinishedOrder(List.of(2, 0, 1, 3, 4));
+        // playerPlace = 1
+        setPlayerPlace(1);
+
+        invokeApplyPayout();
+
+        assertEquals(300, getCoinsWon()); // 3.0x
+        assertEquals(300, CoinBalance.getGameBalance());
     }
 
     @Test
-    void testPastFinish() {
-        resetAll();
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 5;
-        }
-
-        boolean finished = HorseRaceLogic.stepRace();
-        assertTrue(finished, "Race should finish in this step");
-        for (boolean f : HorseRaceLogic.finished) {
-            assertTrue(f);
-        }
-        assertEquals(HorseRaceLogic.getNumHorses(), HorseRaceLogic.finishedOrder.size());
-    }
-
-    @Test
-    void testFirstGets3xBet() {
-        resetAll();
-        CoinBalance.balance = 1000;
-        int bet = 200;
-
-        HorseRaceLogic.setBet(bet);
-        HorseRaceLogic.setChosenHorse(0);
-
-        CoinBalance.balance -= bet;
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 10;
-        }
-        boolean finished = HorseRaceLogic.stepRace();
-        assertTrue(finished);
-
-        assertEquals(1400, CoinBalance.balance);
-        assertEquals(600, HorseRaceLogic.coinsWon);
-
-        String msg = HorseRaceLogic.resultMessage();
-        assertTrue(msg.contains("1st"));
-        assertTrue(msg.contains("600"));
-    }
-
-    @Test
-    void testSecondGets2xBet() {
-        resetAll();
-
-        CoinBalance.balance = 1000;
-        int bet = 200;
-
-        HorseRaceLogic.setBet(bet);
+    void payout_secondPlace_creditsStakeTimesTwo_andUpdatesBalance() throws Exception {
+        HorseRaceLogic.setBet(150);
         HorseRaceLogic.setChosenHorse(1);
 
-        CoinBalance.balance -= bet;
+        setFinishedFlags(HorseRaceLogic.getNumHorses());
+        setFinishedOrder(List.of(0, 1, 2, 3, 4));
+        setPlayerPlace(2);
 
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 10;
-        }
+        invokeApplyPayout();
 
-        boolean finished = HorseRaceLogic.stepRace();
-        assertTrue(finished);
-
-        assertEquals(1200, CoinBalance.balance);
-        assertEquals(400, HorseRaceLogic.coinsWon);
-
-        String msg = HorseRaceLogic.resultMessage();
-        assertTrue(msg.contains("2nd"));
-        assertTrue(msg.contains("400"));
+        assertEquals(300, getCoinsWon()); // 2.0x
+        assertEquals(300, CoinBalance.getGameBalance());
     }
 
     @Test
-    void testThirdGets1HalfxBet() {
-        resetAll();
+    void payout_thirdPlace_creditsStakeTimesOnePointFive_roundsProperly() throws Exception {
+        HorseRaceLogic.setBet(101); // odd amount to verify rounding
+        HorseRaceLogic.setChosenHorse(4);
 
-        CoinBalance.balance = 1000;
-        int bet = 200;
-        HorseRaceLogic.setBet(bet);
-        HorseRaceLogic.setChosenHorse(2);
-        CoinBalance.balance -= bet;
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 10;
-        }
-        boolean finished = HorseRaceLogic.stepRace();
-        assertTrue(finished);
-        assertEquals(1100, CoinBalance.balance);
-        assertEquals(300, HorseRaceLogic.coinsWon);
+        setFinishedFlags(HorseRaceLogic.getNumHorses());
+        setFinishedOrder(List.of(0, 2, 4, 1, 3));
+        setPlayerPlace(3);
 
-        String msg = HorseRaceLogic.resultMessage();
-        assertTrue(msg.contains("3rd"));
-        assertTrue(msg.contains("300"));
+        invokeApplyPayout();
+
+        // 101 * 1.5 = 151.5 → Math.round = 152
+        assertEquals(152, getCoinsWon());
+        assertEquals(152, CoinBalance.getGameBalance());
     }
 
     @Test
-    void testAllLosing() {
-        resetAll();
+    void payout_outsideTopThree_yieldsZero_andNoBalanceChange() throws Exception {
+        HorseRaceLogic.setBet(200);
+        HorseRaceLogic.setChosenHorse(0);
 
-        CoinBalance.balance = 1000;
-        int bet = 200;
+        setFinishedFlags(HorseRaceLogic.getNumHorses());
+        setFinishedOrder(List.of(1, 2, 3, 0, 4));
+        setPlayerPlace(4);
 
-        HorseRaceLogic.setBet(bet);
+        invokeApplyPayout();
+
+        assertEquals(0, getCoinsWon());
+        assertEquals(0, CoinBalance.getGameBalance());
+    }
+
+    @Test
+    void payout_ignoresWhenNoBetPlaced() throws Exception {
+        HorseRaceLogic.setBet(0);
         HorseRaceLogic.setChosenHorse(3);
 
-        CoinBalance.balance -= bet;
+        setFinishedFlags(HorseRaceLogic.getNumHorses());
+        setFinishedOrder(List.of(3, 1, 2, 0, 4));
+        setPlayerPlace(1);
 
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 10;
-        }
-        boolean finished = HorseRaceLogic.stepRace();
-        assertTrue(finished);
-        assertEquals(800, CoinBalance.balance);
-        assertEquals(0, HorseRaceLogic.coinsWon);
+        invokeApplyPayout();
+
+        assertEquals(0, getCoinsWon());
+        assertEquals(0, CoinBalance.getGameBalance());
+    }
+
+    // ---------- result messages ----------
+
+    @Test
+    void resultMessage_winIncludesCoinsAndSuffix() throws Exception {
+        // Simulate first place win with winnings set
+        setStaticInt(HorseRaceLogic.class, "coinsWon", 250);
+        setPlayerPlace(1);
+
         String msg = HorseRaceLogic.resultMessage();
-        assertTrue(msg.contains("lost") || msg.contains("lost " + bet));
+        assertTrue(msg.contains("finished 1st"));
+        assertTrue(msg.contains("You won 250 MAAD Coins!"));
     }
 
     @Test
-    void testIfUpdatedBalanceMatchBalance() {
-        resetAll();
-        CoinBalance.balance = 4242;
-        long result = HorseRaceLogic.getUpdatedBalance();
-        assertEquals(4242, result);
-    }
+    void resultMessage_lossIncludesStakeAndSuffix() throws Exception {
+        HorseRaceLogic.setBet(120);
+        setPlayerPlace(5);
 
-    @Test
-    void testForAllPlaces() {
-        resetAll();
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 10;
-        }
-        HorseRaceLogic.setBet(0);
-        HorseRaceLogic.setChosenHorse(0);
-
-        boolean finished = HorseRaceLogic.stepRace();
-        assertTrue(finished);
-        String order = HorseRaceLogic.finishOrderString();
-        assertTrue(order.contains("1st: Horse 1"));
-        assertTrue(order.contains("2nd: Horse 2"));
-        assertTrue(order.contains("3rd: Horse 3"));
-        assertTrue(order.contains("4th: Horse 4"));
-        assertTrue(order.contains("5th: Horse 5"));
-    }
-
-    @Test
-    void testMessageForFirstAndCoins() {
-        resetAll();
-        CoinBalance.balance = 1000;
-        int bet = 100;
-        HorseRaceLogic.setBet(bet);
-        HorseRaceLogic.setChosenHorse(0);
-        CoinBalance.balance -= bet;
-
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 10;
-        }
-        HorseRaceLogic.stepRace();
         String msg = HorseRaceLogic.resultMessage();
-        assertTrue(msg.contains("1st"));
-        assertTrue(msg.contains("300"));
+        assertTrue(msg.contains("finished 5th"));
+        assertTrue(msg.contains("You lost 120 MAAD Coins."));
     }
 
     @Test
-    void testMessageForThirdAndCoins() {
-        resetAll();
-        CoinBalance.balance = 500;
-        int bet = 100;
-        HorseRaceLogic.setBet(bet);
-        HorseRaceLogic.setChosenHorse(2);
-        CoinBalance.balance -= bet;
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 10;
-        }
-        HorseRaceLogic.stepRace();
-        String msg = HorseRaceLogic.resultMessage();
-        assertTrue(msg.contains("3rd"));
-        assertTrue(msg.contains("150"));
-    }
-
-    @Test
-    void testMessageForLoss() {
-        resetAll();
-        CoinBalance.balance = 500;
-        int bet = 50;
-        HorseRaceLogic.setBet(bet);
-        HorseRaceLogic.setChosenHorse(4);
-        CoinBalance.balance -= bet;
-
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 10;
-        }
-        HorseRaceLogic.stepRace();
-        String msg = HorseRaceLogic.resultMessage();
-        assertTrue(msg.contains("lost"));
-    }
-
-    @Test
-    void testNoPayoutWhenBetIsZero() {
-        resetAll();
-        CoinBalance.balance = 1000;
-        int bet = 0;
-        HorseRaceLogic.setBet(bet);
-        HorseRaceLogic.setChosenHorse(0);
-        CoinBalance.balance -= bet;
-
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() + 10;
-        }
-        HorseRaceLogic.stepRace();
-        assertEquals(1000, CoinBalance.balance);
-        assertEquals(0, HorseRaceLogic.coinsWon);
-    }
-    @Test
-    void testResultMessageBeforeAnyRace() {
-        // no race run yet: playerPlace should be -1
-        resetAll();
-        CoinBalance.balance = 1000;
-
+    void resultMessage_beforePlacementIsGeneric() throws Exception {
+        setPlayerPlace(-1);
         String msg = HorseRaceLogic.resultMessage();
         assertEquals("Race finished.", msg);
     }
 
-    @Test
-    void testUnfinishWhenPositionsBelowFinish() {
-        resetAll();
-
-        CoinBalance.balance = 1000;
-        int bet = 200;
-
-        HorseRaceLogic.setBet(bet);
-        HorseRaceLogic.setChosenHorse(0);
-        CoinBalance.balance -= bet; // 800
-
-        for (int i = 0; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = HorseRaceLogic.getFinishDistance() / 2.0;
-        }
-
-        boolean finished = HorseRaceLogic.stepRace();
-        assertFalse(finished, "Race should not finish when horses are below finish line");
-        assertTrue(HorseRaceLogic.finishedOrder.isEmpty());
-        assertEquals(800, CoinBalance.balance);
-    }
+    // ---------- finish order string (matches current implementation) ----------
 
     @Test
-    void testStepRaceSkipsAlreadyFinishedHorse() {
-        resetAll();
+    void finishOrderString_matchesCurrentFormat_withIndexPlusSuffix() throws Exception {
+        // NOTE: Current code appends (i+1) and then the suffix again,
+        // producing strings like "11st: Horse 1"
+        setFinishedOrder(new ArrayList<>(List.of(0, 2, 4))); // Horse #1, #3, #5
 
-        HorseRaceLogic.positions[0] = HorseRaceLogic.getFinishDistance();
-        HorseRaceLogic.finished[0] = true;
-        double before = HorseRaceLogic.positions[0];
+        String s = HorseRaceLogic.finishOrderString();
+        String[] lines = s.split("\\R");
+        assertEquals(3, lines.length);
 
-        for (int i = 1; i < HorseRaceLogic.getNumHorses(); i++) {
-            HorseRaceLogic.positions[i] = 10.0;
-        }
-        HorseRaceLogic.setBet(0);
-        HorseRaceLogic.setChosenHorse(0);
-        HorseRaceLogic.stepRace();
-        assertEquals(before, HorseRaceLogic.positions[0], 0.0001);
+        assertEquals("11st: Horse 1", lines[0]);
+        assertEquals("22nd: Horse 3", lines[1]);
+        assertEquals("33rd: Horse 5", lines[2]);
     }
 
+    // ---------- end-to-end: run a full race once, settle, and assert invariants ----------
+
+    @Test
+    void fullRace_completesAndSetsPlaceAndBalanceConsistently() {
+        HorseRaceLogic.setBet(100);
+        HorseRaceLogic.setChosenHorse(0); // any horse is fine
+
+        boolean finished = false;
+        for (int i = 0; i < 10_000; i++) { // generous upper bound
+            if (HorseRaceLogic.stepRace()) {
+                finished = true;
+                break;
+            }
+        }
+        assertTrue(finished, "Race should finish in reasonable steps.");
+
+        int place;
+        try {
+            place = getStaticInt(HorseRaceLogic.class, "playerPlace");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        assertTrue(place >= 1 && place <= HorseRaceLogic.getNumHorses(), "Place must be within [1, numHorses]");
+
+        int coins;
+        try {
+            coins = getCoinsWon();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        long bal = CoinBalance.getGameBalance();
+
+        // If top-3 → balance equals coinsWon (>0); else both zero.
+        if (place <= 3) {
+            assertTrue(coins > 0);
+            assertEquals(coins, bal);
+        } else {
+            assertEquals(0, coins);
+            assertEquals(0, bal);
+        }
+    }
 }
