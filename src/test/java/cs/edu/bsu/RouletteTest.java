@@ -9,15 +9,15 @@ public class RouletteTest {
 
     private void rigSpin(RouletteLogic logic, int fixedValue) {
         try {
-            Field f = RouletteLogic.class.getDeclaredField("randomGenerator");
-            f.setAccessible(true);
+            Field field = RouletteLogic.class.getDeclaredField("randomGenerator");
+            field.setAccessible(true);
             Random rigged = new Random() {
                 @Override
                 public int nextInt(int bound) {
                     return Math.floorMod(fixedValue, bound);
                 }
             };
-            f.set(logic, rigged);
+            field.set(logic, rigged);
         } catch (Exception e) {
             throw new RuntimeException("Failed to rig spin: " + e.getMessage(), e);
         }
@@ -35,8 +35,7 @@ public class RouletteTest {
         CoinBalance.gameBalance = 1000;
         RouletteLogic logic = new RouletteLogic();
 
-        // Force the wheel to land on 17
-        int chosenNumber = 17; // (BLACK number)
+        int chosenNumber = 17;
         rigSpin(logic, chosenNumber);
 
         int start = (int) CoinBalance.getGameBalance();
