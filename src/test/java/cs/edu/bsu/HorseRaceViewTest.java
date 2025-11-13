@@ -24,11 +24,11 @@ public class HorseRaceViewTest {
 
     @Test
     void testInitialBalanceLabelMatchesCoinBalance() {
-        CoinBalance.balance = 1234;
+        CoinBalance.gameBalance = 1234;
         HorseRaceView view = new HorseRaceView();
         VBox top = (VBox) view.getTop();
         Label balanceLabel = (Label) top.getChildren().get(1);
-        assertEquals("Balance: " + CoinBalance.getBalance(), balanceLabel.getText());
+        assertEquals("Balance: " + CoinBalance.getGameBalance(), balanceLabel.getText());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class HorseRaceViewTest {
 
     @Test
     void testStartRaceValidationErrors() {
-        CoinBalance.balance = 1000;
+        CoinBalance.gameBalance = 1000;
         HorseRaceView view = new HorseRaceView();
         HBox bottom = (HBox) view.getBottom();
         TextField bet = null;
@@ -107,7 +107,7 @@ public class HorseRaceViewTest {
 
     @Test
     void testValidStartRaceSubtractsBalanceAndDisablesInputs() {
-        CoinBalance.balance = 1000;
+        CoinBalance.gameBalance = 1000;
         HorseRaceView view = new HorseRaceView();
 
         HBox bottom = (HBox) view.getBottom();

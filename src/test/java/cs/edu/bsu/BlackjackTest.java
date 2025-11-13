@@ -1,10 +1,34 @@
 package cs.edu.bsu;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BlackjackTest {
+    @BeforeEach
+    void resetBeforeEach() {
+        // Reset static collections
+        BlackjackLogic.dealerHand = new ArrayList<>();
+        BlackjackLogic.playerHand = new ArrayList<>();
+
+        // Reset all static booleans
+        BlackjackLogic.playerBust = false;
+        BlackjackLogic.dealerBust = false;
+        BlackjackLogic.playerBlackjack = false;
+        BlackjackLogic.dealerBlackjack = false;
+        BlackjackLogic.push = false;
+        BlackjackLogic.playerRegularWin = false;
+        BlackjackLogic.dealerRegularWin = false;
+
+        // Reset other static fields
+        BlackjackLogic.coinsWon = 0;
+        BlackjackLogic.currentBet = 0;
+        CoinBalance.gameBalance = 0;
+    }
+
     @Test
     void testSetCards() {
         BlackjackLogic.set();
@@ -58,7 +82,7 @@ public class BlackjackTest {
     void testPush() {
         BlackjackLogic.playerHand.addAll(List.of(2, 3));
         BlackjackLogic.dealerHand.addAll(List.of(2, 3));
-        BlackjackLogic.pushOutcome(true);
+        BlackjackLogic.pushOutcome();
         assertTrue(BlackjackLogic.push);
     }
 
@@ -66,7 +90,7 @@ public class BlackjackTest {
     void testRegularWinPlayer() {
         BlackjackLogic.playerHand.addAll(List.of(10, 10));
         BlackjackLogic.dealerHand.addAll(List.of(11, 8));
-        BlackjackLogic.win(true);
+        BlackjackLogic.win();
         assertTrue(BlackjackLogic.playerRegularWin);
     }
 
@@ -74,7 +98,7 @@ public class BlackjackTest {
     void testRegularWinDealer() {
         BlackjackLogic.playerHand.addAll(List.of(11, 8));
         BlackjackLogic.dealerHand.addAll(List.of(10, 10));
-        BlackjackLogic.win(true);
+        BlackjackLogic.win();
         assertTrue(BlackjackLogic.dealerRegularWin);
     }
 
