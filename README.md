@@ -84,3 +84,6 @@ Horse betting game we're you bet coins on the horse you think will win the race.
 
 #### 11/12:
 * Finished Roulette test class.
+
+#### 11/13:
+* Updated winning mutliplers for Blackjack.
