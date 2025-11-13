@@ -167,9 +167,9 @@ public class BlackjackLogic {
 
     public static void payoutCalculator() {
         if (playerBlackjack) {
-            coinsWon = (long) (currentBet * 3.5);
+            coinsWon = (long) (currentBet * 4.5);
         } else if (playerRegularWin || dealerBust) {
-            coinsWon = (long) (currentBet * 2.5);
+            coinsWon = currentBet * 3L;
         } else if (push) {
             coinsWon = currentBet;
         } else {
