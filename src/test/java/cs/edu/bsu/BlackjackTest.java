@@ -82,7 +82,7 @@ public class BlackjackTest {
     void testPush() {
         BlackjackLogic.playerHand.addAll(List.of(2, 3));
         BlackjackLogic.dealerHand.addAll(List.of(2, 3));
-        BlackjackLogic.pushOutcome(true);
+        BlackjackLogic.pushOutcome();
         assertTrue(BlackjackLogic.push);
     }
 
@@ -90,7 +90,7 @@ public class BlackjackTest {
     void testRegularWinPlayer() {
         BlackjackLogic.playerHand.addAll(List.of(10, 10));
         BlackjackLogic.dealerHand.addAll(List.of(11, 8));
-        BlackjackLogic.win(true);
+        BlackjackLogic.win();
         assertTrue(BlackjackLogic.playerRegularWin);
     }
 
@@ -98,7 +98,7 @@ public class BlackjackTest {
     void testRegularWinDealer() {
         BlackjackLogic.playerHand.addAll(List.of(11, 8));
         BlackjackLogic.dealerHand.addAll(List.of(10, 10));
-        BlackjackLogic.win(true);
+        BlackjackLogic.win();
         assertTrue(BlackjackLogic.dealerRegularWin);
     }
 

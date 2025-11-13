@@ -203,7 +203,7 @@ public class BlackjackView extends BorderPane {
             stand.setDisable(true);
             doubleDown.setDisable(true);
             BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
-            BlackjackLogic.dealerHit(true);
+            BlackjackLogic.dealerHit();
 
             dealerOutput.setText("" + BlackjackLogic.dealerHand);
             matchOutcome.setText("Dealer Hand: " + BlackjackLogic.totalValueCalculatorDealer() +

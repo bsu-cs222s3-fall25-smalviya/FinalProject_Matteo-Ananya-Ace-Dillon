@@ -77,15 +77,15 @@ public class BlackjackLogic {
         totalValueCalculatorPlayer();
     }
 
-    public static void dealerHit(boolean wasClicked) {
+    public static void dealerHit() {
         while (totalValueCalculatorDealer() < 17) {
             int randomIndex = random.nextInt(values.size());
             int randomCard = values.get(randomIndex);
             dealerHand.add(randomCard);
             totalValueCalculatorDealer();
         }
-        pushOutcome(wasClicked);
-        win(wasClicked);
+        pushOutcome();
+        win();
     }
 
     public static int totalValueCalculatorPlayer() {
@@ -124,7 +124,7 @@ public class BlackjackLogic {
         return totalValue;
     }
 
-    public static void pushOutcome(boolean wasClicked) {
+    public static void pushOutcome() {
         if (dealerHand.size() >= 2 && playerHand.size() >= 2 &&
                 totalValueCalculatorDealer() == totalValueCalculatorPlayer()) {
             push = true;
@@ -139,7 +139,7 @@ public class BlackjackLogic {
         }
     }
 
-    public static void win(boolean wasClicked) {
+    public static void win() {
         if (dealerHand.size() >= 2 && playerHand.size() >= 2) {
             int dealerTotal = totalValueCalculatorDealer();
             int playerTotal = totalValueCalculatorPlayer();
