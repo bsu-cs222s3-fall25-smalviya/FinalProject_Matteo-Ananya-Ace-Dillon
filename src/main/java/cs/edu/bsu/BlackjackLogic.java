@@ -84,6 +84,7 @@ public class BlackjackLogic {
             dealerHand.add(randomCard);
             totalValueCalculatorDealer();
         }
+
         pushOutcome();
         win();
     }
