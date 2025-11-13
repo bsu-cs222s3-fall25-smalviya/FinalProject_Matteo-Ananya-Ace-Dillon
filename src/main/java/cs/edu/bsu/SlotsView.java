@@ -119,7 +119,7 @@ public class SlotsView extends BorderPane {
             SlotsLogic.setBet(1);
             userBet.setText("Bet amount: 1 MAAD Coin");
             spin.setDisable(false);
-            if (activeButton != null) { // if there is an active button
+            if (activeButton != null) {
                 activeButton.getStyleClass().remove("betButtonPressed");
             }
             oneCoin.getStyleClass().add("betButtonPressed");
@@ -172,7 +172,7 @@ public class SlotsView extends BorderPane {
         center.setAlignment(Pos.CENTER);
         center.setPadding(new Insets(0));
 
-        VBox.setMargin(title, new Insets(10, 0, 0, 0));       // top, right, bottom, left
+        VBox.setMargin(title, new Insets(10, 0, 0, 0));
         VBox.setMargin(statusBar, new Insets(0, 0, 10, 0));
         VBox.setMargin(symbolOutput, new Insets(0, 0, 5, 0));
         VBox.setMargin(scoreOutput, new Insets(0, 0, 0, 0));

@@ -15,16 +15,16 @@ public class BlackjackLogic {
     static int randomIndex = 0;
     static int dealersSecondCard = 0;
 
-    static boolean dealerRegularWin = false; // win from beating the player
-    static boolean playerRegularWin = false; // win from beating the dealer (1:1 payout)
+    static boolean dealerRegularWin = false;
+    static boolean playerRegularWin = false;
 
-    static boolean dealerBlackjack = false; // win from first two cards while beating the player
-    static boolean playerBlackjack = false; // win from first two cards while beating the dealer (3:2 payout)
+    static boolean dealerBlackjack = false;
+    static boolean playerBlackjack = false;
 
-    static boolean playerBust = false; // player losses (lose the money you bet)
-    static boolean dealerBust = false; // dealer losses
+    static boolean playerBust = false;
+    static boolean dealerBust = false;
 
-    static boolean push = false; // tie (get money back)
+    static boolean push = false;
 
     static List<Integer> values = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11);
     static ArrayList<Integer> dealerHand = new ArrayList<>();
@@ -102,7 +102,7 @@ public class BlackjackLogic {
                 playerBust = true;
             }
         }
-        //test
+
 
         return totalValue;
     }

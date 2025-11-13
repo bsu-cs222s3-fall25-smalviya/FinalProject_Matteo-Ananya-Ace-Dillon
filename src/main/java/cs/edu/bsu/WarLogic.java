@@ -4,7 +4,7 @@ import java.util.Random;
 
 public final class WarLogic {
 
-    private static final int MIN_RANK = 2;   // 2..14 (Aces high)
+    private static final int MIN_RANK = 2;
     private static final int MAX_RANK = 14;
     private final Random random;
 
@@ -38,9 +38,9 @@ public final class WarLogic {
                 : Outcome.PUSH;
 
         if (outcome == Outcome.PLAYER_WIN){
-            CoinBalance.gameBalance += bet * 2;  // win doubles bet
+            CoinBalance.gameBalance += bet * 2;
         } else if (outcome == Outcome.PUSH) {
-            CoinBalance.gameBalance += bet;      // return bet
+            CoinBalance.gameBalance += bet;
         }
 
 

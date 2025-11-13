@@ -71,11 +71,11 @@ public class SlotsLogic {
     }
 
     public static void payout() {
-        if (item1 == item2 && item1 == item3) { // three match
+        if (item1 == item2 && item1 == item3) {
             coinsWon = (int) (currentBet * getMultipler3[item1]);
-        } else if (item1 == item2 || item1 == item3) { // two match
+        } else if (item1 == item2 || item1 == item3) {
             coinsWon = (int) (currentBet * getMultipler2[item1]);
-        } else if (item2 == item3) { // two match
+        } else if (item2 == item3) {
             coinsWon = (int) (currentBet * getMultipler2[item2]);
         } else {
             coinsWon = 0;

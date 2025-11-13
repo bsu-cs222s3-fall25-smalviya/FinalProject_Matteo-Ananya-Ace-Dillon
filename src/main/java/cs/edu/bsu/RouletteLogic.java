@@ -2,8 +2,6 @@ package cs.edu.bsu;
 
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class RouletteLogic {
 
@@ -14,7 +12,7 @@ public class RouletteLogic {
     }
 
     public enum BetType {
-        NUMBER, RED, BLACK, EVEN, ODD //DOZEN1, DOZEN2, DOZEN3
+        NUMBER, RED, BLACK, EVEN, ODD
     }
 
     public static final Set<Integer> RED_NUMBERS = Set.of(
@@ -61,16 +59,13 @@ public class RouletteLogic {
 
     public RoundResult playRound(BetType betType, int chosenNumber, int betAmount) {
         if (betAmount <= 0 || betAmount > CoinBalance.getGameBalance()) {
-            return new RoundResult(-1, "INVALID", betType, chosenNumber, betAmount, 0);
+            return new RoundResult(-1, "Invalid", betType, chosenNumber, betAmount, 0);
         }
 
         CoinBalance.gameBalance -= betAmount;
-
         int rolledNumber = spinWheel();
         String rolledColor = getColor(rolledNumber);
-
         boolean playerWon = checkIfPlayerWon(betType, chosenNumber, rolledNumber);
-
         int payoutMultiplier = getMultiplier(betType);
 
         int netGain = 0;
@@ -94,9 +89,6 @@ public class RouletteLogic {
             case BLACK -> BLACK_NUMBERS.contains(rolledNumber);
             case EVEN -> rolledNumber != 0 && rolledNumber % 2 == 0;
             case ODD -> rolledNumber % 2 == 1;
-//            case DOZEN1 -> rolledNumber >= 1 && rolledNumber <= 12;
-//            case DOZEN2 -> rolledNumber >= 13 && rolledNumber <= 24;
-//            case DOZEN3 -> rolledNumber >= 25 && rolledNumber <= 36;
         };
     }
 
@@ -104,7 +96,6 @@ public class RouletteLogic {
         return switch (betType) {
             case NUMBER -> 35;
             case RED, BLACK, EVEN, ODD -> 1;
-//            case DOZEN1, DOZEN2, DOZEN3 -> 2;
         };
     }
 
