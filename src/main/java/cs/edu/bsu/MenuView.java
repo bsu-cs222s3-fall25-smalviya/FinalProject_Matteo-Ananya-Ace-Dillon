@@ -68,12 +68,27 @@ public class MenuView extends BorderPane {
         Button roulette = makeButton("Roulette", "black");
         roulette.setOnAction(_ ->promptCoinAmountAndStartGame("Roulette",() -> getScene().setRoot(new RouletteView())));
 
+        Button tutorialsButton = makeButton("Tutorials", "purple");
+        tutorialsButton.setOnAction(_ -> {
+            if (getScene() != null) {
+                getScene().setRoot(new TutorialView());
+            }
+        });
+
+
         grid.add(blackjack, 0, 0);
         grid.add(war, 2, 0);
         grid.add(slots, 1, 1);
         grid.add(horse, 0, 2);
         grid.add(roulette, 2, 2);
         setCenter(grid);
+
+
+        HBox bottomBar = new HBox(tutorialsButton);
+        bottomBar.setAlignment(Pos.CENTER_LEFT);
+        bottomBar.setPadding(new Insets(10, 0, 10, 10));
+        setBottom(bottomBar);
+
     }
 
     private Button makeButton(String text, String cssClass) {
