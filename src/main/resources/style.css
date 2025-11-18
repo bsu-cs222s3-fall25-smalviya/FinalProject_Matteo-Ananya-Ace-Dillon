@@ -194,3 +194,12 @@
     -fx-font-size: 50px;
     -fx-text-fill: yellow;
 }
+
+.purple {
+    -fx-background-color: #7c4dff;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 6;
+}
