@@ -29,9 +29,9 @@ public class SlotsTest {
         SlotsLogic.setBet(10);
         CoinBalance.gameBalance = 500;
         SlotsLogic.spin();
-        assertNotNull(SlotsLogic.symbol1);
-        assertNotNull(SlotsLogic.symbol2);
-        assertNotNull(SlotsLogic.symbol3);
+        assertNotNull(SlotsLogic.word1);
+        assertNotNull(SlotsLogic.word2);
+        assertNotNull(SlotsLogic.word3);
     }
 
     @Test

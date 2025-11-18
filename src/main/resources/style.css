@@ -90,9 +90,9 @@
     -fx-padding: 0;
     -fx-spacing: 10;
 
-    -fx-pref-width: 300px;
+    -fx-pref-width: 330px;
     -fx-pref-height: 90px;
-    -fx-max-width: 300px;
+    -fx-max-width: 330px;
     -fx-max-height: 90px;
 }
 
@@ -107,6 +107,21 @@
 }
 
 .scoreOutput {
+    -fx-control-inner-background: black;
+    -fx-background-color: black;
+    -fx-border-width: 2;
+    -fx-border-color: #EA0008;
+    -fx-font-size: 30px;
+    -fx-text-fill: #FFDD33;
+    -fx-background-radius: 8;
+    -fx-alignment: center;
+    -fx-font-family: "Digital-7 Mono";
+    -fx-max-width: 415px;
+    -fx-max-height: 95px;
+    -fx-padding: 0 0 0 0;
+}
+
+.scoreOutputWin {
     -fx-control-inner-background: black;
     -fx-background-color: black;
     -fx-border-width: 2;

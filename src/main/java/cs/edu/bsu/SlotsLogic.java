@@ -10,16 +10,13 @@ public class SlotsLogic {
     static int currentBet = 0;
     static int coinsWon = 0;
 
-    static String[] symbols = {"🍒", "🍋", "🍊", "🔔", "💎", "⑦"};
     static String[] words = {"Cherry", "Lemon", "Orange", "Bell", "Diamond", "Lucky Seven"};
 
-    private static final double[] getMultipler2 = {1.0, 1.5, 2.0, 2.5, 3.5, 5.0};
-    private static final double[] getMultipler3 = {2.0, 2.5, 3.0, 4.5, 5.0, 100.0};
+    private static final double[] getMultipler2 = {1.0, 1.5, 2.0, 2.5, 3.0, 4.5};
+    private static final double[] getMultipler3 = {5.5, 6.5, 7.0, 8.5, 10.0, 100.0};
     static String matchedSymbol = null;
 
-    static String symbol1;
-    static String symbol2;
-    static String symbol3;
+
     static String word1;
     static String word2;
     static String word3;
@@ -33,18 +30,13 @@ public class SlotsLogic {
         if (currentBet <= CoinBalance.gameBalance) {
             CoinBalance.gameBalance -= currentBet;
 
-            item1 = rand.nextInt(symbols.length);
-            item2 = rand.nextInt(symbols.length);
-            item3 = rand.nextInt(symbols.length);
-
-            symbol1 = symbols[item1];
-            symbol2 = symbols[item2];
-            symbol3 = symbols[item3];
+            item1 = rand.nextInt(words.length);
+            item2 = rand.nextInt(words.length);
+            item3 = rand.nextInt(words.length);
 
             word1 = words[item1];
             word2 = words[item2];
             word3 = words[item3];
-
 
             String[] spin = {word1, word2, word3};
             Map<String, Integer> counts = new HashMap<>();
@@ -65,7 +57,6 @@ public class SlotsLogic {
         }
     }
 
-
     public static void setBet(int bet) {
         currentBet = bet;
     }
@@ -82,10 +73,6 @@ public class SlotsLogic {
         }
 
         CoinBalance.gameBalance += coinsWon;
-    }
-
-    public static String spinResults() {
-        return "| " + symbol1 + " | " + symbol2 + " | " + symbol3 + " |";
     }
 
     public static String score() {

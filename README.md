@@ -87,3 +87,10 @@ Horse betting game we're you bet coins on the horse you think will win the race.
 
 #### 11/13:
 * Updated winning mutliplers for Blackjack.
+
+#### 11/17:
+* Updated symbols for Slots.
+* Added a visual spin cycle for Slots.
+* Added a tutorial class and button for future tutorials on each game.
+* Added a spin sound.
+* Updated Slots payouts.
