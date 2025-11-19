@@ -10,6 +10,8 @@ import java.util.Optional;
 public class MenuView extends BorderPane {
     static long balance = CoinBalance.balance = 1000;
 
+    static boolean nightMode = false;
+
     public MenuView() {
         balance = CoinBalance.balance;
 
@@ -74,7 +76,6 @@ public class MenuView extends BorderPane {
                 getScene().setRoot(new TutorialView());
             }
         });
-
 
         grid.add(blackjack, 0, 0);
         grid.add(war, 2, 0);
@@ -158,5 +159,6 @@ public class MenuView extends BorderPane {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 
 }
