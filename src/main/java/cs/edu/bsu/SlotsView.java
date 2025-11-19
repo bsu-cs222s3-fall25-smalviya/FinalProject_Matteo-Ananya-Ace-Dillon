@@ -29,7 +29,6 @@ public class SlotsView extends BorderPane {
     private final TextArea scoreOutput = new TextArea();
     private final TextField userBet = new TextField();
     private Button activeButton = null;
-    private static final Button spin = new Button("Spin");
     private final Map<String, Image> imageCache = new HashMap<>();
 
     private final ImageView slot1 = new ImageView();
@@ -39,6 +38,12 @@ public class SlotsView extends BorderPane {
     private final SlotsSpin slotsSpin;
 
     private static MediaPlayer spinAudio;
+
+    private static final Button oneCoin = new Button("1");
+    private static final Button tenCoin = new Button("10");
+    private static final Button fiftyCoin = new Button("50");
+    private static final Button hundredCoin = new Button("100");
+    private static final Button spin = new Button("Spin");
 
     public SlotsView() {
         imageCache.put("Lucky Seven", new Image(getClass().getResource("/images/LuckySeven.png").toExternalForm()));
@@ -105,6 +110,16 @@ public class SlotsView extends BorderPane {
         spin.setDisable(true);
 
         spin.setOnAction(_ -> {
+            oneCoin.setDisable(true);
+            tenCoin.setDisable(true);
+            fiftyCoin.setDisable(true);
+            hundredCoin.setDisable(true);
+
+            oneCoin.setOpacity(1.0);
+            tenCoin.setOpacity(1.0);
+            fiftyCoin.setOpacity(1.0);
+            hundredCoin.setOpacity(1.0);
+
             scoreOutput.getStyleClass().removeAll("scoreOutputLose");
             scoreOutput.getStyleClass().removeAll("scoreOutputWin");
             scoreOutput.getStyleClass().add("scoreOutput");
@@ -158,13 +173,12 @@ public class SlotsView extends BorderPane {
                 SlotsLogic.word3 = null;
 
                 spin.setDisable(false);
+                oneCoin.setDisable(false);
+                tenCoin.setDisable(false);
+                fiftyCoin.setDisable(false);
+                hundredCoin.setDisable(false);
             });
         });
-
-        Button oneCoin = new Button("1");
-        Button tenCoin = new Button("10");
-        Button fiftyCoin = new Button("50");
-        Button hundredCoin = new Button("100");
 
         oneCoin.getStyleClass().add("betButton");
         tenCoin.getStyleClass().add("betButton");
@@ -317,19 +331,19 @@ public class SlotsView extends BorderPane {
         updateActiveBetButton(activeButton);
     }
 
-    private void setupSlotImageView(ImageView iv) {
-        iv.setFitWidth(60);
-        iv.setFitHeight(60);
-        iv.setPreserveRatio(false);
-        iv.setSmooth(true);
-    }
-
     private void updateActiveBetButton(Button newActive) {
         if (activeButton != null) {
             activeButton.getStyleClass().remove("betButtonPressed");
         }
         newActive.getStyleClass().add("betButtonPressed");
         activeButton = newActive;
+    }
+
+    private void setupSlotImageView(ImageView iv) {
+        iv.setFitWidth(60);
+        iv.setFitHeight(60);
+        iv.setPreserveRatio(false);
+        iv.setSmooth(true);
     }
 
     private void playSpinSound() {

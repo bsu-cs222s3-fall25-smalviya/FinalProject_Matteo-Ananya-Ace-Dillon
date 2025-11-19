@@ -29,7 +29,7 @@ Press the **Hit** button to draw another card. Press the **Stand** button to fin
 button to double your bet, which makes you take another card.
 
 **Horse Racing:**
-Horse betting game we're you bet coins on the horse you think will win the race. Input your bet amount in the textbox, then
+Horse betting game we're you bet coins on the horse you think will win the race. Input your bet amount in the **textbox**, then
 choose 1 out of 5 horses to bet on. Then choose the horse you're betting on to win.
 
 ## Programmers & Designers:
@@ -62,6 +62,10 @@ choose 1 out of 5 horses to bet on. Then choose the horse you're betting on to w
 * Fixed Menu button layout.
 * Added a MenuTest.java Test class.
 
+
+#### -Iteration 1 Finished-
+
+
 #### 10/31:
 * Added BlackjackLogic.java, BlackjackView.java, and BlackjackTest.java.
 
@@ -87,13 +91,21 @@ choose 1 out of 5 horses to bet on. Then choose the horse you're betting on to w
 #### 11/13:
 * Updated winning mutliplers for Blackjack.
 
+
+#### -Iteration 2 Finished-
+
+
 #### 11/17:
 * Updated symbols on Slots.
-* Added a visual spin cycle for Slots.
+* Added a visual change cycle for Slots.
 * Added a tutorial class and button for future tutorials on each game.
-* Added an audio for slot spins.
+* Added audio for slot spins.
 * Updated Slots payouts.
 
 #### 11/18:
 * Updated Slots UI.
 * Added a payouts information tab.
+
+#### 11/19:
+* Fixed an exploit in Slots where the user can press another button and change the bet amount while 
+the wheel is spinning.
