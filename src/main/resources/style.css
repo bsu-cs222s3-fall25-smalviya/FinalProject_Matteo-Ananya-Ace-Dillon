@@ -1,7 +1,6 @@
 .root {
     -fx-background-color:
-        radial-gradient(center 50% 50%, radius 95%, rgba(0,0,0,0.4), transparent),
-        #006B38;
+        radial-gradient(center 50% 50%, radius 95%, rgba(0,0,0,0.4), transparent), #006B38;
 }
 
 .title {
@@ -37,9 +36,28 @@
     -fx-pref-height: 60;
 }
 
+.spinButton {
+    -fx-font-size: 26px;
+    -fx-background-color: #1E7E34;
+    -fx-text-fill: white;
+    -fx-background-radius: 13;
+    -fx-border-radius: 13;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-pref-width: 150;
+    -fx-pref-height: 60;
+}
+
 .black:hover {
     -fx-text-fill: yellow;
     -fx-border-color: black;
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
+}
+
+.spinButton:hover {
+    -fx-text-fill: yellow;
+    -fx-border-color: #1E7E34;
     -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
                 dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
 }
@@ -85,7 +103,6 @@
     -fx-background-color: black;
     -fx-border-width: 2;
     -fx-border-color: #EA0008;
-    -fx-background-radius: 8;
     -fx-alignment: center;
     -fx-padding: 0;
     -fx-spacing: 10;
@@ -94,6 +111,7 @@
     -fx-pref-height: 90px;
     -fx-max-width: 330px;
     -fx-max-height: 90px;
+    -fx-effect: dropshadow(gaussian, #EA0008, 10, 0.4, 0, 0);
 }
 
 .symbolEmoji {
@@ -106,6 +124,22 @@
     -fx-preserve-ratio: true;
 }
 
+.buttonLayout {
+    -fx-control-inner-background: black;
+    -fx-background-color: black;
+    -fx-border-width: 2;
+    -fx-border-color: #EA0008;
+    -fx-border-radius: 13;
+    -fx-text-fill: #FFDD33;
+    -fx-background-radius: 13;
+    -fx-alignment: CENTER;
+    -fx-font-family: "Digital-7 Mono";
+    -fx-max-width: 600px;
+    -fx-max-height: 0px;
+    -fx-padding: 20 0 10 0;
+    -fx-effect: dropshadow(gaussian, #EA0008, 20, 0.5, 0, 0);
+}
+
 .scoreOutput {
     -fx-control-inner-background: black;
     -fx-background-color: black;
@@ -113,12 +147,12 @@
     -fx-border-color: #EA0008;
     -fx-font-size: 30px;
     -fx-text-fill: #FFDD33;
-    -fx-background-radius: 8;
-    -fx-alignment: center;
+    -fx-alignment: CENTER;
     -fx-font-family: "Digital-7 Mono";
     -fx-max-width: 415px;
     -fx-max-height: 95px;
     -fx-padding: 0 0 0 0;
+    -fx-effect: dropshadow(gaussian, #EA0008, 10, 0.4, 0, 0);
 }
 
 .scoreOutputWin {
@@ -128,12 +162,12 @@
     -fx-border-color: #EA0008;
     -fx-font-size: 30px;
     -fx-text-fill: lime;
-    -fx-background-radius: 8;
-    -fx-alignment: center;
+    -fx-alignment: CENTER;
     -fx-font-family: "Digital-7 Mono";
     -fx-max-width: 415px;
     -fx-max-height: 95px;
     -fx-padding: 0 0 0 0;
+    -fx-effect: dropshadow(gaussian, #EA0008, 10, 0.4, 0, 0);
 }
 
 .scoreOutputLose {
@@ -143,16 +177,16 @@
     -fx-border-color: #EA0008;
     -fx-font-size: 30px;
     -fx-text-fill: red;
-    -fx-background-radius: 8;
     -fx-alignment: center;
     -fx-font-family: "Digital-7 Mono";
     -fx-max-width: 415px;
     -fx-max-height: 95px;
     -fx-padding: 0 0 0 0;
+    -fx-effect: dropshadow(gaussian, #EA0008, 10, 0.4, 0, 0);
 }
 
 .betButton {
-    -fx-font-size: 18px;
+    -fx-font-size: 23px;
     -fx-background-color: black;
     -fx-text-fill: white;
     -fx-background-radius: 13;
@@ -169,25 +203,29 @@
 }
 
 .betButtonPressed {
-    -fx-text-fill: blue;
-    -fx-border-color: red;
-    -fx-background-color: pink;
+    -fx-text-fill: yellow;
+    -fx-border-color: #1E7E34;
+    -fx-background-color: #1E7E34;
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                    dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
 }
 
 .betButtonPressed:hover {
-    -fx-text-fill: blue;
-    -fx-border-color: red;
-    -fx-background-color: pink;
+    -fx-text-fill: yellow;
+    -fx-border-color: #1E7E34;
+    -fx-background-color: #1E7E34;
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                        dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
 }
 
 .userBet {
-    -fx-text-fill: #2E2E2E;
+    -fx-text-fill: yellow;
     -fx-font-family: "Helvetica";
     -fx-font-style: italic;
     -fx-font-weight: bold;
-    -fx-font-size: 15;
+    -fx-font-size: 20;
     -fx-background-color: transparent;
-    -fx-alignment: center;
+    -fx-alignment: TOP_LEFT;
 }
 
 .slotLines {
@@ -203,3 +241,47 @@
     -fx-padding: 10 20;
     -fx-background-radius: 6;
 }
+
+.payoutPopup {
+    -fx-background-color: black;
+    -fx-border-color: #EA0008;
+    -fx-border-width: 3;
+    -fx-padding: 10;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, #EA0008, 15, 0.1, 0, 0);
+}
+
+.popupHeader {
+    -fx-text-fill: lightGray;
+    -fx-font-size: 20px;
+}
+
+.popupText {
+    -fx-text-fill: purple;
+    -fx-font-size: 15px;
+}
+
+.popupBackButton {
+    -fx-text-fill: orange;
+    -fx-font-size: 17px;
+    -fx-background-color: black;
+    -fx-border-color: orange;
+    -fx-border-width: 2;
+    -fx-pref-width: 135;
+    -fx-pref-height: 35;
+    -fx-background-radius: 13;
+    -fx-border-radius: 13;
+}
+
+.popupBackButton:hover {
+    -fx-border-color: black;
+    -fx-effect: dropshadow(gaussian, orange, 10, 0.7, 0, 0),
+                    dropshadow(gaussian, orange, 10, 0.3, 0, 0);
+}
+
+.separator *.line {
+     -fx-border-color: red;
+     -fx-border-width: 1px;
+     -fx-effect: dropshadow(gaussian, #EA0008, 10, 0.3, 0, 0);
+     -fx-opacity: 0.8;
+;}

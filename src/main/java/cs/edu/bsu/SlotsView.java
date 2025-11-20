@@ -2,9 +2,11 @@ package cs.edu.bsu;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,9 +14,15 @@ import javafx.util.Duration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.Media;
+
+import javafx.scene.layout.Region;
+
+import javafx.stage.Popup;
+import javafx.geometry.Bounds;
 
 
 public class SlotsView extends BorderPane {
@@ -31,13 +39,20 @@ public class SlotsView extends BorderPane {
 
     private static MediaPlayer spinAudio;
 
+    private static final Button oneCoin = new Button("1");
+    private static final Button tenCoin = new Button("10");
+    private static final Button fiftyCoin = new Button("50");
+    private static final Button hundredCoin = new Button("100");
+    private static final Button spin = new Button("Spin");
+
     public SlotsView() {
         imageCache.put("Lucky Seven", new Image(getClass().getResource("/images/LuckySeven.png").toExternalForm()));
-        imageCache.put("Diamond",     new Image(getClass().getResource("/images/Diamond.png").toExternalForm()));
-        imageCache.put("Bell",        new Image(getClass().getResource("/images/Bell.png").toExternalForm()));
-        imageCache.put("Orange",      new Image(getClass().getResource("/images/Orange.png").toExternalForm()));
-        imageCache.put("Lemon",       new Image(getClass().getResource("/images/Lemon.png").toExternalForm()));
-        imageCache.put("Cherry",      new Image(getClass().getResource("/images/Cherry.png").toExternalForm()));
+        imageCache.put("Diamond", new Image(getClass().getResource("/images/Diamond.png").toExternalForm()));
+        imageCache.put("Bell", new Image(getClass().getResource("/images/Bell.png").toExternalForm()));
+        imageCache.put("Orange", new Image(getClass().getResource("/images/Orange.png").toExternalForm()));
+        imageCache.put("Lemon", new Image(getClass().getResource("/images/Lemon.png").toExternalForm()));
+        imageCache.put("Cherry", new Image(getClass().getResource("/images/Cherry.png").toExternalForm()));
+
 
         setupSlotImageView(slot1);
         setupSlotImageView(slot2);
@@ -53,12 +68,13 @@ public class SlotsView extends BorderPane {
         symbolOutput.getChildren().clear();
 
         Label lineStart = new Label("|");
-        lineStart.getStyleClass().add("slotLines");
         Label lineMid1 = new Label("|");
-        lineMid1.getStyleClass().add("slotLines");
         Label lineMid2 = new Label("|");
-        lineMid2.getStyleClass().add("slotLines");
         Label lineEnd = new Label("|");
+
+        lineStart.getStyleClass().add("slotLines");
+        lineMid1.getStyleClass().add("slotLines");
+        lineMid2.getStyleClass().add("slotLines");
         lineEnd.getStyleClass().add("slotLines");
 
         symbolOutput.getChildren().addAll(lineStart, slot1, lineMid1, slot2, lineMid2, slot3, lineEnd);
@@ -82,16 +98,28 @@ public class SlotsView extends BorderPane {
         statusBar.setAlignment(Pos.CENTER);
         statusBar.setPadding(new Insets(0, 0, 0, 0));
 
+
         userBet.getStyleClass().add("userBet");
+        userBet.setText("Select a coin amount:");
 
         scoreOutput.setEditable(false);
         scoreOutput.getStyleClass().add("scoreOutput");
 
-        Button spin = new Button("Spin");
-        spin.getStyleClass().add("black");
+
+        spin.getStyleClass().add("spinButton");
         spin.setDisable(true);
 
         spin.setOnAction(_ -> {
+            oneCoin.setDisable(true);
+            tenCoin.setDisable(true);
+            fiftyCoin.setDisable(true);
+            hundredCoin.setDisable(true);
+
+            oneCoin.setOpacity(1.0);
+            tenCoin.setOpacity(1.0);
+            fiftyCoin.setOpacity(1.0);
+            hundredCoin.setOpacity(1.0);
+
             scoreOutput.getStyleClass().removeAll("scoreOutputLose");
             scoreOutput.getStyleClass().removeAll("scoreOutputWin");
             scoreOutput.getStyleClass().add("scoreOutput");
@@ -145,13 +173,12 @@ public class SlotsView extends BorderPane {
                 SlotsLogic.word3 = null;
 
                 spin.setDisable(false);
+                oneCoin.setDisable(false);
+                tenCoin.setDisable(false);
+                fiftyCoin.setDisable(false);
+                hundredCoin.setDisable(false);
             });
         });
-
-        Button oneCoin = new Button("1");
-        Button tenCoin = new Button("10");
-        Button fiftyCoin = new Button("50");
-        Button hundredCoin = new Button("100");
 
         oneCoin.getStyleClass().add("betButton");
         tenCoin.getStyleClass().add("betButton");
@@ -159,63 +186,149 @@ public class SlotsView extends BorderPane {
         hundredCoin.getStyleClass().add("betButton");
 
         oneCoin.setOnAction(_ -> {
-            SlotsLogic.setBet(1);
-            userBet.setText("Bet amount: 1 MAAD Coin");
-            spin.setDisable(false);
-            updateActiveBetButton(oneCoin);
+            betButtonAction(1, oneCoin);
         });
         tenCoin.setOnAction(_ -> {
-            SlotsLogic.setBet(10);
-            userBet.setText("Bet amount: 10 MAAD Coins");
-            spin.setDisable(false);
-            updateActiveBetButton(tenCoin);
+            betButtonAction(10, tenCoin);
         });
         fiftyCoin.setOnAction(_ -> {
-            SlotsLogic.setBet(50);
-            userBet.setText("Bet amount: 50 MAAD Coins");
-            spin.setDisable(false);
-            updateActiveBetButton(fiftyCoin);
+            betButtonAction(50, fiftyCoin);
         });
         hundredCoin.setOnAction(_ -> {
-            SlotsLogic.setBet(100);
-            userBet.setText("Bet amount: 100 MAAD Coins");
-            spin.setDisable(false);
-            updateActiveBetButton(hundredCoin);
+            betButtonAction(100, hundredCoin);
         });
 
-        Button back = new Button("Back to Menu");
-        back.getStyleClass().add("red");
-        back.setOnAction(_ -> {
+        Button backButton = new Button("Back to Menu");
+        Button payoutInfoButton = new Button("Payouts");
+
+        payoutInfoButton.getStyleClass().add("purple");
+
+        HBox bottomBar = new HBox();
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+
+        backButton.getStyleClass().add("red");
+        backButton.setOnAction(_ -> {
             stopSpinSound();
             CoinBalance.balance += CoinBalance.gameBalance;
             CoinBalance.gameBalance = 0;
             getScene().setRoot(new MenuView());
         });
 
-        HBox buttonRow = new HBox(10, oneCoin, tenCoin, fiftyCoin, hundredCoin, spin);
-        buttonRow.setAlignment(Pos.CENTER);
-        setTop(buttonRow);
 
-        VBox center = new VBox(15, title, statusBar, symbolOutput, scoreOutput, userBet, buttonRow, back);
+
+        Popup payoutPopup = new Popup();
+
+        // Layout for popup content
+        VBox popupContent = new VBox(15);
+        popupContent.setPrefWidth(275);
+        popupContent.setPrefHeight(340);
+        popupContent.getStyleClass().add("payoutPopup");
+        Label popupHeader = new Label ("Slot Payouts:");
+
+        ImageView cherry = getImage("Cherry.png");
+        ImageView lemon = getImage("Lemon.png");
+        ImageView orange = getImage("Orange.png");
+        ImageView bell = getImage("Bell.png");
+        ImageView diamond = getImage("Diamond.png");
+        ImageView luckySeven = getImage("LuckySeven.png");
+
+        Stream.of(cherry, lemon, orange, bell, diamond, luckySeven)
+                .forEach(img -> {
+                    img.setFitWidth(20);
+                    img.setFitHeight(20);
+                    img.setPreserveRatio(true);
+                });
+
+        VBox popupText = new VBox(5);
+
+        popupText.getChildren().addAll(
+                getTwoMatchPayout(cherry, 1.0, "Cherries"),
+                getThreeMatchPayout(cherry, 5.5, "Cherries"),
+
+                getTwoMatchPayout(lemon, 1.5, "Lemons"),
+                getThreeMatchPayout(lemon, 6.5, "Lemons"),
+
+                getTwoMatchPayout(orange, 2.0, "Oranges"),
+                getThreeMatchPayout(orange, 7.0, "Oranges"),
+
+                getTwoMatchPayout(bell, 2.5, "Bells"),
+                getThreeMatchPayout(bell, 8.5, "Bells"),
+
+                getTwoMatchPayout(diamond, 3.0, "Diamonds"),
+                getThreeMatchPayout(diamond, 10.0, "Diamonds"),
+
+                getTwoMatchPayout(luckySeven, 4.5, "Lucky Sevens"),
+                getThreeMatchPayout(luckySeven, 100.0, "Lucky Sevens")
+        );
+
+        popupHeader.getStyleClass().add("popupHeader");
+
+        // close
+        Button closePopup = new Button("Close");
+        closePopup.getStyleClass().add("popupBackButton");
+        closePopup.setOnAction(e -> payoutPopup.hide());
+
+        // puts em together
+        popupContent.getChildren().addAll(popupHeader, popupText, closePopup);
+
+        // Adds content to popup. put whole box inside window
+        payoutPopup.getContent().add(popupContent);
+
+        // Show/hide near the button when clicked
+        payoutInfoButton.setOnAction(e -> {
+            if (payoutPopup.isShowing()) {
+                payoutPopup.hide();
+            } else {
+                // Get screen position of the button. finds the payout button
+                Bounds btnBounds = payoutInfoButton.localToScreen(payoutInfoButton.getBoundsInLocal());
+                double x = btnBounds.getMinX();
+                double y = btnBounds.getMinY() - 400;
+
+                payoutPopup.show(payoutInfoButton, x, y);
+            }
+        });
+
+
+        HBox buttonRow = new HBox(15, oneCoin, tenCoin, fiftyCoin, hundredCoin, spin);
+        HBox.setMargin(spin, new Insets(0, 0, 0, 30));
+        buttonRow.setAlignment(Pos.CENTER);
+
+        VBox bettingArea = new VBox(0, userBet, buttonRow);
+        bettingArea.getStyleClass().add("buttonLayout");
+
+        bottomBar.getChildren().addAll(payoutInfoButton, spacer, backButton);
+        bottomBar.setAlignment(Pos.CENTER);
+        bottomBar.setPadding(new Insets(10));
+
+        setBottom(bottomBar);
+
+        VBox center = new VBox(0, title, statusBar, symbolOutput, scoreOutput, bettingArea);
         center.setAlignment(Pos.CENTER);
         center.setPadding(new Insets(0));
 
         VBox.setMargin(title, new Insets(10, 0, 0, 0));
-        VBox.setMargin(statusBar, new Insets(0, 0, 10, 0));
-        VBox.setMargin(symbolOutput, new Insets(0, 0, 5, 0));
-        VBox.setMargin(scoreOutput, new Insets(0, 0, 0, 0));
+        VBox.setMargin(statusBar, new Insets(0, 0, 25, 0));
+        VBox.setMargin(symbolOutput, new Insets(0, 0, 10, 0));
+        VBox.setMargin(scoreOutput, new Insets(0, 0, 40, 0));
         VBox.setMargin(userBet, new Insets(0, 0, 0, 0));
-        VBox.setMargin(buttonRow, new Insets(0, 0, 10, 0));
-        VBox.setMargin(back, new Insets(0, 0, 0, 0));
+        VBox.setMargin(buttonRow, new Insets(25, 0, 10, 0));
+        VBox.setMargin(bottomBar, new Insets(15, 0, 0, 0));
 
         setCenter(center);
     }
 
-    private void setupSlotImageView(ImageView iv) {
-        iv.setFitWidth(60);
-        iv.setFitHeight(60);
-        iv.setPreserveRatio(false);
-        iv.setSmooth(true);
+    public void betButtonAction(int setBet, Button activeButton) {
+        SlotsLogic.setBet(setBet);
+        if (setBet == 1) {
+            userBet.setText("Bet amount: " + setBet + " MAAD Coin");
+        } else {
+            userBet.setText("Bet amount: " + setBet + " MAAD Coins");
+        }
+        spin.setDisable(false);
+        updateActiveBetButton(activeButton);
     }
 
     private void updateActiveBetButton(Button newActive) {
@@ -224,6 +337,13 @@ public class SlotsView extends BorderPane {
         }
         newActive.getStyleClass().add("betButtonPressed");
         activeButton = newActive;
+    }
+
+    private void setupSlotImageView(ImageView iv) {
+        iv.setFitWidth(60);
+        iv.setFitHeight(60);
+        iv.setPreserveRatio(false);
+        iv.setSmooth(true);
     }
 
     private void playSpinSound() {
@@ -238,6 +358,62 @@ public class SlotsView extends BorderPane {
             spinAudio.dispose();
             spinAudio = null;
         }
+    }
+
+    private ImageView getImage(String fileName) {
+        Image img = new Image(getClass().getResource("/images/" + fileName).toExternalForm());
+        return new ImageView(img);
+    }
+
+    private ImageView cloneImage(ImageView original) {
+        ImageView clone = new ImageView(original.getImage());
+        clone.setFitWidth(original.getFitWidth());
+        clone.setFitHeight(original.getFitHeight());
+        clone.setPreserveRatio(true);
+        return clone;
+    }
+
+    private Node getTwoMatchPayout(ImageView img, double multiplier, String symbol) {
+        HBox payoutRow = new HBox(5);
+        payoutRow.setAlignment((Pos.CENTER_LEFT));
+
+        Label payoutInfoLine = new Label("• 2 " + symbol + ": " + multiplier + "x ");
+
+        ImageView i1 = cloneImage(img);
+        ImageView i2 = cloneImage(img);
+        payoutRow.getChildren().addAll(payoutInfoLine, i1, i2);
+
+        Separator line = new Separator();
+        line.getStyleClass().add("separator");
+
+        VBox box = new VBox(4);
+        box.getChildren().addAll(payoutRow, line);
+
+        payoutInfoLine.getStyleClass().add("popupText");
+
+        return box;
+    }
+
+    private Node getThreeMatchPayout(ImageView img, double multiplier, String symbol) {
+        HBox payoutRow = new HBox(5);
+        payoutRow.setAlignment((Pos.CENTER_LEFT));
+
+        Label payoutInfoLine = new Label("• 2 " + symbol + ": " + multiplier + "x ");
+
+        ImageView image1 = cloneImage(img);
+        ImageView image2 = cloneImage(img);
+        ImageView image3 = cloneImage(img);
+        payoutRow.getChildren().addAll(payoutInfoLine, image1, image2, image3);
+
+        Separator line = new Separator();
+        line.getStyleClass().add("separator");
+
+        VBox box = new VBox(4);
+        box.getChildren().addAll(payoutRow, line);
+
+        payoutInfoLine.getStyleClass().add("popupText");
+
+        return box;
     }
 
 }
