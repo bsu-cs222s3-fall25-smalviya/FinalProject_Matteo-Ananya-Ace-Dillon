@@ -77,6 +77,11 @@ public class MenuView extends BorderPane {
             }
         });
 
+        Button exitButton = makeButton("Exit", "red");
+        exitButton.setOnAction(_->{
+            javafx.application.Platform.exit();
+        });
+
         grid.add(blackjack, 0, 0);
         grid.add(war, 2, 0);
         grid.add(slots, 1, 1);
@@ -85,10 +90,15 @@ public class MenuView extends BorderPane {
         setCenter(grid);
 
 
-        HBox bottomBar = new HBox(tutorialsButton);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        HBox bottomBar = new HBox(tutorialsButton, spacer, exitButton);
         bottomBar.setAlignment(Pos.CENTER_LEFT);
-        bottomBar.setPadding(new Insets(10, 0, 10, 10));
+        bottomBar.setPadding(new Insets(10, 10, 10, 10));
         setBottom(bottomBar);
+
+
 
     }
 
