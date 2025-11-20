@@ -7,7 +7,7 @@ import javafx.scene.layout.*;
 
 import java.util.Optional;
 
-public class MenuView extends BorderPane {
+public class  MenuView extends BorderPane {
     static long balance = CoinBalance.balance = 1000;
 
     static boolean nightMode = false;
@@ -77,7 +77,7 @@ public class MenuView extends BorderPane {
             }
         });
 
-        Button exitButton = makeButton("Exit", "red");
+        Button exitButton = makeButton("Exit", "purple");
         exitButton.setOnAction(_->{
             javafx.application.Platform.exit();
         });
