@@ -14,17 +14,17 @@ public class TutorialView extends BorderPane {
         Label titleLabel = new Label("Tutorial Videos");
         titleLabel.setStyle("-fx-font-size: 40px; -fx-font-weight: bold;");
 
-        Hyperlink javaFxBasicsLink = new Hyperlink("Rick Roll 1");
+        Hyperlink javaFxBasicsLink = new Hyperlink("How To Play Blackjack");
         javaFxBasicsLink.setOnAction(event ->
-                openVideoInBrowser("https://youtu.be/dQw4w9WgXcQ?si=ZOZe22vcOwE9eh_0"));
+                openVideoInBrowser("https://youtu.be/eyoh-Ku9TCI?si=b72FARAlVvsBi4ee"));
 
-        Hyperlink blackjackRulesLink = new Hyperlink("Rick Roll 2");
+        Hyperlink blackjackRulesLink = new Hyperlink("How To Play War");
         blackjackRulesLink.setOnAction(event ->
-                openVideoInBrowser("https://youtu.be/dQw4w9WgXcQ?si=ZOZe22vcOwE9eh_0"));
+                openVideoInBrowser("https://youtu.be/03s-hH-DE7E?si=sH85SaCp6d1lcNQ5"));
 
-        Hyperlink rouletteRulesLink = new Hyperlink("Rick Roll 3");
+        Hyperlink rouletteRulesLink = new Hyperlink("How To Play Roulette");
         rouletteRulesLink.setOnAction(event ->
-                openVideoInBrowser("https://youtu.be/dQw4w9WgXcQ?si=ZOZe22vcOwE9eh_0"));
+                openVideoInBrowser("https://youtu.be/wRciBlaiCMU?si=-fPxGo-xuxj52d59"));
 
         Button returnToMenuButton = new Button("Return to Menu");
         returnToMenuButton.setOnAction(event -> {
