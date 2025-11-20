@@ -26,7 +26,7 @@ public class MenuView extends BorderPane {
         Label dot = new Label("•");
         dot.getStyleClass().add("stat-dot");
 
-        Label coins = new Label("MAAD Coins: " + balance);
+        Label coins = new Label("MAAD Coins: " + CoinBalance.getBalance());
         coins.getStyleClass().add("stat");
 
         HBox statusBar = new HBox(10, player, dot, coins);

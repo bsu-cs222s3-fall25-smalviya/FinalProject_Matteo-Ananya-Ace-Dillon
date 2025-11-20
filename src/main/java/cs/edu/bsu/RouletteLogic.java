@@ -16,11 +16,11 @@ public class RouletteLogic {
     }
 
     public static final Set<Integer> RED_NUMBERS = Set.of(
-            1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36
+            2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36
     );
 
     public static final Set<Integer> BLACK_NUMBERS = Set.of(
-            2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35
+            1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35
     );
 
 
