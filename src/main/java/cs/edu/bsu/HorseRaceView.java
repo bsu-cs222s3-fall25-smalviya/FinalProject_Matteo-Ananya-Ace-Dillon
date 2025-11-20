@@ -22,6 +22,7 @@ public class HorseRaceView extends BorderPane {
 
     private final List<Label> horseSprites = new ArrayList<>();
     private Timeline timeline;
+    private boolean raceFinished = false;
 
     private ComboBox<Integer> horseChoice;
     private TextField betField;
@@ -45,7 +46,7 @@ public class HorseRaceView extends BorderPane {
                 "-fx-background-color: radial-gradient(center 50% 0%, radius 120%, #004000, #001000);"
         );
 
-        Label title = new Label("🐎HORSE RACE ARENA 🐎");
+        Label title = new Label("🐎 HORSE RACE ARENA 🐎");
         title.setFont(Font.font("Bitcount Grid Single", 40));
         title.setTextFill(Color.web("#FFD700"));
 
@@ -131,6 +132,7 @@ public class HorseRaceView extends BorderPane {
         }
 
         setCenter(lanesBox);
+
         HBox controls = new HBox(18);
         controls.setPadding(new Insets(12, 20, 15, 20));
         controls.setAlignment(Pos.CENTER);
@@ -345,6 +347,7 @@ public class HorseRaceView extends BorderPane {
         HorseRaceLogic.setBet(betAmount);
         HorseRaceLogic.setChosenHorse(chosenIndex);
         HorseRaceLogic.resetRaceState();
+        raceFinished = false;
 
         for (Label sprite : horseSprites) {
             sprite.setTranslateX(0);
@@ -370,7 +373,8 @@ public class HorseRaceView extends BorderPane {
             horseSprites.get(i).setTranslateX(-positions[i]);
         }
 
-        if (finished) {
+        if (finished && !raceFinished) {
+            raceFinished = true;
             finishRace();
         }
     }
@@ -390,12 +394,6 @@ public class HorseRaceView extends BorderPane {
 
         balanceLabel.setText("MAAD Coins: " + newBalance);
         statusLabel.setText(HorseRaceLogic.resultMessage());
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Race Results");
-        alert.setHeaderText("Race Finished!");
-        alert.setContentText(HorseRaceLogic.finishOrderString());
-        alert.showAndWait();
     }
 
     private void disableChipButtons(boolean disable) {
