@@ -1,0 +1,69 @@
+.dialog-pane {
+    -fx-background-color: black;
+}
+
+.dialog-pane > .header-panel {
+    -fx-background-color: black;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 18;
+}
+
+.dialog-pane .content.label {
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+}
+
+.dialog-pane .button:default {
+    -fx-background-color: #00A86B;
+    -fx-text-fill: white;
+}
+
+.dialog-pane .button:default:hover {
+    -fx-text-fill: yellow;
+    -fx-border-color: #00A86B;
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
+}
+
+.dialog-pane .button:cancel {
+    -fx-background-color: #EA0008;
+    -fx-text-fill: white;
+}
+
+.dialog-pane .button:cancel:hover {
+    -fx-text-fill: yellow;
+    -fx-border-color: #EA0008;
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
+}
+
+.dialog-pane .button {
+    -fx-font-size: 13;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-background-radius: 13;
+    -fx-border-radius: 13;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-pref-width: 17;
+    -fx-pref-height: 9;
+}
+
+.dialog-pane .button:hover {
+    -fx-text-fill: black;
+    -fx-border-color: white;
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
+}
+
+.dialog-pane .text-field {
+    -fx-text-fill: yellow;
+    -fx-font-size: 18;
+    -fx-background-color: black;
+    -fx-border-color: orange;
+    -fx-border-width: 2 2 2 2;
+}

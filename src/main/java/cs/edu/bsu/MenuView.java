@@ -8,25 +8,22 @@ import javafx.scene.layout.*;
 import java.util.Optional;
 
 public class  MenuView extends BorderPane {
-    static long balance = CoinBalance.balance = 1000;
-
-    static boolean nightMode = false;
+    public static Account currentAccount = null;
+    public static String currentUsername = "Guest";
 
     public MenuView() {
-        balance = CoinBalance.balance;
-
+        // HEADER
         Label title = new Label("MAAD Casino");
         VBox.setMargin(title, new Insets(23, 0, 10, 0));
         title.getStyleClass().add("title");
         BorderPane.setAlignment(title, Pos.CENTER);
 
+        // player info
         Label player = new Label("Player: Guest");
         player.getStyleClass().add("stat");
-
         Label dot = new Label("•");
         dot.getStyleClass().add("stat-dot");
-
-        Label coins = new Label("MAAD Coins: " + CoinBalance.getBalance());
+        Label coins= new Label("MAAD Coins: " + CoinBalance.getBalance());
         coins.getStyleClass().add("stat");
 
         HBox statusBar = new HBox(10, player, dot, coins);
@@ -46,6 +43,37 @@ public class  MenuView extends BorderPane {
         RowConstraints r = new RowConstraints();
         r.setPercentHeight(33.333);
         grid.getRowConstraints().addAll(r, r, r);
+
+        TextField usernameTextfield = new TextField();
+        usernameTextfield.getStyleClass().add("usernameInput");
+
+        Button confirmButton = new Button("Confirm");
+        confirmButton.getStyleClass().add("usernameButton");
+
+        confirmButton.setOnAction(_ -> {
+            String name = usernameTextfield.getText().trim();
+
+            if (name.isEmpty()) {
+                showError("Username cannot be empty.");
+                return;
+            }
+
+            Account acc = AccountManager.getAccount(name);
+
+            if (acc == null) {
+                acc = new Account(name, CoinBalance.balance);
+                AccountManager.addAccount(acc);
+                AccountManager.saveAccounts();
+            }
+
+            MenuView.currentUsername = acc.getUsername();
+            MenuView.currentAccount = acc;
+
+            CoinBalance.balance = acc.getUserBalance();
+
+            player.setText("Player: " + MenuView.currentUsername);
+            coins.setText("MAAD Coins: " + CoinBalance.balance);
+        });
 
         Button blackjack = makeButton("Blackjack", "black");
         blackjack.setOnAction(_ ->
@@ -79,8 +107,10 @@ public class  MenuView extends BorderPane {
 
         Button exitButton = makeButton("Exit", "purple");
         exitButton.setOnAction(_->{
+            AccountManager.saveAccounts();
             javafx.application.Platform.exit();
         });
+
 
         grid.add(blackjack, 0, 0);
         grid.add(war, 2, 0);
@@ -90,16 +120,28 @@ public class  MenuView extends BorderPane {
         setCenter(grid);
 
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        Region spacer1 = new Region();
+        HBox.setHgrow(spacer1, Priority.ALWAYS);
+        Region spacer2 = new Region();
+        HBox.setHgrow(spacer2, Priority.ALWAYS);
 
-        HBox bottomBar = new HBox(tutorialsButton, spacer, exitButton);
-        bottomBar.setAlignment(Pos.CENTER_LEFT);
-        bottomBar.setPadding(new Insets(10, 10, 10, 10));
+        VBox usernameBox = new VBox(5);
+        usernameBox.setAlignment(Pos.CENTER);
+
+        Label enterUsername = new Label("Enter your username or create a new one:");
+        enterUsername.getStyleClass().add("usernameTitle");
+
+        HBox usernameRow = new HBox(2, usernameTextfield, confirmButton);
+        usernameRow.setAlignment(Pos.CENTER);
+
+        usernameBox.getChildren().addAll(enterUsername, usernameRow);
+
+
+        HBox bottomBar = new HBox(tutorialsButton, spacer1, usernameBox, spacer2, exitButton);
+        bottomBar.setAlignment(Pos.CENTER);
+        HBox.setMargin(confirmButton, new Insets(0, 0, 0, 10));
+        bottomBar.setPadding(new Insets(10, 10, 19, 10));
         setBottom(bottomBar);
-
-
-
     }
 
     private Button makeButton(String text, String cssClass) {
@@ -111,8 +153,10 @@ public class  MenuView extends BorderPane {
 
     private void promptCoinAmountAndStartGame(String gameName, Runnable startGameAction) {
         TextInputDialog dialog = new TextInputDialog();
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/dialog.css").toExternalForm());
+
         dialog.setTitle("Bring Coins");
-        dialog.setHeaderText("Enter the number of MAAD Coins you want to bring into " + gameName);
+        dialog.setHeaderText("Enter the number of MAAD Coins \nyou want to bring into " + gameName);
         dialog.setContentText("Coins:");
 
         ButtonType maxCoins = new ButtonType("Max");
@@ -164,11 +208,10 @@ public class  MenuView extends BorderPane {
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("/dialog.css").toExternalForm());
         alert.setTitle("Invalid Input");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 }

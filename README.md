@@ -1,9 +1,9 @@
-# MAAD CASINO
+# MAAD Casino
 ### CS222 Final Project
 
 Hi, this is the Final Project for team C3, the **best team**!
 
-Welcome to **MAAD Casino**! An arcade style app with a selection
+Welcome to **MAAD Casino**! A risk-taking app with a selection
 of five arcade-style games to try out your luck!
 <br>
 
@@ -109,3 +109,17 @@ choose 1 out of 5 horses to bet on. Then choose the horse you're betting on to w
 #### 11/19:
 * Fixed an exploit in Slots where the user can press another button and change the bet amount while 
 the wheel is spinning.
+* Added an Exit button.
+* Updated Horse Betting GUI.
+* Updated Roulette GUI.
+* Updated tutorial links.
+
+#### 11/20:
+* Updated Exit button.
+* Updated Horse Racing and Roulette UI.
+
+#### 11/24:
+* Updated Blackjack GUI.
+* Updated 'Bring Coins' popup UI.
+* Added the ability to save users balance with a username.
+* Updated purple buttons.

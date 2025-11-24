@@ -237,6 +237,9 @@ public class HorseRaceView extends BorderPane {
             }
             CoinBalance.balance += CoinBalance.gameBalance;
             CoinBalance.gameBalance = 0;
+
+            AccountManager.updateBalance(MenuView.currentUsername, CoinBalance.balance);
+            AccountManager.saveAccounts();
             MenuView menuView = new MenuView();
             this.getScene().setRoot(menuView);
         });

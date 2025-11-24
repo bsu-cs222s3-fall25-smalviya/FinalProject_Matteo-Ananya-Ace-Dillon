@@ -11,12 +11,13 @@ import java.util.Objects;
 public class MainApp extends Application{
     @Override
     public void start(Stage stage) {
+        AccountManager.loadAccounts();
         hostServicesReference = getHostServices();
 
         Font.loadFont(getClass().getResourceAsStream("/Fonts/BitcountGridSingle-VariableFont_CRSV,ELSH,ELXP,slnt,wght.ttf"), 14);
         Font.loadFont(getClass().getResourceAsStream("/Fonts/digital-7 (italic).ttf"), 14);
         Font.loadFont(getClass().getResourceAsStream("/Fonts/digital-7 (mono italic).ttf"), 14);
-        Scene scene = new Scene(new MenuView(), 850, 620);
+        Scene scene = new Scene(new MenuView(), 900, 700);
         scene.getStylesheets().add(
                 Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm()
         );

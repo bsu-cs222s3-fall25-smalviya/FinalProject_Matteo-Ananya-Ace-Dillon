@@ -240,6 +240,11 @@
     -fx-font-weight: bold;
     -fx-padding: 10 20;
     -fx-background-radius: 6;
+    -fx-pref-width: 100;
+}
+
+.purple:hover {
+    -fx-background-color: #8A65FF;
 }
 
 .payoutPopup {
@@ -284,4 +289,44 @@
      -fx-border-width: 1px;
      -fx-effect: dropshadow(gaussian, #EA0008, 10, 0.3, 0, 0);
      -fx-opacity: 0.8;
-;}
+}
+
+.betFieldTitle {
+     -fx-text-fill: lightBlue;
+     -fx-font-size: 22;
+}
+
+.betField {
+    -fx-text-fill: yellow;
+    -fx-font-size: 15;
+    -fx-background-color: black;
+    -fx-border-color: orange;
+}
+
+.footer {
+    -fx-background-color: rgba(0, 0, 0, 0.6);
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: orange;
+}
+
+.usernameTitle {
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+
+.usernameInput {
+    -fx-text-fill: yellow;
+    -fx-font-size: 15;
+    -fx-background-color: black;
+    -fx-border-color: white;
+}
+
+.usernameButton {
+    -fx-background-color: #7c4dff;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-pref-width: 65;
+    -fx-pref-height: 30;
+}
