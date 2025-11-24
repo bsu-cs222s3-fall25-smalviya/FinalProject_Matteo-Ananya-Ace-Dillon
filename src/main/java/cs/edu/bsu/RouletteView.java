@@ -63,12 +63,19 @@ public class RouletteView extends BorderPane {
         Button spinButton = new Button("SPIN");
         spinButton.setOnAction(event -> spinWheelAction());
 
+        Button payoutsButton = new Button("Instructions");
+        payoutsButton.getStyleClass().add("purple");
+
+
+
+
         Button backButton = new Button("Return to Menu");
+        backButton.getStyleClass().add("black");
         backButton.setOnAction(event -> {
-                CoinBalance.balance += CoinBalance.gameBalance;
-                CoinBalance.gameBalance = 0;
-                getScene().setRoot(new MenuView());
-                });
+            CoinBalance.balance += CoinBalance.gameBalance;
+            CoinBalance.gameBalance = 0;
+            getScene().setRoot(new MenuView());
+        });
 
         HBox inputRow = new HBox(10,
                 new Label("Bet Type:"), betTypeChoiceBox,
@@ -83,14 +90,44 @@ public class RouletteView extends BorderPane {
         centerBox.setAlignment(Pos.CENTER);
         centerBox.setPadding(new Insets(10));
 
-        HBox bottomBox = new HBox(backButton);
-        bottomBox.setAlignment(Pos.CENTER);
-        bottomBox.setPadding(new Insets(10));
-
-        setCenter(centerBox);
-        setBottom(bottomBox);
         setPadding(new Insets(10));
+
+        Button instructionsButton = new Button("INSTRUCTIONS");
+        instructionsButton.getStyleClass().add("purple");
+        instructionsButton.setPrefWidth(400);
+
+        instructionsButton.setOnAction(_ -> InstructionsPopup.show(
+                "Roulette Instructions",
+                """
+                Roulette
+        
+                Roulette simulates a wheel and a ball spinning around it.
+        
+                Select your "Bet Type"
+        
+                Number - bet on a specific number (35:1)
+                Red    - bet on red numbers (1:1)
+                Black  - bet on black numbers (1:1)
+                Even   - bet on even numbers (1:1)
+                Odd    - bet on odd numbers (1:1)
+        
+                Select your Bet Amount
+                Press the “Spin” button
+                """
+        ));
+
+        HBox bottomBar = new HBox(10, backButton, instructionsButton);
+        bottomBar.setAlignment(Pos.CENTER_LEFT);
+        bottomBar.setPadding(new Insets(10));
+        bottomBar.setPrefWidth(Double.MAX_VALUE);
+
+        setTop(topBox);
+        setCenter(centerBox);
+        setBottom(bottomBar);
+
     }
+
+
 
     private void spinWheelAction() {
         int betAmount;
@@ -129,4 +166,7 @@ public class RouletteView extends BorderPane {
         resultLabel.setText(roundResult.getSummary());
         balanceLabel.setText("MAAD Coins: " + CoinBalance.getGameBalance());
     }
+
 }
+
+
