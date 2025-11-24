@@ -15,7 +15,7 @@ public class  MenuView extends BorderPane {
     public MenuView() {
         balance = CoinBalance.balance;
 
-        Label title = new Label("MAAD ARCADE");
+        Label title = new Label("MAAD Casino");
         VBox.setMargin(title, new Insets(23, 0, 10, 0));
         title.getStyleClass().add("title");
         BorderPane.setAlignment(title, Pos.CENTER);
