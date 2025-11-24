@@ -74,8 +74,11 @@ public class RouletteView extends BorderPane {
         backButton.setOnAction(event -> {
             CoinBalance.balance += CoinBalance.gameBalance;
             CoinBalance.gameBalance = 0;
-            getScene().setRoot(new MenuView());
-        });
+
+            AccountManager.updateBalance(MenuView.currentUsername, CoinBalance.balance);
+            AccountManager.saveAccounts();
+                getScene().setRoot(new MenuView());
+                });
 
         HBox inputRow = new HBox(10,
                 new Label("Bet Type:"), betTypeChoiceBox,
@@ -166,7 +169,4 @@ public class RouletteView extends BorderPane {
         resultLabel.setText(roundResult.getSummary());
         balanceLabel.setText("MAAD Coins: " + CoinBalance.getGameBalance());
     }
-
 }
-
-

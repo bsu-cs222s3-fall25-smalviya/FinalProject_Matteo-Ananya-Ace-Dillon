@@ -55,7 +55,7 @@ public class HorseRaceView extends BorderPane {
         glow.setRadius(20);
         title.setEffect(glow);
 
-        Label playerLabel = new Label("Player: Guest");
+        Label playerLabel = new Label("Player: " + MenuView.currentUsername);
         playerLabel.setTextFill(Color.web("#FFFFFF"));
         playerLabel.setFont(Font.font("digital-7 (mono)", 18));
 
