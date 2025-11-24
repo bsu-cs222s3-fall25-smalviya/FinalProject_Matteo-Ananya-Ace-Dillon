@@ -19,7 +19,7 @@ public class  MenuView extends BorderPane {
         BorderPane.setAlignment(title, Pos.CENTER);
 
         // player info
-        Label player = new Label("Player: Guest");
+        Label player = new Label("Player: " + MenuView.currentUsername);
         player.getStyleClass().add("stat");
         Label dot = new Label("•");
         dot.getStyleClass().add("stat-dot");

@@ -46,7 +46,7 @@ public class WarView extends BorderPane {
         Label title = new Label("🛡️ WAR 🛡️");
         title.getStyleClass().add("title");
 
-        Label player = new Label("Player: Guest");
+        Label player = new Label("Player: " + MenuView.currentUsername);
         player.getStyleClass().add("stat");
 
         Label dot = new Label("•");
@@ -148,6 +148,9 @@ public class WarView extends BorderPane {
         backBtn.setOnAction(_ -> {
             CoinBalance.balance += CoinBalance.gameBalance;
             CoinBalance.gameBalance = 0;
+
+            AccountManager.updateBalance(MenuView.currentUsername, CoinBalance.balance);
+            AccountManager.saveAccounts();
             if (getScene() != null) {
                 getScene().setRoot(new MenuView());
             }

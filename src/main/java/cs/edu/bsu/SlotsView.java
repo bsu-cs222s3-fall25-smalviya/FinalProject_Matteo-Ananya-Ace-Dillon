@@ -85,7 +85,7 @@ public class SlotsView extends BorderPane {
         Label title = new Label("🎰 Slots 🎰");
         title.getStyleClass().add("title");
 
-        Label player = new Label("Player: Guest");
+        Label player = new Label("Player: " + MenuView.currentUsername);
         player.getStyleClass().add("stat");
 
         Label dot = new Label("•");
@@ -214,6 +214,9 @@ public class SlotsView extends BorderPane {
             stopSpinSound();
             CoinBalance.balance += CoinBalance.gameBalance;
             CoinBalance.gameBalance = 0;
+
+            AccountManager.updateBalance(MenuView.currentUsername, CoinBalance.balance);
+            AccountManager.saveAccounts();
             getScene().setRoot(new MenuView());
         });
 

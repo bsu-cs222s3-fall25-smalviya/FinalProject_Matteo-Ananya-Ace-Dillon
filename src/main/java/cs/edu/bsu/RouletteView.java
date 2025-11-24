@@ -65,8 +65,11 @@ public class RouletteView extends BorderPane {
 
         Button backButton = new Button("Return to Menu");
         backButton.setOnAction(event -> {
-                CoinBalance.balance += CoinBalance.gameBalance;
-                CoinBalance.gameBalance = 0;
+            CoinBalance.balance += CoinBalance.gameBalance;
+            CoinBalance.gameBalance = 0;
+
+            AccountManager.updateBalance(MenuView.currentUsername, CoinBalance.balance);
+            AccountManager.saveAccounts();
                 getScene().setRoot(new MenuView());
                 });
 
