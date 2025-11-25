@@ -201,7 +201,7 @@ public class SlotsView extends BorderPane {
         Button backButton = new Button("Back to Menu");
         Button payoutInfoButton = new Button("Payouts");
 
-        payoutInfoButton.getStyleClass().add("purple");
+        payoutInfoButton.getStyleClass().add("menuButtons");
 
         HBox bottomBar = new HBox();
 

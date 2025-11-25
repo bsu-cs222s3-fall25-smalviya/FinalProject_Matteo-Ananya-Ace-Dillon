@@ -330,3 +330,13 @@
     -fx-pref-width: 65;
     -fx-pref-height: 30;
 }
+
+.menuButtons {
+    -fx-background-color: #7c4dff;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 6;
+    -fx-pref-width: 100;
+}

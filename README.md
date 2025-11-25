@@ -119,7 +119,7 @@ the wheel is spinning.
 * Updated Horse Racing and Roulette UI.
 
 #### 11/24:
-* Updated Blackjack GUI.
 * Updated 'Bring Coins' popup UI.
 * Added the ability to save users balance with a username.
 * Updated purple buttons.
+* Updated Roulette, and War UI.

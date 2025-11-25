@@ -98,14 +98,14 @@ public class  MenuView extends BorderPane {
         Button roulette = makeButton("Roulette", "black");
         roulette.setOnAction(_ ->promptCoinAmountAndStartGame("Roulette",() -> getScene().setRoot(new RouletteView())));
 
-        Button tutorialsButton = makeButton("Tutorials", "purple");
+        Button tutorialsButton = makeButton("Tutorials", "menuButtons");
         tutorialsButton.setOnAction(_ -> {
             if (getScene() != null) {
                 getScene().setRoot(new TutorialView());
             }
         });
 
-        Button exitButton = makeButton("Exit", "purple");
+        Button exitButton = makeButton("Exit", "menuButtons");
         exitButton.setOnAction(_->{
             AccountManager.saveAccounts();
             javafx.application.Platform.exit();
