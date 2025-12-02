@@ -171,7 +171,7 @@ public class RouletteView extends BorderPane {
         centerBox.setPadding(new Insets(10, 10, 4, 10));
         setCenter(centerBox);
 
-        Button instructionsButton = new Button("Payouts");
+        Button instructionsButton = new Button("Instructions");
         instructionsButton.getStyleClass().add("purple");
         instructionsButton.setPrefWidth(110);
 
