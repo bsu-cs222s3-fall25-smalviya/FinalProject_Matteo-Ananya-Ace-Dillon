@@ -208,7 +208,7 @@ public class HorseRaceView extends BorderPane {
         });
 
         startButton = new Button("Start Race ▶");
-        startButton.setFont(Font.font("Bitcount Grid Single", 18));
+        startButton.setFont(Font.font("Bitcount Grid Single", 13));
         startButton.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #00ff99, #00cc66);" +
                         "-fx-text-fill: #001a00;" +
@@ -243,7 +243,7 @@ public class HorseRaceView extends BorderPane {
         ));
 
         backButton = new Button("Back to Menu");
-        backButton.setFont(Font.font("Bitcount Grid Single", 16));
+        backButton.setFont(Font.font("Bitcount Grid Single", 11));
         backButton.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff8800);" +
                         "-fx-text-fill: black;" +
