@@ -1,1 +1,4 @@
 ana,1000
+Dillon,0
+hugh,0
+hughy,0

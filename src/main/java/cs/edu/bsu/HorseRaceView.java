@@ -221,6 +221,27 @@ public class HorseRaceView extends BorderPane {
         );
         startButton.setOnAction(e -> startRace());
 
+        Button instructionsButton = new Button("Instructions");
+        instructionsButton.getStyleClass().add("purple");
+        instructionsButton.setOnAction(_ -> InstructionsPopup.show(
+                "Horse Racing Instructions",
+                """                                                 
+                Horse Racing
+
+                This is a virtual simulator that emulates a real horse track.
+                You will choose a horse and get your payout based on position:
+
+                  • 1st place: 3:1
+                  • 2nd place: 2:1
+                  • 3rd place: 1:1
+                  • 4th–6th: lose
+
+                Place your bet with the text box or the manual chip buttons.
+                Select the horse you think will win.
+                Press the "Start Race" button.
+                """
+        ));
+
         backButton = new Button("Back to Menu");
         backButton.setFont(Font.font("Bitcount Grid Single", 16));
         backButton.setStyle(
@@ -252,7 +273,9 @@ public class HorseRaceView extends BorderPane {
 
         controls.getChildren().addAll(
                 betControls,
-                horseLabelControl, horseChoice,
+                horseLabelControl,
+                horseChoice,
+                instructionsButton,
                 startButton,
                 backButton
         );
