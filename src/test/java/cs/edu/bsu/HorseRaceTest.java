@@ -115,13 +115,13 @@ class HorseRaceLogicTest {
 
         invokeApplyPayout();
 
-        assertEquals(300, getCoinsWon()); // 2.0x
+        assertEquals(300, getCoinsWon());
         assertEquals(300, CoinBalance.getGameBalance());
     }
 
     @Test
     void payout_thirdPlace_creditsStakeTimesOnePointFive_roundsProperly() throws Exception {
-        HorseRaceLogic.setBet(101); // odd amount to verify rounding
+        HorseRaceLogic.setBet(101);
         HorseRaceLogic.setChosenHorse(4);
 
         setFinishedFlags(HorseRaceLogic.getNumHorses());
@@ -191,7 +191,7 @@ class HorseRaceLogicTest {
 
     @Test
     void finishOrderString_matchesCurrentFormat_withIndexPlusSuffix() throws Exception {
-        setFinishedOrder(new ArrayList<>(List.of(0, 2, 4))); // Horse #1, #3, #5
+        setFinishedOrder(new ArrayList<>(List.of(0, 2, 4)));
 
         String s = HorseRaceLogic.finishOrderString();
         String[] lines = s.split("\\R");
