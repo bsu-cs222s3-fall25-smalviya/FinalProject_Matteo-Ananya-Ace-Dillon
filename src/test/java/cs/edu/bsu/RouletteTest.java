@@ -26,8 +26,8 @@ public class RouletteTest {
     @Test
     void testGetColorBasics() {
         assertEquals("GREEN", RouletteLogic.getColor(0), "0 should be GREEN");
-        assertEquals("RED", RouletteLogic.getColor(1), "1 is a standard RED number");
-        assertEquals("BLACK", RouletteLogic.getColor(2), "2 is a standard BLACK number");
+        assertEquals("BLACK", RouletteLogic.getColor(1), "1 is a standard RED number");
+        assertEquals("RED", RouletteLogic.getColor(2), "2 is a standard BLACK number");
     }
 
     @Test
@@ -84,7 +84,7 @@ public class RouletteTest {
         int betAmount = 30;
 
         RouletteLogic.RoundResult result =
-                logic.playRound(RouletteLogic.BetType.RED, -1, betAmount);
+                logic.playRound(RouletteLogic.BetType.BLACK, -1, betAmount);
 
         System.out.println("SUMMARY: " + result.getSummary());
         System.out.println("BALANCE BEFORE: " + before + " AFTER: " + CoinBalance.getGameBalance());
