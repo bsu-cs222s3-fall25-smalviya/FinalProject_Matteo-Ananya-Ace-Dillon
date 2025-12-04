@@ -10,11 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BlackjackTest {
     @BeforeEach
     void resetBeforeEach() {
-        // Reset static collections
         BlackjackLogic.dealerHand = new ArrayList<>();
         BlackjackLogic.playerHand = new ArrayList<>();
 
-        // Reset all static booleans
         BlackjackLogic.playerBust = false;
         BlackjackLogic.dealerBust = false;
         BlackjackLogic.playerBlackjack = false;
@@ -23,7 +21,6 @@ public class BlackjackTest {
         BlackjackLogic.playerRegularWin = false;
         BlackjackLogic.dealerRegularWin = false;
 
-        // Reset other static fields
         BlackjackLogic.coinsWon = 0;
         BlackjackLogic.currentBet = 0;
         CoinBalance.gameBalance = 0;

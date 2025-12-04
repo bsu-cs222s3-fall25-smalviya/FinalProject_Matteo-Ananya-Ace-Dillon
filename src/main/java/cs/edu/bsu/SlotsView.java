@@ -224,7 +224,6 @@ public class SlotsView extends BorderPane {
 
         Popup payoutPopup = new Popup();
 
-        // Layout for popup content
         VBox popupContent = new VBox(15);
         popupContent.setPrefWidth(275);
         popupContent.setPrefHeight(340);
@@ -269,23 +268,18 @@ public class SlotsView extends BorderPane {
 
         popupHeader.getStyleClass().add("popupHeader");
 
-        // close
         Button closePopup = new Button("Close");
         closePopup.getStyleClass().add("popupBackButton");
         closePopup.setOnAction(e -> payoutPopup.hide());
 
-        // puts em together
         popupContent.getChildren().addAll(popupHeader, popupText, closePopup);
 
-        // Adds content to popup. put whole box inside window
         payoutPopup.getContent().add(popupContent);
 
-        // Show/hide near the button when clicked
         payoutInfoButton.setOnAction(e -> {
             if (payoutPopup.isShowing()) {
                 payoutPopup.hide();
             } else {
-                // Get screen position of the button. finds the payout button
                 Bounds btnBounds = payoutInfoButton.localToScreen(payoutInfoButton.getBoundsInLocal());
                 double x = btnBounds.getMinX();
                 double y = btnBounds.getMinY() - 400;

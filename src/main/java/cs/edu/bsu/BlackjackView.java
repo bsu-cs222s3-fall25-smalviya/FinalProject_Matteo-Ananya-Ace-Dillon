@@ -35,7 +35,6 @@ public class BlackjackView extends BorderPane {
         header.setAlignment(Pos.CENTER);
         header.setPadding(new Insets(0));
 
-        // LEFT SIDE =========
         Label dealerLabel = new Label("Dealer");
         dealerLabel.getStyleClass().add("statsLabel");
 
@@ -83,12 +82,10 @@ public class BlackjackView extends BorderPane {
 
         VBox.setVgrow(leftPanel.getChildren().get(3), Priority.ALWAYS);
 
-        // RIGHT SIDE ==========
         Label statsLabel = new Label("Round Stats");
         statsLabel.setAlignment(Pos.CENTER);
         statsLabel.getStyleClass().add("statsLabel");
 
-        // dealer hand info
         Text dealerTitle = new Text("Dealer's Hand\n");
         dealerTitle.getStyleClass().add("titleStats");
 
@@ -107,7 +104,6 @@ public class BlackjackView extends BorderPane {
         TextFlow dealersInfoBox = new TextFlow(dealerTitle, dealerBodyBox);
         dealersInfoBox.getStyleClass().add("dealerStats");
 
-        // player hand info
         Text playerTitle = new Text("Your Hand\n");
         playerTitle.getStyleClass().add("titleStats");
 
@@ -126,7 +122,6 @@ public class BlackjackView extends BorderPane {
         TextFlow playersInfoBox = new TextFlow(playerTitle, playerBodyBox);
         playersInfoBox.getStyleClass().add("playerStats");
 
-        // match outcome
         TextArea matchOutcome = new TextArea("");
         matchOutcome.getStyleClass().add("matchOutcome");
         matchOutcome.setEditable(false);
@@ -138,7 +133,6 @@ public class BlackjackView extends BorderPane {
         VBox.setMargin(statsLabel, new Insets(30, 0, 10, 0));
         VBox.setMargin(matchOutcome, new Insets(25, 0, 25, 0));
 
-        // FOOTER ===========
         Button backButton = new Button("Back to Menu");
         backButton.getStyleClass().add("red");
 

@@ -12,13 +12,11 @@ public class  MenuView extends BorderPane {
     public static String currentUsername = "Guest";
 
     public MenuView() {
-        // HEADER
         Label title = new Label("MAAD Casino");
         VBox.setMargin(title, new Insets(23, 0, 10, 0));
         title.getStyleClass().add("title");
         BorderPane.setAlignment(title, Pos.CENTER);
 
-        // player info
         Label player = new Label("Player: " + MenuView.currentUsername);
         player.getStyleClass().add("stat");
         Label dot = new Label("•");
