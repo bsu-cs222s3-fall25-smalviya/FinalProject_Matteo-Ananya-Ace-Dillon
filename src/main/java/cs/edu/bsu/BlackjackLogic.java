@@ -27,7 +27,7 @@ public class BlackjackLogic {
     static boolean push = false;
 
     static List<Integer> values = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11);
-    static List<String> faces = Arrays.asList("J", "Q", "K");
+    static List<String> faces = Arrays.asList("J", "Q", "K", "10");
     static List<String> suits = Arrays.asList("C", "D", "S", "H");
 
     static ArrayList<Integer> dealerHand = new ArrayList<>();
