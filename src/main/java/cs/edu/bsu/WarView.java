@@ -65,14 +65,12 @@ public class WarView extends BorderPane {
     }
 
     private void buildCenterPanel() {
-        // Banner + round
         bannerLabel.getStyleClass().addAll("banner-text", "stat");
         roundLabel.getStyleClass().add("stat");
 
         HBox bannerRow = new HBox(20, bannerLabel, roundLabel);
         bannerRow.setAlignment(Pos.CENTER);
 
-        // Battlefield: YOU vs DEALER
         Label youTitle = new Label("YOU");
         youTitle.getStyleClass().add("stat");
 
@@ -143,6 +141,24 @@ public class WarView extends BorderPane {
     }
 
     private void buildBottomBar() {
+
+        Button instructionsButton = new Button("Instructions");
+        instructionsButton.getStyleClass().add("purple");
+
+        instructionsButton.setOnAction(_ -> InstructionsPopup.show(
+                "War Instructions",
+                """ 
+                War Instructions
+
+                War is a very simple game: high card wins.
+                If you win, it pays 1:1.
+                If you tie, it is a push.
+
+                Steps:
+                  • Place your bet
+                  • Press the Play button
+                """
+        ));
         Button backBtn = new Button("Back to Menu");
         backBtn.getStyleClass().add("red");
         backBtn.setOnAction(_ -> {
@@ -156,7 +172,7 @@ public class WarView extends BorderPane {
             }
         });
 
-        HBox bottomBar = new HBox(backBtn);
+        HBox bottomBar = new HBox(15, instructionsButton, backBtn);
         bottomBar.setAlignment(Pos.CENTER);
         bottomBar.setPadding(new Insets(25, 0, 0, 0));
 
