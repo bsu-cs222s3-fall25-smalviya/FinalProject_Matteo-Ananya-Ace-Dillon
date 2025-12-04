@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 public class WarView extends BorderPane {
 
     private final WarLogic war = new WarLogic();
-
+    private Button activeButton = null;
     private final TextField betField = new TextField();
     private final Label playerCardLabel = new Label("—");
     private final Label dealerCardLabel = new Label("—");
@@ -86,11 +86,13 @@ public class WarView extends BorderPane {
         VBox dealerBox = new VBox(6, dealerTitle, dealerCardLabel);
         dealerBox.setAlignment(Pos.CENTER);
 
+
         Label vsLabel = new Label("VS");
         vsLabel.getStyleClass().addAll("vs-text", "stat");
 
         HBox battleRow = new HBox(40, youBox, vsLabel, dealerBox);
         battleRow.setAlignment(Pos.CENTER);
+        battleRow.getStyleClass().add("battleRow");
 
         Separator topSep = new Separator();
         Separator bottomSep = new Separator();
@@ -102,9 +104,10 @@ public class WarView extends BorderPane {
 
         betField.setPromptText("Enter whole number");
         betField.setPrefColumnCount(8);
+        betField.getStyleClass().add("warBetField");
 
         Button playBtn = new Button("PLAY WAR");
-        playBtn.getStyleClass().add("green");
+        playBtn.getStyleClass().add("warPlayButton");
         playBtn.setOnAction(_ -> onPlay());
         betField.setOnAction(_ -> onPlay());
 
@@ -119,18 +122,18 @@ public class WarView extends BorderPane {
         HBox chipsRow = new HBox(10, bet10Button, bet25Button, bet50Button, bet100Button);
         chipsRow.setAlignment(Pos.CENTER);
 
-        VBox gamePanel = new VBox(
-                14,
-                bannerRow,
-                topSep,
-                battleRow,
-                bottomSep,
-                outcomeLabel,
-                betRow,
-                chipsRow
-        );
+        VBox gamePanel = new VBox(0, bannerRow, topSep, battleRow, bottomSep, outcomeLabel, betRow, chipsRow);
         gamePanel.setAlignment(Pos.TOP_CENTER);
         gamePanel.setPadding(new Insets(20, 40, 25, 40));
+
+        VBox.setMargin(bannerRow, new Insets(0, 0, 15, 0));
+        VBox.setMargin(topSep, new Insets(0, 0, 0, 0));
+        VBox.setMargin(battleRow, new Insets(0, 0, 0, 0));
+        VBox.setMargin(bottomSep, new Insets(0, 0, 15, 0));
+        VBox.setMargin(outcomeLabel, new Insets(0, 0, 10, 0));
+        VBox.setMargin(betRow, new Insets(0, 0, 20, 0));
+        VBox.setMargin(chipsRow, new Insets(0, 0, 0, 0));
+
 
         gamePanel.getStyleClass().add("game-panel");
 
@@ -181,11 +184,12 @@ public class WarView extends BorderPane {
 
     private Button createQuickBetButton(int amount) {
         Button button = new Button(String.valueOf(amount));
-        button.getStyleClass().add("chip-button");
+        button.getStyleClass().add("warBetButtons");
         button.setMinWidth(60);
         button.setOnAction(_ -> {
             betField.setText(String.valueOf(amount));
             bannerLabel.setText("Bet set to " + amount + " MAAD Coins");
+            updateActiveBetButton(button);
         });
         return button;
     }
@@ -225,6 +229,9 @@ public class WarView extends BorderPane {
         dealerCardLabel.setText(WarLogic.cardToString(result.dealerCard));
         outcomeLabel.setText(result.summary(bet));
 
+        playerCardLabel.getStyleClass().add("cardValueWar");
+        dealerCardLabel.getStyleClass().add("cardValueWar");
+
         switch (result.outcome) {
             case PLAYER_WIN -> bannerLabel.setText("You win the battle!");
             case DEALER_WIN -> bannerLabel.setText("Dealer takes this one...");
@@ -237,5 +244,13 @@ public class WarView extends BorderPane {
 
     private void updateCoins() {
         coinsLabel.setText("MAAD Coins: " + CoinBalance.gameBalance);
+    }
+
+    private void updateActiveBetButton(Button newActive) {
+        if (activeButton != null) {
+            activeButton.getStyleClass().remove("warBetButtonPressed");
+        }
+        newActive.getStyleClass().add("warBetButtonPressed");
+        activeButton = newActive;
     }
 }

@@ -483,3 +483,63 @@
     -fx-border-color: yellow;
     -fx-border-width: 2;
 }
+
+.warBetButtons {
+    -fx-background-color: black;
+    -fx-border-color: red;
+    -fx-border-width: 3;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-pref-width: 110;
+    -fx-pref-height: 50;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+
+.warBetButtons:hover {
+    -fx-background-color: black;
+    -fx-text-fill: red;
+    -fx-font-size: 20;
+}
+
+.warBetButtonPressed {
+    -fx-background-color: black;
+    -fx-text-fill: red;
+    -fx-font-size: 20;
+}
+
+.warPlayButton {
+    -fx-background-color: black;
+    -fx-border-color: red;
+    -fx-border-width: 3;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-pref-width: 160;
+    -fx-pref-height: 50;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+
+.warPlayButton:hover {
+    -fx-border-width: 4;
+}
+
+.warBetField {
+    -fx-background-color: black;
+    -fx-border-color: red;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-text-fill: white;
+    -fx-pref-width: 160;
+    -fx-pref-height: 30;
+}
+
+.battleRow {
+    -fx-background-color: black;
+    -fx-pref-height: 150;
+}
+
+.cardValueWar {
+    -fx-text-fill: yellow;
+}

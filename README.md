@@ -125,4 +125,9 @@ the wheel is spinning.
 * Updated Roulette, and War UI.
 
 #### 12/2:
-* Updated Roulette and Tutorials UI.
+* Updated Roulette UI.
+* Updated Tutorials UI.
+
+#### 12/4:
+* Updated Blackjack UI.
+* Updated War UI.
