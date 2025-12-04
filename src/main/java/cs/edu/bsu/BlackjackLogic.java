@@ -27,14 +27,18 @@ public class BlackjackLogic {
     static boolean push = false;
 
     static List<Integer> values = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11);
+    static List<String> faces = Arrays.asList("J", "Q", "K");
+    static List<String> suits = Arrays.asList("C", "D", "S", "H");
+
     static ArrayList<Integer> dealerHand = new ArrayList<>();
     static ArrayList<Integer> playerHand = new ArrayList<>();
+
+    static ArrayList<String> playerHandFiles = new ArrayList<>();
+    static ArrayList<String> dealerHandFiles = new ArrayList<>();
 
     public static void set() {
         if (currentBet <= CoinBalance.gameBalance) {
             CoinBalance.gameBalance -= currentBet;
-            System.out.println("set " + currentBet);
-            System.out.println("game balance " + CoinBalance.gameBalance);
             resetFlags();
             dealerHand.clear();
             playerHand.clear();
@@ -46,26 +50,39 @@ public class BlackjackLogic {
 
     public static void setBet(int bet) {
         currentBet = bet;
-        System.out.println("setBet " + currentBet);
     }
 
     public static void setDealerCards() {
-        randomIndex = random.nextInt(values.size());
-        randomCard = values.get(randomIndex);
-        dealerHand.add(randomCard);
+        dealerHand.clear();
+        dealerHandFiles.clear();
 
         randomIndex = random.nextInt(values.size());
         randomCard = values.get(randomIndex);
+        dealerHand.add(randomCard);
+        dealerHandFiles.add(getCard(randomCard));
+
+        randomIndex = random.nextInt(values.size());
+        randomCard = values.get(randomIndex);
+        dealerHand.add(randomCard);
         dealersSecondCard = randomCard;
 
         blackjackOutcome();
     }
 
+    public static void revealDealerSecondCard() {
+        if (dealerHandFiles.size() < 2) {
+            dealerHandFiles.add(getCard(dealersSecondCard));
+        }
+    }
+
     public static void setPlayerCards() {
+        playerHand.clear();
+        playerHandFiles.clear();
         for (int i = 0; i < 2; i++) {
             randomIndex = random.nextInt(values.size());
             randomCard = values.get(randomIndex);
             playerHand.add(randomCard);
+            playerHandFiles.add(getCard(randomCard));
         }
         blackjackOutcome();
     }
@@ -74,6 +91,7 @@ public class BlackjackLogic {
         randomIndex = random.nextInt(values.size());
         randomCard = values.get(randomIndex);
         playerHand.add(randomCard);
+        playerHandFiles.add(getCard(randomCard));
         totalValueCalculatorPlayer();
     }
 
@@ -82,6 +100,7 @@ public class BlackjackLogic {
             int randomIndex = random.nextInt(values.size());
             int randomCard = values.get(randomIndex);
             dealerHand.add(randomCard);
+            dealerHandFiles.add(getCard(randomCard));
             totalValueCalculatorDealer();
         }
         pushOutcome();
@@ -90,6 +109,7 @@ public class BlackjackLogic {
 
     public static int totalValueCalculatorPlayer() {
         int totalValue = 0;
+        playerBust = false;
 
         for (int i : playerHand) {
             totalValue += i;
@@ -109,6 +129,7 @@ public class BlackjackLogic {
 
     public static int totalValueCalculatorDealer() {
         int totalValue = 0;
+        dealerBust = false;
 
         for (int i : dealerHand) {
             totalValue += i;
@@ -166,7 +187,7 @@ public class BlackjackLogic {
         push = false;
     }
 
-    public static void payoutCalculator() {
+    public static long payoutCalculator() {
         if (playerBlackjack) {
             coinsWon = (long) (currentBet * 4.5);
         } else if (playerRegularWin || dealerBust) {
@@ -178,11 +199,37 @@ public class BlackjackLogic {
         }
 
         CoinBalance.gameBalance += coinsWon;
+
+        return coinsWon;
     }
 
     public static void doubleDownCalculator() {
-        currentBet *= 2;
         CoinBalance.gameBalance -= currentBet;
+        currentBet *= 2;
         playerHit();
+    }
+
+    public static String getCard(int value) {
+        String face;
+        String suit;
+
+        Random randomFace = new Random();
+        Random randomSuit = new Random();
+
+        int randomFaceIndex = randomFace.nextInt(faces.size());
+        String randomFaceString = faces.get(randomFaceIndex);
+        int randomSuitIndex = randomSuit.nextInt(suits.size());
+        String randomSuitString = suits.get(randomSuitIndex);
+
+        if (value == 11) {
+            face = "A";
+        } else if (value == 10) {
+            face = randomFaceString;
+        } else {
+            face = String.valueOf(value);
+        }
+        suit = randomSuitString;
+
+        return face + suit + ".png";
     }
 }

@@ -240,7 +240,7 @@
     -fx-font-weight: bold;
     -fx-padding: 10 20;
     -fx-background-radius: 6;
-    -fx-pref-width: 160;
+    -fx-pref-width: 120;
 }
 
 .purple:hover {
@@ -331,6 +331,10 @@
     -fx-pref-height: 30;
 }
 
+.usernameButton:hover {
+    -fx-background-color: #8A65FF;
+}
+
 .menuButtons {
     -fx-background-color: #7c4dff;
     -fx-text-fill: white;
@@ -339,4 +343,143 @@
     -fx-padding: 10 20;
     -fx-background-radius: 6;
     -fx-pref-width: 100;
+}
+
+.menuButtons:hover {
+    -fx-background-color: #8A65FF;
+}
+
+.betAmountLabel {
+    -fx-text-fill: yellow;
+    -fx-font-size: 18;
+}
+
+.userBetInput {
+    -fx-max-width: 165;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: yellow;
+    -fx-background-color: black;
+    -fx-text-fill: #FF7F00;
+    -fx-alignment: center;
+    -fx-font-size: 15;
+}
+
+.footerBlackjack {
+    -fx-border-color: #B8860B;
+    -fx-border-width: 2 0 0 0;
+    -fx-background-color: rgba(0, 0, 0, 0.65);
+}
+
+.statsLabel {
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 30;
+    -fx-font-family: "Bitcount Grid Single";
+}
+
+.titleStats {
+    -fx-fill: #CFC421;
+    -fx-font-size: 20;
+    -fx-font-family: "Bitcount Grid Single";
+}
+
+.dealerStats {
+    -fx-fill: white;
+    -fx-background-color: black;
+    -fx-pref-width: 255;
+    -fx-pref-height: 125;
+    -fx-border-color: #58007D;
+    -fx-border-width: 3 3 1 3;
+}
+
+.playerStats {
+    -fx-fill: white;
+    -fx-background-color: black;
+    -fx-pref-width: 255;
+    -fx-pref-height: 125;
+    -fx-border-color: #58007D;
+    -fx-border-width: 0 3 3 3;
+}
+
+.matchOutcomeLost {
+    -fx-text-fill: red;
+}
+
+.matchOutcomeWon {
+    -fx-text-fill: lime;
+}
+
+.matchOutcomeTied {
+    -fx-text-fill: white;
+}
+
+.matchOutcome {
+    -fx-font-size: 19;
+    -fx-control-inner-background: black;
+    -fx-background-color: black;
+    -fx-pref-width: 255;
+    -fx-pref-height: 90;
+    -fx-border-color: #58007D;
+    -fx-border-width: 3;
+    -fx-font-family: "Digital-7 Mono";
+}
+
+.bodyText1 {
+    -fx-fill: lightgray;
+    -fx-font-size: 24;
+    -fx-font-family: "Digital-7 Mono";
+}
+
+.bodyText2 {
+    -fx-fill: #FF6B6B;
+    -fx-font-size: 30;
+    -fx-font-family: "Digital-7 Mono";
+}
+
+.totalLabel {
+    -fx-fill: gray;
+    -fx-font-size: 13;
+}
+
+.blackjackButtonRow {
+    -fx-background-color: black;
+    -fx-border-color: yellow;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-pref-width: 100;
+    -fx-pref-height: 35;
+    -fx-text-fill: white;
+}
+
+.blackjackButtonRow:hover {
+    -fx-background-color: #222222;
+    -fx-border-color: #222222;
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                    dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
+}
+
+.blackjackButtonSet {
+    -fx-background-color: black;
+    -fx-border-color: yellow;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-pref-width: 330;
+    -fx-pref-height: 35;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.blackjackButtonSet:hover {
+    -fx-background-color: #222222;
+    -fx-border-color: #222222;
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0.7, 0, 0),
+                    dropshadow(gaussian, yellow, 20, 0.5, 0, 0);
+}
+
+.cardRows {
+    -fx-background-color: black;
+    -fx-border-color: yellow;
+    -fx-border-width: 2;
 }

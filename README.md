@@ -123,3 +123,6 @@ the wheel is spinning.
 * Added the ability to save users balance with a username.
 * Updated purple buttons.
 * Updated Roulette, and War UI.
+
+#### 12/2:
+* Updated Roulette and Tutorials UI.

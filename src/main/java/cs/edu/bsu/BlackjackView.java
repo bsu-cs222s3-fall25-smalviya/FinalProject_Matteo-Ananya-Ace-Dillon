@@ -3,51 +3,165 @@ package cs.edu.bsu;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+
+import java.util.ArrayList;
 
 public class BlackjackView extends BorderPane {
-    static TextField dealerOutput = new TextField();
-    static TextField playerOutput = new TextField();
-
     static boolean wasClicked = false;
 
     public BlackjackView() {
+        // HEADER ===========
         Label title = new Label("🂠 Blackjack 🂠");
         title.getStyleClass().add("title");
 
-        Label player = new Label("Player: " + MenuView.currentUsername);
-        player.getStyleClass().add("stat");
+
+        Label userName = new Label("Player: " + MenuView.currentUsername);
+        userName.getStyleClass().add("stat");
 
         Label dot = new Label("•");
         dot.getStyleClass().add("stat-dot");
 
-        Label coins = new Label("MAAD Coins: " + CoinBalance.gameBalance);
-        coins.getStyleClass().add("stat");
+        Label userBalance = new Label("MAAD Coins: " + CoinBalance.gameBalance);
+        userBalance.getStyleClass().add("stat");
 
-        HBox statusBar = new HBox(10, player, dot, coins);
+        HBox statusBar = new HBox(10, userName, dot, userBalance);
         statusBar.setAlignment(Pos.CENTER);
         statusBar.setPadding(new Insets(0, 0, 0, 0));
 
-        Label matchOutcome = new Label("");
+        VBox header = new VBox(15, title, statusBar);
+        header.setAlignment(Pos.CENTER);
+        header.setPadding(new Insets(0));
+
+        // LEFT SIDE =========
+        Label dealerLabel = new Label("Dealer");
+        dealerLabel.getStyleClass().add("statsLabel");
+
+        HBox dealerCardRow = new HBox();
+        dealerCardRow.setSpacing(5);
+        dealerCardRow.setAlignment(Pos.CENTER);
+        dealerCardRow.getStyleClass().add("cardRows");
+
+        HBox playerCardRow = new HBox();
+        playerCardRow.setSpacing(5);
+        playerCardRow.setAlignment(Pos.CENTER);
+        playerCardRow.getStyleClass().add("cardRows");
+
+        dealerCardRow.setPrefSize(550, 150);
+        playerCardRow.setPrefSize(550, 150);
+
+        Button set = new Button("New Round");
         Button hit = new Button("Hit");
         Button stand = new Button("Stand");
         Button doubleDown = new Button ("Double Down");
 
+        set.getStyleClass().add("blackjackButtonSet");
+        hit.getStyleClass().add("blackjackButtonRow");
+        stand.getStyleClass().add("blackjackButtonRow");
+        doubleDown.getStyleClass().add("blackjackButtonRow");
+
+        set.setDisable(true);
         hit.setDisable(true);
         stand.setDisable(true);
         doubleDown.setDisable(true);
 
-        TextArea winLoseOutcome = new TextArea("");
-        winLoseOutcome.setEditable(false);
-        winLoseOutcome.setPrefSize(100, 100);
+        HBox buttonRow = new HBox(15, hit, stand, doubleDown);
+        buttonRow.setAlignment(Pos.CENTER);
 
-        TextField betField = new TextField("");
-        betField.setPromptText("Place bet here...");
+        VBox buttonArea = new VBox(10, buttonRow, set);
+        buttonArea.setAlignment(Pos.CENTER);
 
-        Button back = new Button("Back to Menu");
-        back.setOnAction(_ -> {
+        VBox leftPanel = new VBox(dealerLabel, dealerCardRow, playerCardRow, new Region(), buttonArea);
+        leftPanel.getStyleClass().add("leftPanelBlackjack");
+        leftPanel.setAlignment(Pos.TOP_CENTER);
+        leftPanel.setPadding(new Insets(30, 0, 10, 25));
+        VBox.setMargin(dealerLabel, new Insets(0, 0, 10, 0));
+        VBox.setMargin(dealerCardRow, new Insets(0, 0, 10, 0));
+        VBox.setMargin(buttonArea, new Insets(10, 0, 0, 0));
+
+        VBox.setVgrow(leftPanel.getChildren().get(3), Priority.ALWAYS);
+
+        // RIGHT SIDE ==========
+        Label statsLabel = new Label("Round Stats");
+        statsLabel.setAlignment(Pos.CENTER);
+        statsLabel.getStyleClass().add("statsLabel");
+
+        // dealer hand info
+        Text dealerTitle = new Text("Dealer's Hand\n");
+        dealerTitle.getStyleClass().add("titleStats");
+
+        Text dealersHand = new Text("");
+        Text totalLabel1 = new Text("Total:");
+        Text dealerTotalHand = new Text("");
+        dealersHand.getStyleClass().add("bodyText1");
+        dealerTotalHand.getStyleClass().add("bodyText2");
+        totalLabel1.getStyleClass().add("totalLabel");
+
+        VBox dealerBodyBox = new VBox(0, dealersHand, totalLabel1, dealerTotalHand);
+        VBox.setMargin(dealersHand, new Insets(10, 0, 10, 5));
+        VBox.setMargin(totalLabel1, new Insets(0, 0, 0, 5));
+        VBox.setMargin(dealerTotalHand, new Insets(10, 0, 0, 5));
+
+        TextFlow dealersInfoBox = new TextFlow(dealerTitle, dealerBodyBox);
+        dealersInfoBox.getStyleClass().add("dealerStats");
+
+        // player hand info
+        Text playerTitle = new Text("Your Hand\n");
+        playerTitle.getStyleClass().add("titleStats");
+
+        Text playersHand = new Text("");
+        Text totalLabel2 = new Text("Total:");
+        Text playerTotalHand = new Text("");
+        playersHand.getStyleClass().add("bodyText1");
+        playerTotalHand.getStyleClass().add("bodyText2");
+        totalLabel2.getStyleClass().add("totalLabel");
+
+        VBox playerBodyBox = new VBox(0, playersHand, totalLabel2, playerTotalHand);
+        VBox.setMargin(playersHand, new Insets(10, 0, 10, 5));
+        VBox.setMargin(totalLabel2, new Insets(0, 0, 0, 5));
+        VBox.setMargin(playerTotalHand, new Insets(10, 0, 0, 5));
+
+        TextFlow playersInfoBox = new TextFlow(playerTitle, playerBodyBox);
+        playersInfoBox.getStyleClass().add("playerStats");
+
+        // match outcome
+        TextArea matchOutcome = new TextArea("");
+        matchOutcome.getStyleClass().add("matchOutcome");
+        matchOutcome.setEditable(false);
+
+        VBox rightPanel = new VBox(0, statsLabel, dealersInfoBox, playersInfoBox, matchOutcome);
+        rightPanel.setPadding(new Insets(0, 25, 0, 0));
+        rightPanel.setAlignment(Pos.TOP_LEFT);
+
+        VBox.setMargin(statsLabel, new Insets(30, 0, 10, 0));
+        VBox.setMargin(matchOutcome, new Insets(25, 0, 25, 0));
+
+        // FOOTER ===========
+        Button backButton = new Button("Back to Menu");
+        backButton.getStyleClass().add("red");
+
+        Label betAmountLabel = new Label("Bet Amount:");
+        betAmountLabel.getStyleClass().add("betAmountLabel");
+
+        TextField userBetInput = new TextField();
+        userBetInput.setPromptText("Place bet here...");
+        userBetInput.getStyleClass().add("userBetInput");
+
+        VBox betArea = new VBox(4, betAmountLabel, userBetInput);
+        betArea.setAlignment(Pos.CENTER);
+
+        StackPane footer = new StackPane();
+        footer.getStyleClass().add("footerBlackjack");
+        footer.getChildren().addAll(betArea, backButton);
+        StackPane.setAlignment(backButton, Pos.CENTER_RIGHT);
+        StackPane.setMargin(betArea, new Insets(0, 0, 0, 0));
+        StackPane.setMargin(backButton, new Insets(20, 15, 15, 0));
+
+        // FUNCTIONS ===========
+        backButton.setOnAction(_ -> {
             CoinBalance.balance += CoinBalance.gameBalance;
             CoinBalance.gameBalance = 0;
 
@@ -56,148 +170,219 @@ public class BlackjackView extends BorderPane {
             getScene().setRoot(new MenuView());
         });
 
-        Button set = new Button("New Round");
+        userBetInput.textProperty().addListener((obs) -> {
+            set.setDisable(false);
+        });
+
         set.setOnAction(_ -> {
-            String betAmount = betField.getText();
-            System.out.println("betAmount " + betAmount);
-            BlackjackLogic.setBet(Integer.parseInt(betAmount));
-            BlackjackLogic.set();
-
-            wasClicked = false;
-            winLoseOutcome.setText(" ");
-
             set.setDisable(true);
             hit.setDisable(false);
             stand.setDisable(false);
             doubleDown.setDisable(false);
-            dealerOutput.setText("[" + BlackjackLogic.dealerHand.getFirst() + ", ?]");
-            BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
-            playerOutput.setText(String.valueOf(BlackjackLogic.playerHand));
-            matchOutcome.setText("Dealer Hand: ?" + "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
 
-            if (BlackjackLogic.push) {
-                System.out.println("set: push\n" + true);
-                winLoseOutcome.setText("Round got pushed...\nit's a tie");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
-            } else if (BlackjackLogic.dealerBlackjack) {
-                System.out.println("dealer blackjack\n" + true);
-                dealerOutput.setText("" + BlackjackLogic.dealerHand);
-                winLoseOutcome.setText("Dealer got a Blackjack...\nyou lose");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
-            } else if (BlackjackLogic.playerBlackjack) {
-                System.out.println("player blackjack\n" + true);
-                winLoseOutcome.setText("You got a Blackjack...\nyou win!");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
-                BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
-                dealerOutput.setText("" + BlackjackLogic.dealerHand);
+            String betAmount = userBetInput.getText();
+
+            BlackjackLogic.setBet(Integer.parseInt(betAmount));
+            BlackjackLogic.set();
+
+            dealerCardRow.getChildren().clear();
+            playerCardRow.getChildren().clear();
+
+            ImageView dealerCard1 = new ImageView(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/PlayingCards/" + BlackjackLogic.dealerHandFiles.get(0))));
+            dealerCard1.setFitWidth(85);
+            dealerCard1.setPreserveRatio(true);
+
+            ImageView dealerHidden = new ImageView(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/PlayingCards/HiddenCard.png")));
+            dealerHidden.setFitWidth(85);
+            dealerHidden.setPreserveRatio(true);
+
+            dealerCardRow.getChildren().addAll(dealerCard1, dealerHidden);
+
+            for (int i = 0; i < BlackjackLogic.playerHandFiles.size(); i++) {
+                ImageView playerCard = new ImageView(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/PlayingCards/" + BlackjackLogic.playerHandFiles.get(i))));
+                playerCard.setFitWidth(85);
+                playerCard.setPreserveRatio(true);
+                playerCardRow.getChildren().add(playerCard);
             }
+
+            wasClicked = false;
+            matchOutcome.setText("");
+            matchOutcome.getStyleClass().remove("matchOutcomeWon");
+            matchOutcome.getStyleClass().remove("matchOutcomeLost");
+            matchOutcome.getStyleClass().remove("matchOutcomeTied");
+
+            dealersHand.setText(BlackjackLogic.dealerHand.get(0) + " ?");
+            playersHand.setText(formatHand(BlackjackLogic.playerHand));
+            dealerTotalHand.setText(" ?");
+            playerTotalHand.setText("" + BlackjackLogic.totalValueCalculatorPlayer());
+
+            if (BlackjackLogic.dealerBlackjack && BlackjackLogic.playerBlackjack) {
+                set.setDisable(false);
+                hit.setDisable(true);
+                stand.setDisable(true);
+                doubleDown.setDisable(true);
+
+                BlackjackLogic.revealDealerSecondCard();
+                dealerCardRow.getChildren().clear();
+                for (int i = 0; i < BlackjackLogic.dealerHandFiles.size(); i++) {
+                    ImageView dealerCard = new ImageView(new javafx.scene.image.Image(
+                            getClass().getResourceAsStream("/images/PlayingCards/" + BlackjackLogic.dealerHandFiles.get(i))
+                    ));
+                    dealerCard.setFitWidth(85);
+                    dealerCard.setPreserveRatio(true);
+                    dealerCardRow.getChildren().add(dealerCard);
+                }
+
+                dealersHand.setText(formatHand(BlackjackLogic.dealerHand));
+                playersHand.setText(formatHand(BlackjackLogic.playerHand));
+                matchOutcome.setText("Round got pushed\n-\nIt's a tie");
+                matchOutcome.getStyleClass().add("matchOutcomeTied");
+            } else if (BlackjackLogic.dealerBlackjack) {
+                set.setDisable(false);
+                hit.setDisable(true);
+                stand.setDisable(true);
+                doubleDown.setDisable(true);
+
+                BlackjackLogic.revealDealerSecondCard();
+                dealerCardRow.getChildren().clear();
+                for (int i = 0; i < BlackjackLogic.dealerHandFiles.size(); i++) {
+                    ImageView dealerCard = new ImageView(new javafx.scene.image.Image(
+                            getClass().getResourceAsStream("/images/PlayingCards/" + BlackjackLogic.dealerHandFiles.get(i))
+                    ));
+                    dealerCard.setFitWidth(85);
+                    dealerCard.setPreserveRatio(true);
+                    dealerCardRow.getChildren().add(dealerCard);
+                }
+
+                dealersHand.setText(formatHand(BlackjackLogic.dealerHand));
+                playersHand.setText(formatHand(BlackjackLogic.playerHand));
+                matchOutcome.setText("Dealer got a Blackjack\n-\nYou lose");
+                matchOutcome.getStyleClass().add("matchOutcomeLost");
+            } else if (BlackjackLogic.playerBlackjack) {
+                set.setDisable(false);
+                hit.setDisable(true);
+                stand.setDisable(true);
+                doubleDown.setDisable(true);
+
+                BlackjackLogic.revealDealerSecondCard();
+                dealerCardRow.getChildren().clear();
+                for (int i = 0; i < BlackjackLogic.dealerHandFiles.size(); i++) {
+                    ImageView dealerCard = new ImageView(new javafx.scene.image.Image(
+                            getClass().getResourceAsStream("/images/PlayingCards/" + BlackjackLogic.dealerHandFiles.get(i))
+                    ));
+                    dealerCard.setFitWidth(85);
+                    dealerCard.setPreserveRatio(true);
+                    dealerCardRow.getChildren().add(dealerCard);
+                }
+
+                dealersHand.setText(formatHand(BlackjackLogic.dealerHand));
+                playersHand.setText(formatHand(BlackjackLogic.playerHand));
+                matchOutcome.setText("You got a Blackjack\n-\nYou win " + BlackjackLogic.payoutCalculator() + " MAAD Coins!");
+                matchOutcome.getStyleClass().add("matchOutcomeWon");
+            }
+
             BlackjackLogic.payoutCalculator();
-            long newBalance = CoinBalance.gameBalance;
-            coins.setText("MAAD Coins: " + newBalance);
+            userBalance.setText("MAAD Coins: " + CoinBalance.gameBalance);
         });
-
-        Label dealerLabel = new Label("Dealer:");
-        dealerOutput.setEditable(false);
-
-        Label playerLabel = new Label("Player:");
-        playerOutput.setEditable(false);
 
         doubleDown.setOnAction(_ -> {
             BlackjackLogic.doubleDownCalculator();
-            dealerOutput.setText("[" + BlackjackLogic.dealerHand.getFirst() + ", ?]");
-            playerOutput.setText(String.valueOf(BlackjackLogic.playerHand));
-            matchOutcome.setText("Dealer Hand: ?" + "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
+
+            playerCardRow.getChildren().clear();
+            for (String fileName : BlackjackLogic.playerHandFiles) {
+                ImageView playerCard = new ImageView(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/PlayingCards/" + fileName)));
+                playerCard.setFitWidth(85);
+                playerCard.setPreserveRatio(true);
+                playerCardRow.getChildren().add(playerCard);
+            }
+
+            userBalance.setText("MAAD Coins: " + CoinBalance.gameBalance);
+
+            playersHand.setText(formatHand(BlackjackLogic.playerHand));
+            dealerTotalHand.setText(" ?");
+            playerTotalHand.setText("" + BlackjackLogic.totalValueCalculatorPlayer());
+
             if (BlackjackLogic.playerBust) {
-                System.out.println("hit: player bust\n" + true);
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
                 doubleDown.setDisable(true);
-                winLoseOutcome.setText("You got a bust...\nyou lose");
-                BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
-                dealerOutput.setText("" + BlackjackLogic.dealerHand);
-                matchOutcome.setText("Dealer Hand: " + BlackjackLogic.totalValueCalculatorDealer() +
-                        "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
-            } else if (BlackjackLogic.push) {
-                System.out.println("hit: push\n" + true);
-                winLoseOutcome.setText("Round got pushed...\nit's a tie");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
-            } else if (BlackjackLogic.playerRegularWin) {
-                System.out.println("hit: player win\n" + true);
-                winLoseOutcome.setText("You have more than the dealer...\nyou win!");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
-            } else if (BlackjackLogic.dealerRegularWin) {
-                System.out.println("hit: dealer win\n" + true);
-                winLoseOutcome.setText("The dealer has more...\nyou lose");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
+
+                BlackjackLogic.revealDealerSecondCard();
+                dealerCardRow.getChildren().clear();
+                for (int i = 0; i < BlackjackLogic.dealerHandFiles.size(); i++) {
+                    ImageView dealerCard = new ImageView(new javafx.scene.image.Image(
+                            getClass().getResourceAsStream("/images/PlayingCards/" + BlackjackLogic.dealerHandFiles.get(i))
+                    ));
+                    dealerCard.setFitWidth(85);
+                    dealerCard.setPreserveRatio(true);
+                    dealerCardRow.getChildren().add(dealerCard);
+                }
+
+                matchOutcome.setText("You got a bust\n-\nYou lose");
+                matchOutcome.getStyleClass().add("matchOutcomeLost");
+
+                dealersHand.setText("" + BlackjackLogic.dealerHand);
+                dealerTotalHand.setText("" + BlackjackLogic.totalValueCalculatorDealer());
+                playerTotalHand.setText("" + BlackjackLogic.totalValueCalculatorPlayer());
             } else if (BlackjackLogic.totalValueCalculatorPlayer() == 21) {
                 hit.setDisable(true);
                 doubleDown.setDisable(true);
+
+                BlackjackLogic.revealDealerSecondCard();
             }
+
             BlackjackLogic.payoutCalculator();
+            userBalance.setText("MAAD Coins: " + CoinBalance.getGameBalance());
         });
 
         hit.setOnAction(_ -> {
             BlackjackLogic.playerHit();
-            playerOutput.setText(" | " + BlackjackLogic.playerHand);
-            matchOutcome.setText("Dealer Hand: ?" + "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
+
+            playerCardRow.getChildren().clear();
+            for (String fileName : BlackjackLogic.playerHandFiles) {
+                ImageView playerCard = new ImageView(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/PlayingCards/" + fileName)));
+                playerCard.setFitWidth(85);
+                playerCard.setPreserveRatio(true);
+                playerCardRow.getChildren().add(playerCard);
+            }
+
+            playersHand.setText(formatHand(BlackjackLogic.playerHand));
+            dealerTotalHand.setText(" ?");
+            playerTotalHand.setText("" + BlackjackLogic.totalValueCalculatorPlayer());
+
             if (BlackjackLogic.playerBust) {
-                System.out.println("hit: player bust\n" + true);
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
                 doubleDown.setDisable(true);
-                winLoseOutcome.setText("You got a bust...\nyou lose");
-                BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
-                dealerOutput.setText("" + BlackjackLogic.dealerHand);
-                matchOutcome.setText("Dealer Hand: " + BlackjackLogic.totalValueCalculatorDealer() +
-                        "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
-            } else if (BlackjackLogic.push) {
-                System.out.println("hit: push\n" + true);
-                winLoseOutcome.setText("Round got pushed...\nit's a tie");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
-            } else if (BlackjackLogic.playerRegularWin) {
-                System.out.println("hit: player win\n" + true);
-                winLoseOutcome.setText("You have more than the dealer...\nyou win!");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
-            } else if (BlackjackLogic.dealerRegularWin) {
-                System.out.println("hit: dealer win\n" + true);
-                winLoseOutcome.setText("The dealer has more...\nyou lose");
-                set.setDisable(false);
-                hit.setDisable(true);
-                stand.setDisable(true);
-                doubleDown.setDisable(true);
+
+                BlackjackLogic.revealDealerSecondCard();
+                dealerCardRow.getChildren().clear();
+                for (int i = 0; i < BlackjackLogic.dealerHandFiles.size(); i++) {
+                    ImageView dealerCard = new ImageView(new javafx.scene.image.Image(
+                            getClass().getResourceAsStream("/images/PlayingCards/" + BlackjackLogic.dealerHandFiles.get(i))
+                    ));
+                    dealerCard.setFitWidth(85);
+                    dealerCard.setPreserveRatio(true);
+                    dealerCardRow.getChildren().add(dealerCard);
+                }
+
+                matchOutcome.setText("You got a bust\n-\nYou lose");
+                matchOutcome.getStyleClass().add("matchOutcomeLost");
+
+                dealersHand.setText(formatHand(BlackjackLogic.dealerHand));
+                dealerTotalHand.setText("" + BlackjackLogic.totalValueCalculatorDealer());
+                playerTotalHand.setText("" + BlackjackLogic.totalValueCalculatorPlayer());
             } else if (BlackjackLogic.totalValueCalculatorPlayer() == 21) {
                 hit.setDisable(true);
                 doubleDown.setDisable(true);
+
+                BlackjackLogic.revealDealerSecondCard();
             }
+
             BlackjackLogic.payoutCalculator();
-            long newBalance = CoinBalance.getGameBalance();
-            coins.setText("MAAD Coins: " + newBalance);
+            userBalance.setText("MAAD Coins: " + CoinBalance.getGameBalance());
         });
 
         stand.setOnAction(_ -> {
@@ -205,68 +390,84 @@ public class BlackjackView extends BorderPane {
             hit.setDisable(true);
             stand.setDisable(true);
             doubleDown.setDisable(true);
-            BlackjackLogic.dealerHand.add(BlackjackLogic.dealersSecondCard);
-            BlackjackLogic.dealerHit();
 
-            dealerOutput.setText("" + BlackjackLogic.dealerHand);
-            matchOutcome.setText("Dealer Hand: " + BlackjackLogic.totalValueCalculatorDealer() +
-                    "\nPlayer Hand: " + BlackjackLogic.totalValueCalculatorPlayer());
+            BlackjackLogic.revealDealerSecondCard();
+            BlackjackLogic.dealerHit();
+            dealerCardRow.getChildren().clear();
+            for (int i = 0; i < BlackjackLogic.dealerHandFiles.size(); i++) {
+                ImageView dealerCard = new ImageView(new javafx.scene.image.Image(
+                        getClass().getResourceAsStream("/images/PlayingCards/" + BlackjackLogic.dealerHandFiles.get(i))
+                ));
+                dealerCard.setFitWidth(85);
+                dealerCard.setPreserveRatio(true);
+                dealerCardRow.getChildren().add(dealerCard);
+            }
+
+            dealersHand.setText(formatHand(BlackjackLogic.dealerHand));
+            playersHand.setText(formatHand(BlackjackLogic.playerHand));
+            dealerTotalHand.setText("" + BlackjackLogic.totalValueCalculatorDealer());
+            playerTotalHand.setText("" + BlackjackLogic.totalValueCalculatorPlayer());
 
             if (BlackjackLogic.playerBust) {
-                System.out.println("stand: player bust\n" + true);
-                winLoseOutcome.setText("You got a bust...\nyou lose");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
                 doubleDown.setDisable(true);
+
+                matchOutcome.setText("You got a bust\n-\nYou lose");
+                matchOutcome.getStyleClass().add("matchOutcomeLost");
             } else if (BlackjackLogic.dealerBust) {
-                System.out.println("stand: dealer bust\n" + true);
-                winLoseOutcome.setText("The dealer got a bust...\nyou win!");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
                 doubleDown.setDisable(true);
+
+                matchOutcome.setText("The dealer got a bust\n-\nYou win " + BlackjackLogic.payoutCalculator() + " MAAD Coins!");
+                matchOutcome.getStyleClass().add("matchOutcomeWon");
             } else if (BlackjackLogic.push) {
-                System.out.println("stand: push\n" + true);
-                winLoseOutcome.setText("Round got pushed...\nit's a tie");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
                 doubleDown.setDisable(true);
+
+                matchOutcome.setText("Round got pushed\n-\nIt's a tie");
+                matchOutcome.getStyleClass().add("matchOutcomeTied");
             } else if (BlackjackLogic.playerRegularWin) {
-                System.out.println("stand: player win\n" + true);
-                winLoseOutcome.setText("You have more than the dealer...\nyou win!");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
                 doubleDown.setDisable(true);
+
+                matchOutcome.setText("You outscored the dealer\n-\nYou win " + BlackjackLogic.payoutCalculator() + " MAAD Coins!");
+                matchOutcome.getStyleClass().add("matchOutcomeWon");
             } else if (BlackjackLogic.dealerRegularWin) {
-                System.out.println("stand: dealer win\n" + true);
-                winLoseOutcome.setText("The dealer has more...\nyou lose");
                 set.setDisable(false);
                 hit.setDisable(true);
                 stand.setDisable(true);
                 doubleDown.setDisable(true);
+
+                matchOutcome.setText("The dealer has more\n-\nYou lose");
+                matchOutcome.getStyleClass().add("matchOutcomeLost");
             } else {
                 set.setDisable(false);
             }
+
             BlackjackLogic.payoutCalculator();
-            long newBalance = CoinBalance.getGameBalance();
-            coins.setText("MAAD Coins: " + newBalance);
+            userBalance.setText("MAAD Coins: " + CoinBalance.getGameBalance());
         });
 
-        HBox buttonRow = new HBox(10, hit, stand, doubleDown);
+        setTop(header);
+        setLeft(leftPanel);
+        setRight(rightPanel);
+        setBottom(footer);
+    }
 
-        VBox titleBar = new VBox(15, title, statusBar);
-        titleBar.setAlignment(Pos.CENTER);
-        titleBar.setPadding(new Insets(0));
+    private String formatHand(ArrayList<Integer> hand) {
+        StringBuilder sb = new StringBuilder();
+        for (int card : hand) {
+            sb.append(card).append("  ");
+        }
 
-        VBox bettingArea = new VBox(15, set, dealerLabel, dealerOutput, playerLabel, playerOutput, buttonRow, matchOutcome, winLoseOutcome, betField, back);
-        bettingArea.setAlignment(Pos.CENTER);
-        bettingArea.setPadding(new Insets(0));
-        VBox.setMargin(bettingArea, Insets.EMPTY);
-
-        setTop(titleBar);
-        setCenter(bettingArea);
+        return sb.toString().trim();
     }
 }
