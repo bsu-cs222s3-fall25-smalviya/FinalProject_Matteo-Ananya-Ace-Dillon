@@ -14,7 +14,6 @@ public class BlackjackView extends BorderPane {
     static boolean wasClicked = false;
 
     public BlackjackView() {
-        // HEADER ===========
         Label title = new Label("🂠 Blackjack 🂠");
         title.getStyleClass().add("title");
 
@@ -150,17 +149,44 @@ public class BlackjackView extends BorderPane {
         userBetInput.setPromptText("Place bet here...");
         userBetInput.getStyleClass().add("userBetInput");
 
+        Button instructionsButton = new Button("Instructions");
+        instructionsButton.getStyleClass().add("purple");
+        instructionsButton.setOnAction(_ -> InstructionsPopup.show(
+                "Blackjack Instructions",
+                """
+                Blackjack Instructions
+        
+                The goal of Blackjack is to get closer to 21 than the dealer.
+        
+                Place your bet in the "Place your bet" box.
+                Select the "New Round" button.
+                Make your decision to Hit, Stand, or Double Down.
+        
+                Hit        - take another card.
+                Stand      - stay with the current total of cards you have now.
+                Double Down - take 1 card and double your bet amount.
+        
+                Read the result on the screen to know your payout.
+                You may change your bet size or click "New Round" to play another hand.
+                """
+        ));
+
+
         VBox betArea = new VBox(4, betAmountLabel, userBetInput);
         betArea.setAlignment(Pos.CENTER);
 
         StackPane footer = new StackPane();
         footer.getStyleClass().add("footerBlackjack");
-        footer.getChildren().addAll(betArea, backButton);
+        footer.getChildren().addAll(betArea, backButton, instructionsButton);
+
         StackPane.setAlignment(backButton, Pos.CENTER_RIGHT);
+        StackPane.setAlignment(instructionsButton, Pos.CENTER_LEFT);
+
         StackPane.setMargin(betArea, new Insets(0, 0, 0, 0));
         StackPane.setMargin(backButton, new Insets(20, 15, 15, 0));
+        StackPane.setMargin(instructionsButton, new Insets(20, 0, 15, 15));
 
-        // FUNCTIONS ===========
+
         backButton.setOnAction(_ -> {
             CoinBalance.balance += CoinBalance.gameBalance;
             CoinBalance.gameBalance = 0;
