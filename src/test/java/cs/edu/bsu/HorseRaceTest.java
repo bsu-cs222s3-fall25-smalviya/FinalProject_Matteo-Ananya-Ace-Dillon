@@ -14,16 +14,11 @@ class HorseRaceLogicTest {
 
     @BeforeEach
     void resetAll() throws Exception {
-        // Reset race state
         HorseRaceLogic.resetRaceState();
-        // Reset bet / choice
         setStaticInt(HorseRaceLogic.class, "currentBet", 0);
         setStaticInt(HorseRaceLogic.class, "chosenHorseIndex", -1);
-        // Reset balance
         setStaticInt(CoinBalance.class, "gameBalance", 0);
     }
-
-    // ---------- helpers (reflection) ----------
 
     private static void setStaticInt(Class<?> cls, String field, int value) throws Exception {
         Field f = cls.getDeclaredField(field);
@@ -47,7 +42,6 @@ class HorseRaceLogicTest {
     private static void setFinishedOrder(List<Integer> order) throws Exception {
         Field f = HorseRaceLogic.class.getDeclaredField("finishedOrder");
         f.setAccessible(true);
-        // Replace underlying list content
         List<Integer> target = (List<Integer>) f.get(null);
         target.clear();
         target.addAll(order);
@@ -75,8 +69,6 @@ class HorseRaceLogicTest {
         m.invoke(null);
     }
 
-    // ---------- basic constants / getters ----------
-
     @Test
     void numHorsesAndFinishDistance_areStable() {
         assertEquals(5, HorseRaceLogic.getNumHorses());
@@ -85,7 +77,6 @@ class HorseRaceLogicTest {
 
     @Test
     void getPositions_returnsCopyNotLiveView() throws Exception {
-        // Set internal positions to a known array
         Field posField = HorseRaceLogic.class.getDeclaredField("positions");
         posField.setAccessible(true);
         posField.set(null, new double[]{1, 2, 3, 4, 5});
@@ -93,29 +84,23 @@ class HorseRaceLogicTest {
         double[] snap1 = HorseRaceLogic.getPositions();
         assertArrayEquals(new double[]{1, 2, 3, 4, 5}, snap1, 1e-9);
 
-        // Mutate the returned array
         snap1[0] = 999;
 
-        // Fresh call should reflect original internal state (copy semantics)
         double[] snap2 = HorseRaceLogic.getPositions();
         assertEquals(1.0, snap2[0], 1e-9);
     }
 
-    // ---------- payout logic (deterministic via reflection) ----------
-
     @Test
     void payout_firstPlace_creditsStakeTimesThree_andUpdatesBalance() throws Exception {
-        HorseRaceLogic.setBet(100);                  // stake
-        HorseRaceLogic.setChosenHorse(2);            // any index
-        // Simulate race completion where chosen horse finished 1st
+        HorseRaceLogic.setBet(100);
+        HorseRaceLogic.setChosenHorse(2);
         setFinishedFlags(HorseRaceLogic.getNumHorses());
         setFinishedOrder(List.of(2, 0, 1, 3, 4));
-        // playerPlace = 1
         setPlayerPlace(1);
 
         invokeApplyPayout();
 
-        assertEquals(300, getCoinsWon()); // 3.0x
+        assertEquals(300, getCoinsWon());
         assertEquals(300, CoinBalance.getGameBalance());
     }
 
@@ -142,10 +127,7 @@ class HorseRaceLogicTest {
         setFinishedFlags(HorseRaceLogic.getNumHorses());
         setFinishedOrder(List.of(0, 2, 4, 1, 3));
         setPlayerPlace(3);
-
         invokeApplyPayout();
-
-        // 101 * 1.5 = 151.5 → Math.round = 152
         assertEquals(152, getCoinsWon());
         assertEquals(152, CoinBalance.getGameBalance());
     }
@@ -180,11 +162,8 @@ class HorseRaceLogicTest {
         assertEquals(0, CoinBalance.getGameBalance());
     }
 
-    // ---------- result messages ----------
-
     @Test
     void resultMessage_winIncludesCoinsAndSuffix() throws Exception {
-        // Simulate first place win with winnings set
         setStaticInt(HorseRaceLogic.class, "coinsWon", 250);
         setPlayerPlace(1);
 
@@ -210,12 +189,8 @@ class HorseRaceLogicTest {
         assertEquals("Race finished.", msg);
     }
 
-    // ---------- finish order string (matches current implementation) ----------
-
     @Test
     void finishOrderString_matchesCurrentFormat_withIndexPlusSuffix() throws Exception {
-        // NOTE: Current code appends (i+1) and then the suffix again,
-        // producing strings like "11st: Horse 1"
         setFinishedOrder(new ArrayList<>(List.of(0, 2, 4))); // Horse #1, #3, #5
 
         String s = HorseRaceLogic.finishOrderString();
@@ -227,15 +202,13 @@ class HorseRaceLogicTest {
         assertEquals("33rd: Horse 5", lines[2]);
     }
 
-    // ---------- end-to-end: run a full race once, settle, and assert invariants ----------
-
     @Test
     void fullRace_completesAndSetsPlaceAndBalanceConsistently() {
         HorseRaceLogic.setBet(100);
-        HorseRaceLogic.setChosenHorse(0); // any horse is fine
+        HorseRaceLogic.setChosenHorse(0);
 
         boolean finished = false;
-        for (int i = 0; i < 10_000; i++) { // generous upper bound
+        for (int i = 0; i < 10_000; i++) {
             if (HorseRaceLogic.stepRace()) {
                 finished = true;
                 break;
@@ -261,7 +234,6 @@ class HorseRaceLogicTest {
 
         long bal = CoinBalance.getGameBalance();
 
-        // If top-3 → balance equals coinsWon (>0); else both zero.
         if (place <= 3) {
             assertTrue(coins > 0);
             assertEquals(coins, bal);
