@@ -131,3 +131,4 @@ the wheel is spinning.
 #### 12/4:
 * Updated Blackjack UI.
 * Updated War UI.
+* Finished Project. 
